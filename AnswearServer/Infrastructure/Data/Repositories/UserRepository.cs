@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 
-namespace Infrastructure.Data
+namespace Infrastructure.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {

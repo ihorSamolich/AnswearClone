@@ -1,14 +1,16 @@
 using Application.Services;
 using Core.Interfaces;
 using Infrastructure.Data;
-
+using Infrastructure.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Npgsql")));
 
 builder.Services.AddControllers();
-
 
 // Реєстрація залежностей
 builder.Services.AddScoped<IUserRepository, UserRepository>();
