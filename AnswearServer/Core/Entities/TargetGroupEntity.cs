@@ -16,4 +16,5 @@ public class TargetGroupEntity
     [StringLength(20)]
     public string Slug { get; set; } = null!;
 
+    public virtual ICollection<CategoryEntity> Categories { get; set; } = null!;
 }

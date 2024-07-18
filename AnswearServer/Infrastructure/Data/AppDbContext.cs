@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<TargetGroupEntity> TargetGroups { get; set; }
 
+    public DbSet<CategoryEntity> Categories { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
