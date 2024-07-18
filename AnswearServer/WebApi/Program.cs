@@ -1,9 +1,11 @@
-using Application.Services;
+using Application.Mapper;
+using Application.Services.ControllerServices;
 using Core.Interfaces;
+using Core.Interfaces.Repositories;
+using Core.Interfaces.Services;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,21 +15,20 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<ISlugService, SlugService>();
+builder.Services.AddAutoMapper(typeof(AppMapProfile));
 
+builder.Services.AddSingleton<ISlugService, SlugService>();
+builder.Services.AddScoped<IAppDbSeeder, AppDbSeeder>();
 
 // Реєстрація залежностей
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<ITargetGroupRepository, TargetGroupRepository>();
+builder.Services.AddScoped<ITargetGroupService, TargetGroupService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,6 +42,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.SeedAsync();
+
+await using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope())
+{
+    await scope.ServiceProvider.GetRequiredService<IAppDbSeeder>().SeedAsync();
+}
 
 app.Run();
