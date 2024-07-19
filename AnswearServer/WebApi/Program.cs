@@ -1,6 +1,7 @@
 using Application.Mapper;
 using Application.Services;
 using Application.Services.ControllerServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Core.Entities.Identity;
 using Core.Interfaces;
 using Core.Interfaces.Repositories;
@@ -10,6 +11,8 @@ using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,16 +34,44 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+var singinKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes(
+        builder.Configuration["Authentication:Jwt:SecretKey"]
+            ?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
+    )
+);
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = singinKey,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 
 builder.Services.AddSingleton<ISlugService, SlugService>();
 builder.Services.AddScoped<IAppDbSeeder, AppDbSeeder>();
-
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 builder.Services.AddTransient<IImageService, ImageService>();
-
 
 // Реєстрація залежностей
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -51,7 +82,6 @@ builder.Services.AddScoped<ITargetGroupService, TargetGroupService>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

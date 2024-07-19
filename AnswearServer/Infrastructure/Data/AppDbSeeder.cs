@@ -333,7 +333,7 @@ public class AppDbSeeder(
 
 
     /* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
-    
+
     //private async Task TestImageService()
     //{
     //    var imgUrl = "https://img2.ans-media.com/i/628x942/SS24-SDD0GI-59X_F1.jpg@webp?v=1706780314";

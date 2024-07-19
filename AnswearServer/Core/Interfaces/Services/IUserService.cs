@@ -10,4 +10,5 @@ public interface IUserService
     Task AddUserAsync(UserCreateVm user);
     Task UpdateUserAsync(UserUpdateVm user);
     Task DeleteUserAsync(int id);
+    Task<string> SignInAsync(SignInVm model);
 }
