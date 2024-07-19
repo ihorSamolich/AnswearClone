@@ -1,0 +1,13 @@
+﻿using Core.ViewModels.Category;
+using Core.ViewModels.User;
+
+namespace Core.Interfaces.Services;
+
+public interface IUserService
+{
+    Task<UserVm> GetUserByIdAsync(int id);
+    Task<IEnumerable<UserVm>> GetAllUsersAsync();
+    Task AddUserAsync(UserCreateVm user);
+    Task UpdateUserAsync(UserUpdateVm user);
+    Task DeleteUserAsync(int id);
+}

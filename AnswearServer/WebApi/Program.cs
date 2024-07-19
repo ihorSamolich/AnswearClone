@@ -37,6 +37,9 @@ builder.Services.AddSingleton<ISlugService, SlugService>();
 builder.Services.AddScoped<IAppDbSeeder, AppDbSeeder>();
 
 // Реєстрація залежностей
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<ITargetGroupRepository, TargetGroupRepository>();
 builder.Services.AddScoped<ITargetGroupService, TargetGroupService>();
 

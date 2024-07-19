@@ -1,5 +1,4 @@
-﻿
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Interfaces.Repositories;
 using Core.ViewModels;
 using Microsoft.EntityFrameworkCore;

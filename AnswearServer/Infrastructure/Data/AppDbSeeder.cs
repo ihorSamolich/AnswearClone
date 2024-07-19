@@ -1,15 +1,20 @@
-﻿using Core.Entities;
+﻿using Core.Constants;
+using Core.Entities;
+using Core.Entities.Identity;
 using Core.Interfaces;
-using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace Infrastructure.Data;
 
 public class AppDbSeeder(
     AppDbContext context,
     IConfiguration configuration,
-    ISlugService slugService
+    ISlugService slugService,
+    UserManager<UserEntity> userManager,
+    RoleManager<RoleEntity> roleManager
     ) : IAppDbSeeder
 {
     public async Task SeedAsync()
@@ -20,6 +25,12 @@ public class AppDbSeeder(
 
         try
         {
+            if (!await context.UserRoles.AnyAsync())
+                await CreateUserRolesAsync();
+
+            if (!await context.Users.AnyAsync())
+                await CreateUserAsync();
+
             if (!await context.TargetGroups.AnyAsync())
                 await CreateTargetGroupsAsync();
 
@@ -37,7 +48,41 @@ public class AppDbSeeder(
             throw;
         }
     }
+    private async Task CreateUserRolesAsync()
+    {
+        foreach (var roleName in Roles.All)
+        {
+            await roleManager.CreateAsync(new RoleEntity
+            {
+                Name = roleName
+            });
+        }
+    }
+    private async Task CreateUserAsync()
+    {
+        var user = new UserEntity
+        {
+            FirstName = "Super",
+            LastName = "Admin",
+            Email = configuration["Admin:Email"]
+                ?? throw new NullReferenceException("Admin:Email"),
+            UserName = "superadmin",
+        };
 
+        IdentityResult result = await userManager.CreateAsync(
+            user,
+            configuration["Admin:Password"]
+                ?? throw new NullReferenceException("Admin:Password")
+        );
+
+        if (!result.Succeeded)
+            throw new Exception("Error creating admin account");
+
+        result = await userManager.AddToRoleAsync(user, Roles.Admin);
+
+        if (!result.Succeeded)
+            throw new Exception("Role assignment error");
+    }
     private async Task CreateTargetGroupsAsync()
     {
         var defaultTargetGroups = configuration?
@@ -63,7 +108,6 @@ public class AppDbSeeder(
         context.TargetGroups.AddRange(targetGroups);
         await context.SaveChangesAsync();
     }
-
     private async Task CreateParentCategoryAsync()
     {
         var defaultParentCategories = configuration?
@@ -95,7 +139,6 @@ public class AppDbSeeder(
 
         await context.SaveChangesAsync();
     }
-
     private async Task CreateChildrenCategoryAsync()
     {
         var manFootwearCategories = configuration?
