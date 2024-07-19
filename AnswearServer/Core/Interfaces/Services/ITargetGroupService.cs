@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.ViewModels;
+using Core.ViewModels.TargetGroup;
 
 namespace Core.Interfaces.Services;
 

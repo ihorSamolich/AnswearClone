@@ -1,4 +1,4 @@
-﻿namespace Core.ViewModels;
+﻿namespace Core.ViewModels.TargetGroup;
 public class TargetGroupUpdateVm
 {
     public int Id { get; set; }

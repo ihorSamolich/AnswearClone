@@ -1,5 +1,4 @@
-﻿
-namespace Core.ViewModels;
+﻿namespace Core.ViewModels.TargetGroup;
 
 public class TargetGroupCreateVm
 {

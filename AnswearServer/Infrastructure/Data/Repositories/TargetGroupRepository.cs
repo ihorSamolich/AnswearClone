@@ -15,7 +15,7 @@ public class TargetGroupRepository(
 
     public async Task<IEnumerable<TargetGroupEntity>> GetAllAsync()
     {
-        return await context.TargetGroups.ToListAsync();
+        return await context.TargetGroups.Where(c => !c.IsDeleted).ToListAsync();
     }
 
     public async Task AddAsync(TargetGroupEntity targetGroup)
@@ -35,7 +35,8 @@ public class TargetGroupRepository(
         var targetGroup = await context.TargetGroups.FindAsync(id);
         if (targetGroup != null)
         {
-            context.TargetGroups.Remove(targetGroup);
+            targetGroup.IsDeleted = true;
+            context.TargetGroups.Update(targetGroup);
             await context.SaveChangesAsync();
         }
     }
