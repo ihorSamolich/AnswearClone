@@ -106,15 +106,47 @@ public class AppDbSeeder(
                    .GetSection("DefaultSeedData:WomenFootwearCategories")
                    .Get<string[]>();
 
+        var manClothesCategories = configuration?
+                   .GetSection("DefaultSeedData:ManClothesCategories")
+                   .Get<string[]>();
+
+        var womanClothesCategories = configuration?
+                   .GetSection("DefaultSeedData:WomanClothesCategories")
+                   .Get<string[]>();
+
+        var manAccessoriesCategories = configuration?
+                   .GetSection("DefaultSeedData:ManAccessoriesCategories")
+                   .Get<string[]>();
+
+        var womanAccessoriesCategories = configuration?
+                   .GetSection("DefaultSeedData:WomanAccessoriesCategories")
+                   .Get<string[]>();
+
+        var womanHomeAndLifestyleCategories = configuration?
+                   .GetSection("DefaultSeedData:WomanHomeAndLifestyleCategories")
+                   .Get<string[]>();
+
+        var manHomeAndLifestyleCategories = configuration?
+                   .GetSection("DefaultSeedData:ManHomeAndLifestyleCategories")
+                   .Get<string[]>();
 
         if (manFootwearCategories is null || womanFootwearCategories is null)
             throw new Exception("DefaultSeedData:WomanFootwearCategories or ManFootwearCategories is invalid");
+
+        if (manClothesCategories is null || womanClothesCategories is null)
+            throw new Exception("DefaultSeedData:WomanClothesCategories or ManClothesCategories is invalid");
+
+        if (manAccessoriesCategories is null || womanAccessoriesCategories is null)
+            throw new Exception("DefaultSeedData:ManAccessoriesCategories or WomanAccessoriesCategories is invalid");
+
+        if (manHomeAndLifestyleCategories is null || womanHomeAndLifestyleCategories is null)
+            throw new Exception("DefaultSeedData:ManHomeAndLifestyleCategories or WomanHomeAndLifestyleCategories is invalid");
 
         var parentCategories = context.Categories
             .Include(x => x.TargetGroup)
             .Where(c => c.ParentId == null).ToList();
 
-        var footwearCategories = new List<CategoryEntity>();
+        var listCategories = new List<CategoryEntity>();
 
         foreach (var category in parentCategories)
         {
@@ -130,7 +162,7 @@ public class AppDbSeeder(
                         ParentId = category.Id,
                     };
 
-                    footwearCategories.Add(manCategory);
+                    listCategories.Add(manCategory);
                 }
 
             }
@@ -139,20 +171,116 @@ public class AppDbSeeder(
 
                 foreach (var womanCategoryName in womanFootwearCategories)
                 {
-                    var manCategory = new CategoryEntity
+                    var womanCategory = new CategoryEntity
                     {
                         Name = womanCategoryName,
                         Slug = slugService.GenerateSlug(womanCategoryName),
                         ParentId = category.Id,
                     };
 
-                    footwearCategories.Add(manCategory);
+                    listCategories.Add(womanCategory);
+                }
+
+            }
+            if (category.Name == "Одяг" && category.TargetGroup.Name == "Вона")
+            {
+
+                foreach (var womanCategoryName in womanClothesCategories)
+                {
+                    var womanCategory = new CategoryEntity
+                    {
+                        Name = womanCategoryName,
+                        Slug = slugService.GenerateSlug(womanCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(womanCategory);
+                }
+
+            }
+            if (category.Name == "Одяг" && category.TargetGroup.Name == "Він")
+            {
+
+                foreach (var manCategoryName in manClothesCategories)
+                {
+                    var manCategory = new CategoryEntity
+                    {
+                        Name = manCategoryName,
+                        Slug = slugService.GenerateSlug(manCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(manCategory);
+                }
+
+            }
+            if (category.Name == "Аксесуари" && category.TargetGroup.Name == "Він")
+            {
+
+                foreach (var manCategoryName in manAccessoriesCategories)
+                {
+                    var manCategory = new CategoryEntity
+                    {
+                        Name = manCategoryName,
+                        Slug = slugService.GenerateSlug(manCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(manCategory);
+                }
+
+            }
+            if (category.Name == "Аксесуари" && category.TargetGroup.Name == "Вона")
+            {
+
+                foreach (var womanCategoryName in womanAccessoriesCategories)
+                {
+                    var womanCategory = new CategoryEntity
+                    {
+                        Name = womanCategoryName,
+                        Slug = slugService.GenerateSlug(womanCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(womanCategory);
+                }
+
+            }
+            if (category.Name == "Дім & Лайфстайл" && category.TargetGroup.Name == "Вона")
+            {
+
+                foreach (var womanCategoryName in womanHomeAndLifestyleCategories)
+                {
+                    var womanCategory = new CategoryEntity
+                    {
+                        Name = womanCategoryName,
+                        Slug = slugService.GenerateSlug(womanCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(womanCategory);
+                }
+
+            }
+            if (category.Name == "Дім & Лайфстайл" && category.TargetGroup.Name == "Він")
+            {
+
+                foreach (var manCategoryName in manHomeAndLifestyleCategories)
+                {
+                    var manCategory = new CategoryEntity
+                    {
+                        Name = manCategoryName,
+                        Slug = slugService.GenerateSlug(manCategoryName),
+                        ParentId = category.Id,
+                    };
+
+                    listCategories.Add(manCategory);
                 }
 
             }
         }
 
-        context.Categories.AddRange(footwearCategories);
+        context.Categories.AddRange(listCategories);
 
         await context.SaveChangesAsync();
     }
