@@ -1,4 +1,5 @@
 using Application.Mapper;
+using Application.Services;
 using Application.Services.ControllerServices;
 using Core.Entities.Identity;
 using Core.Interfaces;
@@ -8,6 +9,7 @@ using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +38,14 @@ builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddSingleton<ISlugService, SlugService>();
 builder.Services.AddScoped<IAppDbSeeder, AppDbSeeder>();
 
+
+builder.Services.AddTransient<IImageService, ImageService>();
+
+
 // Реєстрація залежностей
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<ITargetGroupRepository, TargetGroupRepository>();
 builder.Services.AddScoped<ITargetGroupService, TargetGroupService>();
 
@@ -49,6 +58,26 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+string imagesDirPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["ImagesDir"]);
+
+if (!Directory.Exists(imagesDirPath))
+{
+    Directory.CreateDirectory(imagesDirPath);
+}
+
+app.UseCors(
+    configuration => configuration
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+);
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(imagesDirPath),
+    RequestPath = "/images"
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
