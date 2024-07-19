@@ -3,7 +3,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
-using Core.ViewModels;
+using Core.ViewModels.TargetGroup;
 
 namespace Application.Services.ControllerServices;
 

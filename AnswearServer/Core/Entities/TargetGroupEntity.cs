@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities;
@@ -15,6 +16,9 @@ public class TargetGroupEntity
     [Required]
     [StringLength(20)]
     public string Slug { get; set; } = null!;
+
+    [DefaultValue(false)]
+    public bool IsDeleted { get; set; }
 
     public virtual ICollection<CategoryEntity> Categories { get; set; } = null!;
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Entities;
-using Core.ViewModels;
+using Core.ViewModels.Category;
+using Core.ViewModels.TargetGroup;
 
 namespace Application.Mapper;
 
@@ -11,5 +12,12 @@ public class AppMapProfile : Profile
         CreateMap<TargetGroupEntity, TargetGroupVm>();
         CreateMap<TargetGroupVm, TargetGroupEntity>();
         CreateMap<TargetGroupCreateVm, TargetGroupEntity>();
+
+
+        CreateMap<CategoryEntity, CategoryVm>();
+        CreateMap<CategoryEntity, ParentCategoryVm>();
+        CreateMap<CategoryEntity, ChildrenCategoryVm>();
+        CreateMap<CategoryCreateVm, CategoryEntity>();
+
     }
 }

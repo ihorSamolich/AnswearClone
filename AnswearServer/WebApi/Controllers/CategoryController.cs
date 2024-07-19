@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces.Services;
+using Core.ViewModels.Category;
 using Core.ViewModels.TargetGroup;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,41 +7,41 @@ namespace WebApi.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class TargetGroupController(
-    ITargetGroupService service
+public class CategoryController(
+    ICategoryService service
 ) : ControllerBase
 {
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var targetGroup = await service.GetTargetGroupByIdAsync(id);
+        var category = await service.GetCategoryByIdAsync(id);
 
-        if (targetGroup == null)
+        if (category == null)
         {
             return NotFound();
         }
-        return Ok(targetGroup);
+        return Ok(category);
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var targetGroups = await service.GetAllTargetGroupsAsync();
-        return Ok(targetGroups);
+        var category = await service.GetAllCategoriesAsync();
+        return Ok(category);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] TargetGroupCreateVm createVm)
+    public async Task<IActionResult> Create([FromBody] CategoryCreateVm createVm)
     {
-        await service.AddTargetGroupAsync(createVm);
+        await service.AddCategoryAsync(createVm);
 
         return Ok();
     }
 
     [HttpPut()]
-    public async Task<IActionResult> Update([FromBody] TargetGroupUpdateVm updateVm)
+    public async Task<IActionResult> Update([FromBody] CategoryUpdateVm createVm)
     {
-        await service.UpdateTargetGroupAsync(updateVm);
+        await service.UpdateCategoryAsync(createVm);
 
         return Ok();
     }
@@ -48,7 +49,7 @@ public class TargetGroupController(
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await service.DeleteTargetGroupAsync(id);
+        await service.DeleteCategoryAsync(id);
         return Ok();
     }
 }
