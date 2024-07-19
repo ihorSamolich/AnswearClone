@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
+using System.Net.Http;
 
 namespace Infrastructure.Data;
 
@@ -13,6 +14,7 @@ public class AppDbSeeder(
     AppDbContext context,
     IConfiguration configuration,
     ISlugService slugService,
+    IImageService imageService,
     UserManager<UserEntity> userManager,
     RoleManager<RoleEntity> roleManager
     ) : IAppDbSeeder
@@ -327,4 +329,15 @@ public class AppDbSeeder(
 
         await context.SaveChangesAsync();
     }
+
+
+
+    /* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
+    
+    //private async Task TestImageService()
+    //{
+    //    var imgUrl = "https://img2.ans-media.com/i/628x942/SS24-SDD0GI-59X_F1.jpg@webp?v=1706780314";
+    //
+    //    await imageService.SaveImageFromUrlAsync(imgUrl);
+    //}
 }
