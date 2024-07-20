@@ -13,12 +13,10 @@ namespace Core.Entities.Filters
 
         [ForeignKey("FilterValue")]
         public int FilterValueId { get; set; }
-
         public virtual FilterValue FilterValue { get; set; } = null!;
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
-
         public virtual CategoryEntity Category { get; set; } = null!;
     }
 }

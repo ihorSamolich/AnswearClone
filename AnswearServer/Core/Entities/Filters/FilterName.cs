@@ -9,15 +9,18 @@ using System.Threading.Tasks;
 namespace Core.Entities.Filters
 {
     [Table("tbl_filterNames")]
-    public class FilterName 
+    public class FilterName
     {
         public int Id { get; set; }
 
         [StringLength(255), Required]
         public string Name { get; set; } = null!;
 
+
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual CategoryEntity Category { get; set; } = null!;
+
+        public virtual ICollection<FilterValue> FilterValues { get; set; } = null!;
     }
 }

@@ -15,6 +15,7 @@ namespace Core.Entities.Discount
 
         [StringLength(255), Required]
         public string Name { get; set; } = null!;
+        public string MediaFile { get; set; } = null!;
 
         public ICollection<DiscountValue> DiscountValues { get; set; } = new List<DiscountValue>();
     }
