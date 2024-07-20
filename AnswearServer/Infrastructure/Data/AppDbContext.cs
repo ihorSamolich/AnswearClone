@@ -4,6 +4,7 @@ using Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Core.Entities.Filters;
 namespace Infrastructure.Data;
 
 public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
@@ -21,6 +22,9 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<DiscountValue> DiscountValues { get; set; }
 
+    public DbSet<FilterName> FilterNames { get; set; }
+    public DbSet<FilterValue> FilterValues { get; set; }
+    public DbSet<Filter> Filters { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -56,5 +60,10 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
                 .HasOne(p => p.DiscountValue)
                 .WithMany()
                 .HasForeignKey(p => p.DiscountValueId);
+
+        modelBuilder.Entity<Filter>(f =>
+        {
+            f.HasKey(vp => new { vp.FilterValueId, vp.CategoryId });
+        });
     }
 }

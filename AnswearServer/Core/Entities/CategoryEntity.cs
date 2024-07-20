@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Core.Entities.Filters;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,4 +28,7 @@ public class CategoryEntity
     public CategoryEntity Parent { get; set; } = null!;
 
     public virtual ICollection<CategoryEntity> Childrens { get; set; } = null!;
+
+    public virtual ICollection<FilterName> FilterNames { get; set; } = new List<FilterName>();
+    public virtual ICollection<Filter> Filters { get; set; } = new List<Filter>();
 }
