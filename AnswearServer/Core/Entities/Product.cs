@@ -17,7 +17,10 @@ public class Product
     [StringLength(255), Required]
     public string Name { get; set; } = null!;
 
-    [StringLength(500)]
+    [StringLength(300)]
+    public string ShortDescription { get; set; } = null!;
+
+    [StringLength(1000)]
     public string Description { get; set; } = null!;
 
     public int CategoryId { get; set; }
@@ -25,6 +28,10 @@ public class Product
 
     [Column(TypeName = "decimal(18,2)")]
     public decimal Price { get; set; }
+
+    [Required]
+    [StringLength(200)]
+    public string Slug { get; set; } = null!;
 
     public ICollection<ProductPhotoEntity> Photos { get; set; } = new List<ProductPhotoEntity>();
 
