@@ -13,6 +13,7 @@ namespace Application.Services.ControllerServices;
 public class UserService(
     IUserRepository repository,
     IMapper mapper,
+    IJwtTokenService jwtTokenService,
     UserManager<UserEntity> userManager
     ) : IUserService
 {
@@ -95,4 +96,13 @@ public class UserService(
         }
     }
 
+    public async Task<string> SignInAsync(SignInVm model)
+    {
+        UserEntity? user = await userManager.FindByEmailAsync(model.Email);
+
+        if (user is null || !await userManager.CheckPasswordAsync(user, model.Password))
+            throw new UnauthorizedAccessException("Wrong authentication data");
+
+        return await jwtTokenService.CreateTokenAsync(user);
+    }
 }

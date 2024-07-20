@@ -1,6 +1,4 @@
 ﻿using Core.Interfaces.Services;
-using Core.ViewModels.Category;
-using Core.ViewModels.TargetGroup;
 using Core.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,5 +50,27 @@ public class UserController(
     {
         await service.DeleteUserAsync(id);
         return Ok();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SignIn([FromForm] SignInVm model)
+    {
+        try
+        {
+            var token = await service.SignInAsync(model);
+
+            return Ok(new
+            {
+                Token = token
+            });
+        }
+        catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
     }
 }
