@@ -11,4 +11,5 @@ public interface IUserService
     Task UpdateUserAsync(UserUpdateVm user);
     Task DeleteUserAsync(int id);
     Task<string> SignInAsync(SignInVm model);
+    Task<string> GoogleSignInAsync(GoogleSignInVm model);
 }

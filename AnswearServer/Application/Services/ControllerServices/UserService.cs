@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Core.Entities.Identity;
 using Core.ViewModels.Category;
 using Core.Constants;
+using static Google.Apis.Auth.GoogleJsonWebSignature;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Services.ControllerServices;
 
@@ -14,7 +16,8 @@ public class UserService(
     IUserRepository repository,
     IMapper mapper,
     IJwtTokenService jwtTokenService,
-    UserManager<UserEntity> userManager
+    UserManager<UserEntity> userManager,
+    IConfiguration configuration
     ) : IUserService
 {
     public async Task<UserVm> GetUserByIdAsync(int id)
@@ -105,4 +108,50 @@ public class UserService(
 
         return await jwtTokenService.CreateTokenAsync(user);
     }
+
+    public async Task<string> GoogleSignInAsync(GoogleSignInVm model)
+    {
+        Payload payload = await GetPayloadAsync(model.Credential);
+
+        UserEntity? user = await userManager.FindByEmailAsync(payload.Email);
+
+        user ??= await CreateGoogleUserAsync(payload);
+
+        return await jwtTokenService.CreateTokenAsync(user);
+    }
+
+    private async Task<Payload> GetPayloadAsync(string credential)
+    {
+        return await ValidateAsync(
+            credential,
+            new ValidationSettings
+            {
+                Audience = [configuration["Authentication:Google:ClientId"]]
+            }
+        );
+    }
+
+    private async Task<UserEntity> CreateGoogleUserAsync(Payload payload)
+    {
+        var user = new UserEntity
+        {
+            FirstName = payload.GivenName,
+            LastName = payload.FamilyName,
+            Email = payload.Email,
+            UserName = payload.Email,
+        };
+
+        var identityResult = await userManager.CreateAsync(user, null);
+
+        if (!identityResult.Succeeded)
+            throw new Exception("Failed to create user");
+
+        var roleResult = await userManager.AddToRoleAsync(user, Roles.User);
+
+        if (!roleResult.Succeeded)
+            throw new Exception("Failed to create user");
+
+        return user;
+    }
+
 }

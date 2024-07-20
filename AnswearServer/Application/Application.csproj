@@ -8,6 +8,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="AutoMapper" Version="13.0.1" />
+	  <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.68.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.7" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
 	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 	  <PackageReference Include="Slugify.Core" Version="4.0.1" />

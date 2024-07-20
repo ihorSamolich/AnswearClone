@@ -19,6 +19,8 @@ public interface IImageService
     void DeleteImagesIfExists(IEnumerable<string> images);
 
     Task<string> GetImageAsBase64Async(string imageUrl);
+    Task<string> SaveVideoAsync(IFormFile video);
+    Task<string> SaveVideoFromUrlAsync(string videoUrl);
 
     string ImagesDir { get; }
 }
