@@ -1,5 +1,7 @@
-﻿using Core.Interfaces.Services;
+﻿using Application.Services;
+using Core.Interfaces.Services;
 using Core.ViewModels.User;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -65,6 +67,28 @@ public class UserController(
             });
         }
         catch (UnauthorizedAccessException e)
+        {
+            return Unauthorized(e.Message);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GoogleSignIn([FromForm] GoogleSignInVm model)
+    {
+        try
+        {
+            var token = await service.GoogleSignInAsync(model);
+
+            return Ok(new
+            {
+                Token = token
+            });
+        }
+        catch (InvalidJwtException e)
         {
             return Unauthorized(e.Message);
         }

@@ -30,6 +30,11 @@ public class AppDbSeeder(
 
         try
         {
+            if (true)
+            {
+                await TestVideoSave();
+            }
+
             if (!await context.UserRoles.AnyAsync())
                 await CreateUserRolesAsync();
 
@@ -147,7 +152,6 @@ public class AppDbSeeder(
 
         await context.SaveChangesAsync();
     }
-
     private async Task CreateChildrenCategoryAsync()
     {
         var manFootwearCategories = configuration?
@@ -211,7 +215,7 @@ public class AppDbSeeder(
                     {
                         Name = manCategoryName,
                         Slug = slugService.GenerateSlug(manCategoryName),
-                        TargetGroupId=category.TargetGroupId,
+                        TargetGroupId = category.TargetGroupId,
                         ParentId = category.Id,
                     };
 
@@ -344,7 +348,6 @@ public class AppDbSeeder(
 
         await context.SaveChangesAsync();
     }
-
     private async Task CreateProductsAsync()
     {
         // Ensure discount exists
@@ -386,7 +389,7 @@ public class AppDbSeeder(
 
         if (categoryJeansMan == null)
             throw new Exception("Category 'Джинси' for 'Він' not found");
-        
+
         if (categoryJeansWoman == null)
             throw new Exception("Category 'Джинси' for 'Вона' not found");
 
@@ -608,6 +611,7 @@ public class AppDbSeeder(
         await context.SaveChangesAsync();
     }
 
+
     // Method to decide if a discount should be applied
     private bool ShouldApplyDiscount(Random random)
     {
@@ -625,14 +629,15 @@ public class AppDbSeeder(
         return allDiscountValues[random.Next(allDiscountValues.Count)];
     }
 
+
+
+
+    /* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
+
+    private async Task TestVideoSave()
+    {
+        var imgUrl = "https://img2.ans-media.com/video/SS24-SUD0NY__V.mp4?v=1709734529";
+
+        await imageService.SaveVideoFromUrlAsync(imgUrl);
+    }
 }
-
-
-/* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
-
-//private async Task TestImageService()
-//{
-//    var imgUrl = "https://img2.ans-media.com/i/628x942/SS24-SDD0GI-59X_F1.jpg@webp?v=1706780314";
-//
-//    await imageService.SaveImageFromUrlAsync(imgUrl);
-//}

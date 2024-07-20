@@ -186,4 +186,42 @@ public class ImageService(
         return Convert.ToBase64String(imageBytes);
     }
 
+    public async Task<string> SaveVideoAsync(IFormFile video)
+    {
+
+        var fileName = Path.GetRandomFileName() + ".mp4";
+        string path = Path.Combine(ImagesDir, fileName);
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await video.CopyToAsync(stream);
+        }
+        return fileName;
+    }
+
+    public async Task<string> SaveVideoFromUrlAsync(string videoUrl)
+    {
+        var fileName = Path.GetRandomFileName() + ".mp4";
+
+        string path = Path.Combine(ImagesDir, fileName);
+
+        using (var httpClient = new HttpClient())
+        {
+            var response = await httpClient.GetAsync(videoUrl);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Could not download the video.");
+
+            using (var stream = await response.Content.ReadAsStreamAsync())
+            {
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await stream.CopyToAsync(fileStream);
+                }
+            }
+        }
+
+        return fileName;
+    }
+
 }
