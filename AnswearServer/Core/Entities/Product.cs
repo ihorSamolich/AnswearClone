@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Discount;
+using Core.Entities.Filters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -37,4 +38,7 @@ public class Product
 
     public int? DiscountValueId { get; set; }
     public DiscountValue? DiscountValue { get; set; }
+
+    public virtual ICollection<Filter> Filters { get; set; } = new List<Filter>();
+
 }

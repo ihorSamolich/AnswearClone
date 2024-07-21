@@ -30,5 +30,4 @@ public class CategoryEntity
     public virtual ICollection<CategoryEntity> Childrens { get; set; } = null!;
 
     public virtual ICollection<FilterName> FilterNames { get; set; } = new List<FilterName>();
-    public virtual ICollection<Filter> Filters { get; set; } = new List<Filter>();
 }

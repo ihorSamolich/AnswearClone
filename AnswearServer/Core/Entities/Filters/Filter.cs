@@ -15,8 +15,8 @@ namespace Core.Entities.Filters
         public int FilterValueId { get; set; }
         public virtual FilterValue FilterValue { get; set; } = null!;
 
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        public virtual CategoryEntity Category { get; set; } = null!;
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; } = null!;
     }
 }
