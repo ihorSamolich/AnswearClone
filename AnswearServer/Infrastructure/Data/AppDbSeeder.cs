@@ -625,15 +625,4 @@ public class AppDbSeeder(
         return allDiscountValues[random.Next(allDiscountValues.Count)];
     }
 
-
-
-
-    /* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
-
-    private async Task TestVideoSave()
-    {
-        var imgUrl = "https://img2.ans-media.com/video/SS24-SUD0NY__V.mp4?v=1709734529";
-
-        await imageService.SaveVideoFromUrlAsync(imgUrl);
-    }
 }
