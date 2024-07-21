@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240721143559_Fix filter table")]
+    partial class Fixfiltertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,7 +112,12 @@ namespace Infrastructure.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("CategoryEntityId")
+                        .HasColumnType("integer");
+
                     b.HasKey("FilterValueId", "ProductId");
+
+                    b.HasIndex("CategoryEntityId");
 
                     b.HasIndex("ProductId");
 
@@ -501,6 +509,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Filters.Filter", b =>
                 {
+                    b.HasOne("Core.Entities.CategoryEntity", null)
+                        .WithMany("Filters")
+                        .HasForeignKey("CategoryEntityId");
+
                     b.HasOne("Core.Entities.Filters.FilterValue", "FilterValue")
                         .WithMany()
                         .HasForeignKey("FilterValueId")
@@ -508,7 +520,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Product", "Product")
-                        .WithMany("Filters")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -628,6 +640,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("Childrens");
 
                     b.Navigation("FilterNames");
+
+                    b.Navigation("Filters");
                 });
 
             modelBuilder.Entity("Core.Entities.Discount.Discount", b =>
@@ -652,8 +666,6 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
-                    b.Navigation("Filters");
-
                     b.Navigation("Photos");
                 });
 

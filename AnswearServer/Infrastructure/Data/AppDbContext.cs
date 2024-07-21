@@ -63,7 +63,7 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
 
         modelBuilder.Entity<Filter>(f =>
         {
-            f.HasKey(vp => new { vp.FilterValueId, vp.CategoryId });
+            f.HasKey(vp => new { vp.FilterValueId, vp.ProductId });
         });
     }
 }
