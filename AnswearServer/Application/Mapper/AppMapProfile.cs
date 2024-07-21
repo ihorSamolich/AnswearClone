@@ -16,7 +16,6 @@ public class AppMapProfile : Profile
         CreateMap<UserEntity, UserVm>();
         CreateMap<UserCreateVm, UserEntity>();
 
-
         CreateMap<TargetGroupEntity, TargetGroupVm>();
         CreateMap<TargetGroupVm, TargetGroupEntity>();
         CreateMap<TargetGroupCreateVm, TargetGroupEntity>();
@@ -28,5 +27,10 @@ public class AppMapProfile : Profile
 
         CreateMap<FilterName, FilterVm>();
         CreateMap<FilterValue, FilterValueVm>();
+        CreateMap<FilterCreateVm, FilterName>();
+        CreateMap<FilterUpdateVm, FilterName>()
+            .ForMember(dest => dest.FilterValues, opt => opt.Ignore());
+
+
     }
 }

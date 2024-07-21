@@ -10,12 +10,12 @@ public class FilterRepository(
 {
     public async Task<IEnumerable<FilterName>> GetAllAsync()
     {
-        return await context.FilterNames.ToListAsync();
+        return await context.FilterNames.Include(c => c.FilterValues).ToListAsync();
     }
 
     public async Task<FilterName> GetByIdAsync(int id)
     {
-        return await context.FilterNames.FirstOrDefaultAsync(u => u.Id == id);
+        return await context.FilterNames.Include(c => c.FilterValues).FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task AddAsync(FilterName filter)
