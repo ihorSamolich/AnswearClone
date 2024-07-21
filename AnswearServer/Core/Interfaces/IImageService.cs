@@ -22,5 +22,11 @@ public interface IImageService
     Task<string> SaveVideoAsync(IFormFile video);
     Task<string> SaveVideoFromUrlAsync(string videoUrl);
 
+    void DeleteVideo(string nameWithFormat);
+    bool IsImage(IFormFile file);
+    bool IsImageFile(string fileName);
+
     string ImagesDir { get; }
+
+
 }

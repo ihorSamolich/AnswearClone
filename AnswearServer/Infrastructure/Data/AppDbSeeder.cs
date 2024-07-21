@@ -30,11 +30,6 @@ public class AppDbSeeder(
 
         try
         {
-            if (true)
-            {
-                await TestVideoSave();
-            }
-
             if (!await context.UserRoles.AnyAsync())
                 await CreateUserRolesAsync();
 
@@ -357,6 +352,7 @@ public class AppDbSeeder(
             discount = new Discount
             {
                 Name = "Summer Sale",
+                MediaFile = await imageService.SaveImageFromUrlAsync("https://answear.ua/blog/wp-content/uploads/2024/05/main_photo.jpg"),
                 DiscountValues = new List<DiscountValue>
             {
                 new DiscountValue { Percentage = 37 },
@@ -629,15 +625,4 @@ public class AppDbSeeder(
         return allDiscountValues[random.Next(allDiscountValues.Count)];
     }
 
-
-
-
-    /* ПРИКЛАД ЯК ЗБЕРІГАТИ ФОТО */
-
-    private async Task TestVideoSave()
-    {
-        var imgUrl = "https://img2.ans-media.com/video/SS24-SUD0NY__V.mp4?v=1709734529";
-
-        await imageService.SaveVideoFromUrlAsync(imgUrl);
-    }
 }
