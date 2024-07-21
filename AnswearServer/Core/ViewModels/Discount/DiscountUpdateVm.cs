@@ -15,8 +15,7 @@ namespace Core.ViewModels.Discount
 
         [StringLength(255), Required]
         public string Name { get; set; } = null!;
-
         public IFormFile? MediaFile { get; set; }
-        public List<DiscountValueVm> DiscountValues { get; set; } = new List<DiscountValueVm>();
+        public IEnumerable<int> Values { get; set; } = new List<int>();
     }
 }

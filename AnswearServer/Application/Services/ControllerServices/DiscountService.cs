@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using Core.Entities.Discount;
+using Core.Entities.Filters;
 using Core.Interfaces;
 using Core.Interfaces.Repositories;
 using Core.Interfaces.Services;
 using Core.ViewModels.Discount;
-using Core.ViewModels.TargetGroup;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Services.ControllerServices;
 
@@ -22,7 +16,17 @@ public class DiscountService(
 {
     public async Task AddDiscountAsync(DiscountCreateVm discount)
     {
-        var newDiscount = mapper.Map<Discount>( discount);
+        var newDiscount = mapper.Map<Discount>(discount);
+
+        var values = new List<DiscountValue>();
+
+        foreach (var value in discount.Values)
+        {
+            values.Add(new DiscountValue { Percentage = value });
+        }
+
+        newDiscount.DiscountValues = values;
+
 
         // Визначення розширення файлу
         var fileExtension = Path.GetExtension(discount.MediaFile.FileName).ToLower();
@@ -38,11 +42,26 @@ public class DiscountService(
         {
             throw new InvalidOperationException("Unsupported media file type");
         }
-        await repository.AddAsync( newDiscount );
+
+        await repository.AddAsync(newDiscount);
     }
 
     public async Task DeleteDiscountAsync(int id)
     {
+        var deletedDiscount = await repository.GetByIdAsync(id);
+
+        if (!string.IsNullOrEmpty(deletedDiscount.MediaFile))
+        {
+            if (imageService.IsImageFile(deletedDiscount.MediaFile))
+            {
+                imageService.DeleteImageIfExists(deletedDiscount.MediaFile);
+            }
+            else
+            {
+                imageService.DeleteVideo(deletedDiscount.MediaFile);
+            }
+        }
+
         await repository.DeleteAsync(id);
     }
 
@@ -64,14 +83,19 @@ public class DiscountService(
     {
         var editedDiscount = await repository.GetByIdAsync(discount.Id);
 
-        
-
         if (editedDiscount != null)
         {
             mapper.Map(discount, editedDiscount);
+
+            editedDiscount.DiscountValues.Clear();
+
+            foreach (var value in discount.Values)
+            {
+                editedDiscount.DiscountValues.Add(new DiscountValue { Percentage = value });
+            }
+
             if (discount.MediaFile != null)
             {
-                // Видаляємо старий медіафайл
                 if (!string.IsNullOrEmpty(editedDiscount.MediaFile))
                 {
                     if (imageService.IsImageFile(editedDiscount.MediaFile))
@@ -84,7 +108,6 @@ public class DiscountService(
                     }
                 }
 
-                // Зберігаємо новий медіафайл
                 if (imageService.IsImage(discount.MediaFile))
                 {
                     editedDiscount.MediaFile = await imageService.SaveImageAsync(discount.MediaFile);
@@ -99,5 +122,5 @@ public class DiscountService(
             await repository.UpdateAsync(editedDiscount);
         }
     }
-    
+
 }

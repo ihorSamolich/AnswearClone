@@ -30,11 +30,6 @@ public class AppDbSeeder(
 
         try
         {
-            if (true)
-            {
-                await TestVideoSave();
-            }
-
             if (!await context.UserRoles.AnyAsync())
                 await CreateUserRolesAsync();
 
@@ -357,6 +352,7 @@ public class AppDbSeeder(
             discount = new Discount
             {
                 Name = "Summer Sale",
+                MediaFile = await imageService.SaveImageFromUrlAsync("https://answear.ua/blog/wp-content/uploads/2024/05/main_photo.jpg"),
                 DiscountValues = new List<DiscountValue>
             {
                 new DiscountValue { Percentage = 37 },

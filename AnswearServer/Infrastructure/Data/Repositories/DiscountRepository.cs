@@ -16,13 +16,15 @@ public class DiscountRepository(
 {
     public async Task<Discount> GetByIdAsync(int id)
     {
-        return await context.Discounts.FirstOrDefaultAsync(d => d.Id == id);
+        return await context.Discounts
+            .Include(d => d.DiscountValues)
+            .FirstOrDefaultAsync(d => d.Id == id);
     }
 
     public async Task<IEnumerable<Discount>> GetAllAsync()
     {
         return await context.Discounts
-            .Include(d=>d.DiscountValues)
+            .Include(d => d.DiscountValues)
             .ToListAsync();
     }
 
