@@ -83,6 +83,9 @@ builder.Services.AddScoped<ITargetGroupService, TargetGroupService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+builder.Services.AddScoped<IFilterRepository, FilterRepository>();
+builder.Services.AddScoped<IFilterService, FilterService>();
+
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddScoped<IDiscountService, DiscountService>();
 
