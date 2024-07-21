@@ -6,18 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Filters
+namespace Core.Entities.Filters;
+
+[Table("tbl_filterValues")]
+public class FilterValue
 {
-    [Table("tbl_filterValues")]
-    public class FilterValue
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        [StringLength(255), Required]
-        public string Name { get; set; } = null!;
+    [StringLength(255), Required]
+    public string Name { get; set; } = null!;
 
-        [ForeignKey("FilterName")]
-        public int FilterNameId { get; set; }
-        public virtual FilterName FilterName { get; set; } = null!;
-    }
+    [ForeignKey("FilterName")]
+    public int FilterNameId { get; set; }
+    public virtual FilterName FilterName { get; set; } = null!;
 }

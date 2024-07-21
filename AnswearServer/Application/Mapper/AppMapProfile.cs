@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Core.Entities;
+using Core.Entities.Filters;
 using Core.Entities.Identity;
 using Core.ViewModels.Category;
+using Core.ViewModels.Filter;
 using Core.ViewModels.TargetGroup;
 using Core.ViewModels.User;
 
@@ -23,5 +25,8 @@ public class AppMapProfile : Profile
         CreateMap<CategoryEntity, ParentCategoryVm>();
         CreateMap<CategoryEntity, ChildrenCategoryVm>();
         CreateMap<CategoryCreateVm, CategoryEntity>();
+
+        CreateMap<FilterName, FilterVm>();
+        CreateMap<FilterValue, FilterValueVm>();
     }
 }
