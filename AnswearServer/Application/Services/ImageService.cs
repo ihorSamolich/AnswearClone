@@ -224,4 +224,28 @@ public class ImageService(
         return fileName;
     }
 
+    public void DeleteVideo(string nameWithFormat)
+    {
+        string path = Path.Combine(ImagesDir, nameWithFormat);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+    }
+
+    public bool IsImage(IFormFile file)
+    {
+        var imageTypes = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        return imageTypes.Contains(extension);
+    }
+
+    public bool IsImageFile(string fileName)
+    {
+        var imageTypes = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp" };
+        var extension = Path.GetExtension(fileName).ToLowerInvariant();
+        return imageTypes.Contains(extension);
+    }
+
+
 }
