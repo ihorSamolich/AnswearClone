@@ -5,6 +5,7 @@ using Core.Interfaces.Services;
 using Core.ViewModels.Product;
 using Core.Entities;
 using Infrastructure.Data.Repositories;
+using Core.Entities.Filters;
 
 namespace Application.Services.ControllerServices;
 
@@ -37,13 +38,21 @@ public class ProductService(
     public async Task AddProductAsync(ProductCreateVm product)
     {
         var productEntity = mapper.Map<ProductEntity>(product);
-        productEntity.Slug = slugService.GenerateSlug(product.Name);
+
 
         foreach (var variation in product.Variations)
         {
             var productVariation = mapper.Map<ProductVariationEntity>(variation);
             productVariation.Slug = slugService.GenerateSlugWithTime($"{productEntity.Name} {variation.ShortDescription}");
             productEntity.Variations.Add(productVariation);
+
+            foreach (var filter in variation.Filters)
+            {
+                productVariation.Filters.Add(new FilterEntity
+                {
+                    FilterValueId = filter
+                });
+            }
 
             foreach (var photo in variation.Photos)
             {
@@ -70,7 +79,6 @@ public class ProductService(
         productEntity.Name = updatedProduct.Name;
         productEntity.Description = updatedProduct.Description;
         productEntity.CategoryId = updatedProduct.CategoryId;
-        productEntity.Slug = slugService.GenerateSlug(updatedProduct.Name);
 
         foreach (var variationVm in updatedProduct.Variations)
         {

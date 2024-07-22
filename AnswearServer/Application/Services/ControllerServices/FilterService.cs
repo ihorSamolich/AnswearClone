@@ -36,13 +36,13 @@ public class FilterService
 
     public async Task AddFilterAsync(FilterCreateVm filter)
     {
-        var newFilter = mapper.Map<FilterName>(filter);
+        var newFilter = mapper.Map<FilterNameEntity>(filter);
 
-        var values = new List<FilterValue>();
+        var values = new List<FilterValueEntity>();
 
         foreach (var value in filter.Values)
         {
-            values.Add(new FilterValue { Name = value });
+            values.Add(new FilterValueEntity { Name = value });
         }
         newFilter.FilterValues = values;
         await repository.AddAsync(newFilter);
@@ -63,7 +63,7 @@ public class FilterService
 
         foreach (var value in filterVm.Values)
         {
-            existingFilter.FilterValues.Add(new FilterValue { Name = value });
+            existingFilter.FilterValues.Add(new FilterValueEntity { Name = value });
         }
 
         await repository.UpdateAsync(existingFilter);

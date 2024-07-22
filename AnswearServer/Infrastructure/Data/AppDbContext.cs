@@ -21,12 +21,12 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
 
     public DbSet<ProductPhotoEntity> ProductPhotos { get; set; }
 
-    public DbSet<Discount> Discounts { get; set; }
-    public DbSet<DiscountValue> DiscountValues { get; set; }
+    public DbSet<DiscountEntity> Discounts { get; set; }
+    public DbSet<DiscountValueEntity> DiscountValues { get; set; }
 
-    public DbSet<FilterName> FilterNames { get; set; }
-    public DbSet<FilterValue> FilterValues { get; set; }
-    public DbSet<Filter> Filters { get; set; }
+    public DbSet<FilterNameEntity> FilterNames { get; set; }
+    public DbSet<FilterValueEntity> FilterValues { get; set; }
+    public DbSet<FilterEntity> Filters { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -48,6 +48,11 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
             .HasIndex(u => u.Slug)
             .IsUnique();
 
+        modelBuilder.Entity<ProductVariationEntity>()
+         .HasIndex(u => u.Slug)
+         .IsUnique();
+
+
         //modelBuilder.Entity<ProductPhotoEntity>()
         //    .HasOne(p => p.Product)
         //    .WithMany(p => p.Photos)
@@ -63,9 +68,9 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
         //        .WithMany()
         //        .HasForeignKey(p => p.DiscountValueId);
 
-        modelBuilder.Entity<Filter>(f =>
+        modelBuilder.Entity<FilterEntity>(f =>
         {
-            f.HasKey(vp => new { vp.FilterValueId, vp.ProductId });
+            f.HasKey(vp => new { vp.FilterValueId, vp.ProductVariationId });
         });
     }
 }

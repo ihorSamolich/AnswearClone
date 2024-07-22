@@ -24,11 +24,9 @@ public class ProductEntity
     public int CategoryId { get; set; }
     public CategoryEntity Category { get; set; } = null!;
 
-    [Required]
-    [StringLength(200)]
-    public string Slug { get; set; } = null!;
+    //[Required]
+    //[StringLength(200)]
+    //public string Slug { get; set; } = null!;
 
     public ICollection<ProductVariationEntity> Variations { get; set; } = new List<ProductVariationEntity>();
-
-    public virtual ICollection<Filter> Filters { get; set; } = new List<Filter>();
 }

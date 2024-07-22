@@ -350,17 +350,17 @@ public class AppDbSeeder(
     }
     private async Task CreateDiscountsAsync()
     {
-        var discount = new Discount
+        var discount = new DiscountEntity
         {
             Name = "Summer Sale",
             MediaFile = await imageService.SaveImageFromUrlAsync("https://answear.ua/blog/wp-content/uploads/2024/05/main_photo.jpg"),
-            DiscountValues = new List<DiscountValue>
+            DiscountValues = new List<DiscountValueEntity>
             {
-                new DiscountValue { Percentage = 37 },
-                new DiscountValue { Percentage = 35 },
-                new DiscountValue { Percentage = 47 },
-                new DiscountValue { Percentage = 55 },
-                new DiscountValue { Percentage = 49 }
+                new DiscountValueEntity { Percentage = 37 },
+                new DiscountValueEntity { Percentage = 35 },
+                new DiscountValueEntity { Percentage = 47 },
+                new DiscountValueEntity { Percentage = 55 },
+                new DiscountValueEntity { Percentage = 49 }
             }
         };
 
@@ -391,7 +391,6 @@ public class AppDbSeeder(
             {
                 Name = "Джинси BOSS",
                 Description = "Джинси із колекції BOSS фасону slim із завищеною талією. Модель виготовлена із гладкого деніму.\r\n- Модель із завищеною талією та застібкою на ґудзики і блискавку.\r\n- Спереду три прорізні кишені.\r\n- Дві накладні кишені на сідницях.\r\n- Ширина талії: 39 cm.\r\n- Напівобхват стегон: 47 cm.\r\n- Висота талії: 27 cm.\r\n- Ширина штанини знизу: 16 cm.\r\n- Ширина штанини зверху: 27 cm.\r\n- Зовнішня довжина штанини: 104 cm.\r\n- Параметри вказані для розміру: 31/32.\r\nСклад: 98% Бавовна, 2% Еластан\r\nID Товару: 99KK-SJM0FG_59J\r\nКод виробника: 50524007",
-                Slug = slugService.GenerateSlug("Джинси BOSS"),
                 CategoryId = categoryJeansMan.Id,
                 Variations = new List<ProductVariationEntity>
                 {
@@ -421,7 +420,6 @@ public class AppDbSeeder(
             new ProductEntity
             {
                 Name = "Джинси Tommy Jeans",
-                Slug = slugService.GenerateSlug("Джинси Tommy Jeans"),
                 Description = "Джинси із колекції Tommy Jeans фасону slim із звичайною талією. Модель виготовлена із гладкого деніму. Еластичний, прилягаючий до фігури, матеріал.\r\n- Модель частково виготовлена ​​з переробленої бавовни.\r\n- Фасон slim - джинси із завуженою посадкою та вузькою штаниною в зоні стегна та щиколотки. Підкреслюють природні контури фігури, але не обтягують її - зручні для повсякденного носіння.\r\n- Модель із регулярною талією та застібкою на ґудзики і блискавку.\r\n- Спереду три прорізні кишені.\r\n- Дві накладні кишені на сідницях.\r\n- Ширина талії: 43,5 cm.\r\n- Напівобхват стегон: 55 cm.\r\n- Висота талії: 25 cm.\r\n- Ширина штанини знизу: 18,5 cm.\r\n- Ширина штанини зверху: 29,5 cm.\r\n- Зовнішня довжина штанини: 105 cm.\r\n- Параметри вказані для розміру: 31/32.\r\nСклад: 99% Бавовна, 1% Еластан\r\nID Товару: PPYH-SJM0D7_00J\r\nКод виробника: DM0DM18746",
                 CategoryId = categoryJeansMan.Id,
                 Variations = new List<ProductVariationEntity>
@@ -478,7 +476,6 @@ public class AppDbSeeder(
             new ProductEntity
             {
                 Name = "Джинси Tommy Hilfiger",
-                Slug = slugService.GenerateSlug("Джинси Tommy Hilfiger"),
                 Description = "Джинси із колекції Tommy Hilfiger фасону regular із звичайною талією. Модель виготовлена із декоративно випраного деніму.\r\n- Модель частково виготовлена ​​з волокон, вироблених з використанням екологічних виробничих процесів, що зменшує їх вплив на навколишнє середовище.\r\n- Технологія Tech Stretch забезпечує винятковий комфорт використання та стійкість до зминання.\r\n- Модель із регулярною талією та застібкою на ґудзики і блискавку.\r\n- Спереду три прорізні кишені.\r\n- Дві накладні кишені на сідницях.\r\n- Денім з декоративними потертостями.\r\n- Ширина талії: 40 cm.\r\n- Напівобхват стегон: 49 cm.\r\n- Висота талії: 25 cm.\r\n- Ширина штанини знизу: 17 cm.\r\n- Ширина штанини зверху: 29 cm.\r\n- Зовнішня довжина штанини: 103 cm.\r\n- Параметри вказані для розміру: 31/32.\r\nСклад: Матеріал 1: 99% Бавовна, 1% Еластан\r\nМатеріал 2: 69% Бавовна, 30% Перероблена бавовна, 1% Еластан\r\nID Товару: PPYH-SJM0A6_90X\r\nКод виробника: MW0MW35171",
                 CategoryId = categoryJeansMan.Id,
                 Variations = new List<ProductVariationEntity>
@@ -527,9 +524,8 @@ public class AppDbSeeder(
     }
     private async Task CreateFiltersAsync()
     {
-        // Знаходимо категорії та продукти в базі даних
         var categoryWomanJeans = await context.Categories
-            .FirstOrDefaultAsync(c => c.TargetGroup.Name.Equals("Вона") && c.Name.Equals("Джинси"));
+           .FirstOrDefaultAsync(c => c.TargetGroup.Name.Equals("Вона") && c.Name.Equals("Джинси"));
 
         var categoryId = categoryWomanJeans.Id;
         var productsInCategory = await context.Products
@@ -541,156 +537,150 @@ public class AppDbSeeder(
             throw new Exception("Category 'Вона Джинси' не знайдена.");
         }
 
-        //if (!productsInCategory.Any())
-        //{
-        //    throw new Exception("No products found in the category.");
-        //}
+        var filterNamesWomanJeans = new List<FilterNameEntity>
+        {
+            new FilterNameEntity { Name = "Вид товару", CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Розмір",  CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Колір",  CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Ціна",  CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Вид асортименту",  CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Planet friendly",  CategoryId = categoryWomanJeans.Id },
+            new FilterNameEntity { Name = "Талія",  CategoryId = categoryWomanJeans.Id },
+        };
 
-        // Створення FilterNames
-        var filterNamesWomanJeans = new List<FilterName>
-    {
-        new FilterName { Name = "Вид товару", CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Розмір",  CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Колір",  CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Ціна",  CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Вид асортименту",  CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Planet friendly",  CategoryId = categoryWomanJeans.Id },
-        new FilterName { Name = "Талія",  CategoryId = categoryWomanJeans.Id },
-    };
         context.FilterNames.AddRange(filterNamesWomanJeans);
         await context.SaveChangesAsync();
 
-        // Створення FilterValues
-        var filterValuesWomanJeans = new List<FilterValue>
-    {
-        new FilterValue { Name = "барвистий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "бежевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "білий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "бірюзовий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "блакитний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "бордо", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "жовтий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "зелений", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "коричневий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "помаранчевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "рожевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "сірий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "срібний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "темно-синій", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "фіолетовий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "червоний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "чорний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
-        new FilterValue { Name = "XXS", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XXS/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XXS/30", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XS", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XS/30", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XS/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "S", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "S/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "M", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "L", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XL", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "XXL", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
-        new FilterValue { Name = "Лише зі знижкою", FilterName = filterNamesWomanJeans.First(f => f.Name == "Ціна") },
-        new FilterValue { Name = "Лише без знижки", FilterName = filterNamesWomanJeans.First(f => f.Name == "Ціна") },
-        new FilterValue { Name = "Товари преміум", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид асортименту") },
-        new FilterValue { Name = "Спортивні товари", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид асортименту") },
-        new FilterValue { Name = "висока", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
-        new FilterValue { Name = "низька", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
-        new FilterValue { Name = "medium", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
-        new FilterValue { Name = "Planet friendly", FilterName = filterNamesWomanJeans.First(f => f.Name == "Planet friendly") },
-        new FilterValue { Name = "Relaxed", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Skinny", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Slim", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Straight та regular", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Wide leg", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Джинсові комбінезони", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Розкльошені", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-        new FilterValue { Name = "Джинсові комбінезони", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
-    };
+        // Створення Filt erValues
+        var filterValuesWomanJeans = new List<FilterValueEntity>
+        {
+            new FilterValueEntity { Name = "барвистий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "бежевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "білий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "бірюзовий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "блакитний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "бордо", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "жовтий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "зелений", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "коричневий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "помаранчевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "рожевий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "сірий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "срібний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "темно-синій", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "фіолетовий", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "червоний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "чорний", FilterName = filterNamesWomanJeans.First(f => f.Name == "Колір") },
+            new FilterValueEntity { Name = "XXS", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XXS/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XXS/30", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XS", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XS/30", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XS/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "S", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "S/32", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "M", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "L", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XL", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "XXL", FilterName = filterNamesWomanJeans.First(f => f.Name == "Розмір") },
+            new FilterValueEntity { Name = "Лише зі знижкою", FilterName = filterNamesWomanJeans.First(f => f.Name == "Ціна") },
+            new FilterValueEntity { Name = "Лише без знижки", FilterName = filterNamesWomanJeans.First(f => f.Name == "Ціна") },
+            new FilterValueEntity { Name = "Товари преміум", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид асортименту") },
+            new FilterValueEntity { Name = "Спортивні товари", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид асортименту") },
+            new FilterValueEntity { Name = "висока", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
+            new FilterValueEntity { Name = "низька", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
+            new FilterValueEntity { Name = "medium", FilterName = filterNamesWomanJeans.First(f => f.Name == "Талія") },
+            new FilterValueEntity { Name = "Planet friendly", FilterName = filterNamesWomanJeans.First(f => f.Name == "Planet friendly") },
+            new FilterValueEntity { Name = "Relaxed", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Skinny", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Slim", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Straight та regular", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Wide leg", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Джинсові комбінезони", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Розкльошені", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+            new FilterValueEntity { Name = "Джинсові комбінезони", FilterName = filterNamesWomanJeans.First(f => f.Name == "Вид товару") },
+        };
+
         context.FilterValues.AddRange(filterValuesWomanJeans);
         await context.SaveChangesAsync();
 
-        var random = new Random();
+        //var random = new Random();
 
-        // Створення Filters для кожного продукту в категорії з випадковими значеннями
-        foreach (var product in productsInCategory)
-        {
-            var productFilters = new List<Filter>();
+        //// Створення Filters для кожного продукту в категорії з випадковими значеннями
+        //foreach (var product in productsInCategory)
+        //{
+        //    var productFilters = new List<FilterEntity>();
 
-            // Додаємо випадкове значення кольору до продукту
-            var colorValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Колір").ToList();
-            if (colorValues.Any())
-            {
-                var selectedColorValue = colorValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedColorValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення кольору до продукту
+        //    var colorValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Колір").ToList();
+        //    if (colorValues.Any())
+        //    {
+        //        var selectedColorValue = colorValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedColorValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкове значення розміру до продукту
-            var sizeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Розмір").ToList();
-            if (sizeValues.Any())
-            {
-                var selectedSizeValue = sizeValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedSizeValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення розміру до продукту
+        //    var sizeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Розмір").ToList();
+        //    if (sizeValues.Any())
+        //    {
+        //        var selectedSizeValue = sizeValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedSizeValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкове значення талії до продукту
-            var waistValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Талія").ToList();
-            if (waistValues.Any())
-            {
-                var selectedWaistValue = waistValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedWaistValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення талії до продукту
+        //    var waistValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Талія").ToList();
+        //    if (waistValues.Any())
+        //    {
+        //        var selectedWaistValue = waistValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedWaistValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкове значення ціни до продукту
-            var priceValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Ціна").ToList();
-            if (priceValues.Any())
-            {
-                var selectedPriceValue = priceValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedPriceValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення ціни до продукту
+        //    var priceValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Ціна").ToList();
+        //    if (priceValues.Any())
+        //    {
+        //        var selectedPriceValue = priceValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedPriceValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкове значення виду асортименту до продукту
-            var assortmentTypeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Вид асортименту").ToList();
-            if (assortmentTypeValues.Any())
-            {
-                var selectedAssortmentTypeValue = assortmentTypeValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedAssortmentTypeValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення виду асортименту до продукту
+        //    var assortmentTypeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Вид асортименту").ToList();
+        //    if (assortmentTypeValues.Any())
+        //    {
+        //        var selectedAssortmentTypeValue = assortmentTypeValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedAssortmentTypeValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкове значення виду товару до продукту
-            var productTypeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Вид товару").ToList();
-            if (productTypeValues.Any())
-            {
-                var selectedProductTypeValue = productTypeValues.OrderBy(x => random.Next()).First();
-                productFilters.Add(new Filter { FilterValue = selectedProductTypeValue, ProductId = product.Id });
-            }
+        //    // Додаємо випадкове значення виду товару до продукту
+        //    var productTypeValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Вид товару").ToList();
+        //    if (productTypeValues.Any())
+        //    {
+        //        var selectedProductTypeValue = productTypeValues.OrderBy(x => random.Next()).First();
+        //        productFilters.Add(new FilterEntity { FilterValue = selectedProductTypeValue, ProductId = product.Id });
+        //    }
 
-            // Додаємо випадкові значення Planet friendly до продукту
-            if (random.NextDouble() < 0.5) // 50% шанс, що продукт матиме значення Planet friendly
-            {
-                var planetFriendlyValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Planet friendly").ToList();
-                if (planetFriendlyValues.Any())
-                {
-                    var selectedPlanetFriendlyValue = planetFriendlyValues.OrderBy(x => random.Next()).First();
-                    productFilters.Add(new Filter { FilterValue = selectedPlanetFriendlyValue, ProductId = product.Id });
-                }
-            }
+        //    // Додаємо випадкові значення Planet friendly до продукту
+        //    if (random.NextDouble() < 0.5) // 50% шанс, що продукт матиме значення Planet friendly
+        //    {
+        //        var planetFriendlyValues = filterValuesWomanJeans.Where(fv => fv.FilterName.Name == "Planet friendly").ToList();
+        //        if (planetFriendlyValues.Any())
+        //        {
+        //            var selectedPlanetFriendlyValue = planetFriendlyValues.OrderBy(x => random.Next()).First();
+        //            productFilters.Add(new FilterEntity { FilterValue = selectedPlanetFriendlyValue, ProductId = product.Id });
+        //        }
+        //    }
 
-            context.Filters.AddRange(productFilters);
-        }
-        await context.SaveChangesAsync();
+        //    context.Filters.AddRange(productFilters);
+        //}
+        //await context.SaveChangesAsync();
     }
 
-    // Method to decide if a discount should be applied
     private bool ShouldApplyDiscount(Random random)
     {
-        return random.NextDouble() < 0.4; // 40% chance
+        return random.NextDouble() < 0.4;
     }
 
-    // Method to get a random DiscountValue from a list of Discounts
-    private DiscountValue GetRandomDiscountValue(List<Discount> discounts, Random random)
+    private DiscountValueEntity GetRandomDiscountValue(List<DiscountEntity> discounts, Random random)
     {
         var allDiscountValues = discounts.SelectMany(d => d.DiscountValues).ToList();
         if (allDiscountValues.Count == 0)

@@ -10,10 +10,10 @@ namespace Core.Interfaces.Repositories
 {
     public interface IDiscountRepository
     {
-        Task<Discount> GetByIdAsync(int id);
-        Task<IEnumerable<Discount>> GetAllAsync();
-        Task AddAsync(Discount discount);
-        Task UpdateAsync(Discount discount);
+        Task<DiscountEntity> GetByIdAsync(int id);
+        Task<IEnumerable<DiscountEntity>> GetAllAsync();
+        Task AddAsync(DiscountEntity discount);
+        Task UpdateAsync(DiscountEntity discount);
         Task DeleteAsync(int id);
     }
 }

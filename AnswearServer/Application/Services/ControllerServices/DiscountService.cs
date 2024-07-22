@@ -16,13 +16,13 @@ public class DiscountService(
 {
     public async Task AddDiscountAsync(DiscountCreateVm discount)
     {
-        var newDiscount = mapper.Map<Discount>(discount);
+        var newDiscount = mapper.Map<DiscountEntity>(discount);
 
-        var values = new List<DiscountValue>();
+        var values = new List<DiscountValueEntity>();
 
         foreach (var value in discount.Values)
         {
-            values.Add(new DiscountValue { Percentage = value });
+            values.Add(new DiscountValueEntity { Percentage = value });
         }
 
         newDiscount.DiscountValues = values;
@@ -91,7 +91,7 @@ public class DiscountService(
 
             foreach (var value in discount.Values)
             {
-                editedDiscount.DiscountValues.Add(new DiscountValue { Percentage = value });
+                editedDiscount.DiscountValues.Add(new DiscountValueEntity { Percentage = value });
             }
 
             if (discount.MediaFile != null)

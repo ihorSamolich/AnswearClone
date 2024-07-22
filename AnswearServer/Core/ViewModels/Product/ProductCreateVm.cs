@@ -14,4 +14,5 @@ public class ProductVariationCreateVm
     public decimal Price { get; set; }
     public int? DiscountValueId { get; set; }
     public ICollection<string> Photos { get; set; } = new List<string>();
+    public ICollection<int> Filters { get; set; } = new List<int>();
 }

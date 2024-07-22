@@ -8,17 +8,17 @@ public class FilterRepository(
     AppDbContext context
 ) : IFilterRepository
 {
-    public async Task<IEnumerable<FilterName>> GetAllAsync()
+    public async Task<IEnumerable<FilterNameEntity>> GetAllAsync()
     {
         return await context.FilterNames.Include(c => c.FilterValues).ToListAsync();
     }
 
-    public async Task<FilterName> GetByIdAsync(int id)
+    public async Task<FilterNameEntity> GetByIdAsync(int id)
     {
         return await context.FilterNames.Include(c => c.FilterValues).FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task AddAsync(FilterName filter)
+    public async Task AddAsync(FilterNameEntity filter)
     {
         await context.FilterNames.AddAsync(filter);
         await context.SaveChangesAsync();
@@ -34,7 +34,7 @@ public class FilterRepository(
         }
     }
 
-    public async Task UpdateAsync(FilterName filter)
+    public async Task UpdateAsync(FilterNameEntity filter)
     {
         context.FilterNames.Update(filter);
         await context.SaveChangesAsync();

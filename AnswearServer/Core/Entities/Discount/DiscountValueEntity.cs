@@ -3,7 +3,7 @@
 namespace Core.Entities.Discount
 {
     [Table("tbl_DiscountValues")]
-    public class DiscountValue
+    public class DiscountValueEntity
     {
         public int Id { get; set; }
 
@@ -11,6 +11,6 @@ namespace Core.Entities.Discount
         public decimal Percentage { get; set; }
 
         public int DiscountId { get; set; }
-        public Discount Discount { get; set; } = null!;
+        public DiscountEntity Discount { get; set; } = null!;
     }
 }
