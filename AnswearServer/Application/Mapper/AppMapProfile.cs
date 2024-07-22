@@ -8,6 +8,7 @@ using Core.ViewModels.Filter;
 using Core.ViewModels.Discount;
 using Core.ViewModels.TargetGroup;
 using Core.ViewModels.User;
+using Core.ViewModels.Product;
 
 namespace Application.Mapper;
 
@@ -17,6 +18,8 @@ public class AppMapProfile : Profile
     {
         CreateMap<UserEntity, UserVm>();
         CreateMap<UserCreateVm, UserEntity>();
+
+        CreateMap<ProductPhotoEntity, ProductPhotoVm>();
 
         CreateMap<TargetGroupEntity, TargetGroupVm>();
         CreateMap<TargetGroupVm, TargetGroupEntity>();
@@ -33,13 +36,20 @@ public class AppMapProfile : Profile
         CreateMap<FilterUpdateVm, FilterName>()
             .ForMember(dest => dest.FilterValues, opt => opt.Ignore());
 
-
-
         CreateMap<DiscountCreateVm, Discount>()
             .ForMember(dest => dest.MediaFile, opt => opt.Ignore());
         CreateMap<Discount, DiscountVm>();
         CreateMap<DiscountValue, DiscountValueVm>();
         CreateMap<DiscountUpdateVm, Discount>()
             .ForMember(dest => dest.MediaFile, opt => opt.Ignore());
+
+        CreateMap<ProductEntity, ProductVm>();
+        CreateMap<ProductVariationEntity, ProductVariationVm>();
+
+        CreateMap<ProductCreateVm, ProductEntity>()
+             .ForMember(dest => dest.Variations, opt => opt.Ignore());
+
+        CreateMap<ProductVariationCreateVm, ProductVariationEntity>()
+            .ForMember(dest => dest.Photos, opt => opt.Ignore());
     }
 }

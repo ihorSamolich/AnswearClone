@@ -26,12 +26,25 @@ public class ProductRepisitory(
 
     public async Task<IEnumerable<ProductEntity>> GetAllAsync()
     {
-        return await context.Products.Include(c => c.Variations).ToListAsync();
+        return await context.Products
+            .Include(c => c.Category)
+            .Include(c => c.Variations)
+                .ThenInclude(x => x.Photos)
+            .Include(p => p.Variations)
+                .ThenInclude(v => v.DiscountValue)
+            .ToListAsync();
     }
 
     public async Task<ProductEntity> GetByIdAsync(int id)
     {
-        return await context.Products.Include(c => c.Variations).FirstOrDefaultAsync(u => u.Id == id);
+        return await context.Products
+         .Include(p => p.Category)
+         .Include(p => p.Variations)
+             .ThenInclude(v => v.DiscountValue)
+         .Include(p => p.Variations)
+             .ThenInclude(v => v.Photos)
+         .FirstOrDefaultAsync(p => p.Id == id);
+
     }
 
     public async Task UpdateAsync(ProductEntity product)

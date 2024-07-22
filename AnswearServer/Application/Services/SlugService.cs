@@ -1,6 +1,8 @@
-﻿using Core.Interfaces;
+﻿using Core.Entities;
+using Core.Interfaces;
 using Slugify;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 public class SlugService : ISlugService
 {
@@ -46,5 +48,11 @@ public class SlugService : ISlugService
         }
 
         return result.ToString();
+    }
+
+    public string GenerateSlugWithTime(string text)
+    {
+        var transliteratedText = CyrillicToLatin($"{text} {DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}");
+        return _slugHelper.GenerateSlug(transliteratedText);
     }
 }
