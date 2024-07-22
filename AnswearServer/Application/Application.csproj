@@ -7,6 +7,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Services\ControllerServices\ProductService.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="Services\ControllerServices\ProductService.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="AutoMapper" Version="13.0.1" />
 	  <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.68.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.7" />

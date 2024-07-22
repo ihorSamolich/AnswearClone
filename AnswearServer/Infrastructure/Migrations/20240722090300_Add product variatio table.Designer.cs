@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722090300_Add product variatio table")]
+    partial class Addproductvariatiotable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,7 +284,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -329,12 +332,12 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductVariationId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductVariationId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("tbl_Product_Photos");
                 });
@@ -346,6 +349,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int?>("DiscountValueId")
                         .HasColumnType("integer");
@@ -530,7 +538,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.ProductEntity", "Product")
+                    b.HasOne("Core.Entities.Product", "Product")
                         .WithMany("Filters")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -582,7 +590,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.HasOne("Core.Entities.CategoryEntity", "Category")
                         .WithMany()
@@ -595,13 +603,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.ProductPhotoEntity", b =>
                 {
-                    b.HasOne("Core.Entities.ProductVariationEntity", "ProductVariation")
-                        .WithMany("Photos")
-                        .HasForeignKey("ProductVariationId")
+                    b.HasOne("Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductVariation");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Core.Entities.ProductVariationEntity", b =>
@@ -610,7 +618,7 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("DiscountValueId");
 
-                    b.HasOne("Core.Entities.ProductEntity", "Product")
+                    b.HasOne("Core.Entities.Product", "Product")
                         .WithMany("Variations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -684,16 +692,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Navigation("Filters");
 
                     b.Navigation("Variations");
-                });
-
-            modelBuilder.Entity("Core.Entities.ProductVariationEntity", b =>
-                {
-                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("Core.Entities.TargetGroupEntity", b =>

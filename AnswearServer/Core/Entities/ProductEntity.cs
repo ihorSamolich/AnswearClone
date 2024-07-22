@@ -11,15 +11,12 @@ using System.Threading.Tasks;
 namespace Core.Entities;
 
 [Table("tbl_Products")]
-public class Product
+public class ProductEntity
 {
     public int Id { get; set; }
 
     [StringLength(255), Required]
     public string Name { get; set; } = null!;
-
-    [StringLength(300)]
-    public string ShortDescription { get; set; } = null!;
 
     [StringLength(1000)]
     public string Description { get; set; } = null!;
@@ -27,18 +24,11 @@ public class Product
     public int CategoryId { get; set; }
     public CategoryEntity Category { get; set; } = null!;
 
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Price { get; set; }
-
     [Required]
     [StringLength(200)]
     public string Slug { get; set; } = null!;
 
-    public ICollection<ProductPhotoEntity> Photos { get; set; } = new List<ProductPhotoEntity>();
-
-    public int? DiscountValueId { get; set; }
-    public DiscountValue? DiscountValue { get; set; }
+    public ICollection<ProductVariationEntity> Variations { get; set; } = new List<ProductVariationEntity>();
 
     public virtual ICollection<Filter> Filters { get; set; } = new List<Filter>();
-
 }

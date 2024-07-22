@@ -17,6 +17,6 @@ namespace Core.Entities.Filters
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public virtual Product Product { get; set; } = null!;
+        public virtual ProductEntity Product { get; set; } = null!;
     }
 }

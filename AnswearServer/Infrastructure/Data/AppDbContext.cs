@@ -16,7 +16,9 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
     public DbSet<TargetGroupEntity> TargetGroups { get; set; }
     public DbSet<CategoryEntity> Categories { get; set; }
 
-    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
+    public DbSet<ProductVariationEntity> ProductVariations { get; set; }
+
     public DbSet<ProductPhotoEntity> ProductPhotos { get; set; }
 
     public DbSet<Discount> Discounts { get; set; }
@@ -46,20 +48,20 @@ public class AppDbContext : IdentityDbContext<UserEntity, RoleEntity, int,
             .HasIndex(u => u.Slug)
             .IsUnique();
 
-        modelBuilder.Entity<ProductPhotoEntity>()
-            .HasOne(p => p.Product)
-            .WithMany(p => p.Photos)
-            .HasForeignKey(p => p.ProductId);
+        //modelBuilder.Entity<ProductPhotoEntity>()
+        //    .HasOne(p => p.Product)
+        //    .WithMany(p => p.Photos)
+        //    .HasForeignKey(p => p.ProductId);
 
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Category)
-            .WithMany()
-            .HasForeignKey(p => p.CategoryId);
+        //modelBuilder.Entity<Product>()
+        //    .HasOne(p => p.Category)
+        //    .WithMany()
+        //    .HasForeignKey(p => p.CategoryId);
 
-        modelBuilder.Entity<Product>()
-                .HasOne(p => p.DiscountValue)
-                .WithMany()
-                .HasForeignKey(p => p.DiscountValueId);
+        //modelBuilder.Entity<Product>()
+        //        .HasOne(p => p.DiscountValue)
+        //        .WithMany()
+        //        .HasForeignKey(p => p.DiscountValueId);
 
         modelBuilder.Entity<Filter>(f =>
         {
