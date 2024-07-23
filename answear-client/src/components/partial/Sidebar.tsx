@@ -7,7 +7,7 @@ import SidebarLinkGroupMenu from "components/sidebar/SidebarLinkGroupMenu.tsx";
 import SidebarLinkGroupTitle from "components/sidebar/SidebarLinkGroupTitle.tsx";
 import { NavLink, useLocation } from "react-router-dom";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ISidebarProps {
     sidebarOpen: boolean;
@@ -119,7 +119,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
                                 {/* Dashboard */}
                                 <SidebarLink
                                     to="/"
-                                    icon={IconHome}
+                                    icon={<IconHome />}
                                     label="Home"
                                     activeCondition={(pathname) => pathname === "/"}
                                 />
@@ -130,7 +130,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconBrandShopee}
+                                                icon={<IconBrandShopee />}
                                                 isActive={pathname.includes("categories")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();
@@ -158,7 +158,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconPizza}
+                                                icon={<IconPizza />}
                                                 isActive={pathname.includes("pizzas")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();
@@ -183,7 +183,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconCherry}
+                                                icon={<IconCherry />}
                                                 isActive={pathname.includes("ingredients")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();
@@ -225,7 +225,7 @@ const Sidebar: React.FC<ISidebarProps> = (props) => {
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconUserScan}
+                                                icon={<IconUserScan />}
                                                 isActive={pathname.includes("auth")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();

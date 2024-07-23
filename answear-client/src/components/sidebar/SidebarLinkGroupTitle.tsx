@@ -2,7 +2,7 @@ import React from "react";
 
 interface SidebarLinkGroupMenuItemProps {
     href: string;
-    icon: React.ElementType;
+    icon: React.ReactNode;
     isActive: boolean;
     children: React.ReactNode;
     handleClick: (e: React.MouseEvent) => void;
@@ -23,9 +23,7 @@ const SidebarLinkGroupTitle: React.FC<SidebarLinkGroupMenuItemProps> = ({
         >
             <div className="flex items-center justify-between w-full">
                 <div className="inline-flex w-full">
-                    <div>
-                        <Icon className={`${isActive ? "text-indigo-500" : "text-slate-400"}`} />
-                    </div>
+                    <div>{Icon}</div>
                     <span className="flex justify-between text-sm w-full font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 duration-200">
                         {children}
                     </span>

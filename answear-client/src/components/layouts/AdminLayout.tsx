@@ -5,7 +5,7 @@ import { useState } from "react";
 import Header from "../partial/Header.tsx";
 import Sidebar from "../partial/Sidebar.tsx";
 
-const Layout = () => {
+const AdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -21,4 +21,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default AdminLayout;
