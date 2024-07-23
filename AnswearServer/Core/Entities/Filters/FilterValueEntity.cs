@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Entities.Filters;
 
 [Table("tbl_filterValues")]
-public class FilterValue
+public class FilterValueEntity
 {
     public int Id { get; set; }
 
@@ -18,5 +13,5 @@ public class FilterValue
 
     [ForeignKey("FilterName")]
     public int FilterNameId { get; set; }
-    public virtual FilterName FilterName { get; set; } = null!;
+    public virtual FilterNameEntity FilterName { get; set; } = null!;
 }

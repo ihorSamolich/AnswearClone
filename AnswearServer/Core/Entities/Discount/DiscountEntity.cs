@@ -6,21 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Entities.Filters
+namespace Core.Entities.Discount
 {
-    [Table("tbl_filterNames")]
-    public class FilterName
+    [Table("tbl_Discounts")]
+    public class DiscountEntity
     {
         public int Id { get; set; }
 
         [StringLength(255), Required]
         public string Name { get; set; } = null!;
+        public string MediaFile { get; set; } = null!;
 
-
-        [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        public virtual CategoryEntity Category { get; set; } = null!;
-
-        public virtual ICollection<FilterValue> FilterValues { get; set; } = null!;
+        public ICollection<DiscountValueEntity> DiscountValues { get; set; } = new List<DiscountValueEntity>();
     }
 }

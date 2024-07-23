@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240722090300_Add product variatio table")]
+    partial class Addproductvariatiotable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("tbl_Categories");
                 });
 
-            modelBuilder.Entity("Core.Entities.Discount.DiscountEntity", b =>
+            modelBuilder.Entity("Core.Entities.Discount.Discount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +83,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("tbl_Discounts");
                 });
 
-            modelBuilder.Entity("Core.Entities.Discount.DiscountValueEntity", b =>
+            modelBuilder.Entity("Core.Entities.Discount.DiscountValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,22 +104,22 @@ namespace Infrastructure.Migrations
                     b.ToTable("tbl_DiscountValues");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.Filter", b =>
                 {
                     b.Property<int>("FilterValueId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductVariationId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
-                    b.HasKey("FilterValueId", "ProductVariationId");
+                    b.HasKey("FilterValueId", "ProductId");
 
-                    b.HasIndex("ProductVariationId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("tbl_filters");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterNameEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.FilterName", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,7 +142,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("tbl_filterNames");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterValueEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.FilterValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +284,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,6 +304,11 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -324,12 +332,12 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductVariationId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductVariationId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("tbl_Product_Photos");
                 });
@@ -341,6 +349,11 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int?>("DiscountValueId")
                         .HasColumnType("integer");
@@ -366,9 +379,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("DiscountValueId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("Slug")
-                        .IsUnique();
 
                     b.ToTable("tbl_ProductVariations");
                 });
@@ -509,9 +519,9 @@ namespace Infrastructure.Migrations
                     b.Navigation("TargetGroup");
                 });
 
-            modelBuilder.Entity("Core.Entities.Discount.DiscountValueEntity", b =>
+            modelBuilder.Entity("Core.Entities.Discount.DiscountValue", b =>
                 {
-                    b.HasOne("Core.Entities.Discount.DiscountEntity", "Discount")
+                    b.HasOne("Core.Entities.Discount.Discount", "Discount")
                         .WithMany("DiscountValues")
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -520,26 +530,26 @@ namespace Infrastructure.Migrations
                     b.Navigation("Discount");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.Filter", b =>
                 {
-                    b.HasOne("Core.Entities.Filters.FilterValueEntity", "FilterValue")
+                    b.HasOne("Core.Entities.Filters.FilterValue", "FilterValue")
                         .WithMany()
                         .HasForeignKey("FilterValueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.ProductVariationEntity", "ProductVariation")
+                    b.HasOne("Core.Entities.Product", "Product")
                         .WithMany("Filters")
-                        .HasForeignKey("ProductVariationId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FilterValue");
 
-                    b.Navigation("ProductVariation");
+                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterNameEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.FilterName", b =>
                 {
                     b.HasOne("Core.Entities.CategoryEntity", "Category")
                         .WithMany("FilterNames")
@@ -550,9 +560,9 @@ namespace Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterValueEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.FilterValue", b =>
                 {
-                    b.HasOne("Core.Entities.Filters.FilterNameEntity", "FilterName")
+                    b.HasOne("Core.Entities.Filters.FilterName", "FilterName")
                         .WithMany("FilterValues")
                         .HasForeignKey("FilterNameId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -580,7 +590,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.HasOne("Core.Entities.CategoryEntity", "Category")
                         .WithMany()
@@ -593,22 +603,22 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.ProductPhotoEntity", b =>
                 {
-                    b.HasOne("Core.Entities.ProductVariationEntity", "ProductVariation")
-                        .WithMany("Photos")
-                        .HasForeignKey("ProductVariationId")
+                    b.HasOne("Core.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProductVariation");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Core.Entities.ProductVariationEntity", b =>
                 {
-                    b.HasOne("Core.Entities.Discount.DiscountValueEntity", "DiscountValue")
+                    b.HasOne("Core.Entities.Discount.DiscountValue", "DiscountValue")
                         .WithMany()
                         .HasForeignKey("DiscountValueId");
 
-                    b.HasOne("Core.Entities.ProductEntity", "Product")
+                    b.HasOne("Core.Entities.Product", "Product")
                         .WithMany("Variations")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -662,12 +672,12 @@ namespace Infrastructure.Migrations
                     b.Navigation("FilterNames");
                 });
 
-            modelBuilder.Entity("Core.Entities.Discount.DiscountEntity", b =>
+            modelBuilder.Entity("Core.Entities.Discount.Discount", b =>
                 {
                     b.Navigation("DiscountValues");
                 });
 
-            modelBuilder.Entity("Core.Entities.Filters.FilterNameEntity", b =>
+            modelBuilder.Entity("Core.Entities.Filters.FilterName", b =>
                 {
                     b.Navigation("FilterValues");
                 });
@@ -682,16 +692,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Core.Entities.ProductEntity", b =>
-                {
-                    b.Navigation("Variations");
-                });
-
-            modelBuilder.Entity("Core.Entities.ProductVariationEntity", b =>
+            modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Navigation("Filters");
 
-                    b.Navigation("Photos");
+                    b.Navigation("Variations");
                 });
 
             modelBuilder.Entity("Core.Entities.TargetGroupEntity", b =>

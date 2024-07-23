@@ -8,6 +8,7 @@ using Core.ViewModels.Filter;
 using Core.ViewModels.Discount;
 using Core.ViewModels.TargetGroup;
 using Core.ViewModels.User;
+using Core.ViewModels.Product;
 
 namespace Application.Mapper;
 
@@ -18,6 +19,8 @@ public class AppMapProfile : Profile
         CreateMap<UserEntity, UserVm>();
         CreateMap<UserCreateVm, UserEntity>();
 
+        CreateMap<ProductPhotoEntity, ProductPhotoVm>();
+
         CreateMap<TargetGroupEntity, TargetGroupVm>();
         CreateMap<TargetGroupVm, TargetGroupEntity>();
         CreateMap<TargetGroupCreateVm, TargetGroupEntity>();
@@ -27,19 +30,27 @@ public class AppMapProfile : Profile
         CreateMap<CategoryEntity, ChildrenCategoryVm>();
         CreateMap<CategoryCreateVm, CategoryEntity>();
 
-        CreateMap<FilterName, FilterVm>();
-        CreateMap<FilterValue, FilterValueVm>();
-        CreateMap<FilterCreateVm, FilterName>();
-        CreateMap<FilterUpdateVm, FilterName>()
+        CreateMap<FilterNameEntity, FilterVm>();
+        CreateMap<FilterValueEntity, FilterValueVm>();
+        CreateMap<FilterCreateVm, FilterNameEntity>();
+        CreateMap<FilterUpdateVm, FilterNameEntity>()
             .ForMember(dest => dest.FilterValues, opt => opt.Ignore());
 
-
-
-        CreateMap<DiscountCreateVm, Discount>()
+        CreateMap<DiscountCreateVm, DiscountEntity>()
             .ForMember(dest => dest.MediaFile, opt => opt.Ignore());
-        CreateMap<Discount, DiscountVm>();
-        CreateMap<DiscountValue, DiscountValueVm>();
-        CreateMap<DiscountUpdateVm, Discount>()
+        CreateMap<DiscountEntity, DiscountVm>();
+        CreateMap<DiscountValueEntity, DiscountValueVm>();
+        CreateMap<DiscountUpdateVm, DiscountEntity>()
             .ForMember(dest => dest.MediaFile, opt => opt.Ignore());
+
+        CreateMap<ProductEntity, ProductVm>();
+        CreateMap<ProductVariationEntity, ProductVariationVm>();
+
+        CreateMap<ProductCreateVm, ProductEntity>()
+             .ForMember(dest => dest.Variations, opt => opt.Ignore());
+
+        CreateMap<ProductVariationCreateVm, ProductVariationEntity>()
+            .ForMember(dest => dest.Photos, opt => opt.Ignore())
+            .ForMember(dest => dest.Filters, opt => opt.Ignore());
     }
 }

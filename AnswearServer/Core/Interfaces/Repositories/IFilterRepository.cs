@@ -4,9 +4,9 @@ namespace Core.Interfaces.Repositories;
 
 public interface IFilterRepository
 {
-    Task<FilterName> GetByIdAsync(int id);
-    Task<IEnumerable<FilterName>> GetAllAsync();
-    Task AddAsync(FilterName filter);
-    Task UpdateAsync(FilterName filter);
+    Task<FilterNameEntity> GetByIdAsync(int id);
+    Task<IEnumerable<FilterNameEntity>> GetAllAsync();
+    Task AddAsync(FilterNameEntity filter);
+    Task UpdateAsync(FilterNameEntity filter);
     Task DeleteAsync(int id);
 }

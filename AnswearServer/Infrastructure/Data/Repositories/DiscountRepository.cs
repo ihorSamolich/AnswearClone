@@ -14,27 +14,27 @@ public class DiscountRepository(
     AppDbContext context
     ) : IDiscountRepository
 {
-    public async Task<Discount> GetByIdAsync(int id)
+    public async Task<DiscountEntity> GetByIdAsync(int id)
     {
         return await context.Discounts
             .Include(d => d.DiscountValues)
             .FirstOrDefaultAsync(d => d.Id == id);
     }
 
-    public async Task<IEnumerable<Discount>> GetAllAsync()
+    public async Task<IEnumerable<DiscountEntity>> GetAllAsync()
     {
         return await context.Discounts
             .Include(d => d.DiscountValues)
             .ToListAsync();
     }
 
-    public async Task AddAsync(Discount discount)
+    public async Task AddAsync(DiscountEntity discount)
     {
         await context.Discounts.AddAsync(discount);
         await context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(Discount discount)
+    public async Task UpdateAsync(DiscountEntity discount)
     {
         context.Discounts.Update(discount);
         await context.SaveChangesAsync();

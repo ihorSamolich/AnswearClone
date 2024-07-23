@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Core.Entities;
 
 [Table("tbl_Product_Photos")]
-public class ProductPhotoEntity 
+public class ProductPhotoEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
 
     public int Priority { get; set; }
 
-    public int ProductId { get; set; }
+    public int ProductVariationId { get; set; }
 
-    public Product Product { get; set; } = null!;
+    public ProductVariationEntity ProductVariation { get; set; } = null!;
 }
