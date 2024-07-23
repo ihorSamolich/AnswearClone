@@ -36,9 +36,9 @@
             "types/*": ["types/*"],
             "utils/*": ["utils/*"],
             "interfaces/*": ["interfaces/*"],
-            "partials/*": ["partials/*"],
-        }
-
+            "partials/*": ["partials/*"]
+        },
+        "allowSyntheticDefaultImports": true
     },
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]
