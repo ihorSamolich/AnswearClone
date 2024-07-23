@@ -38,6 +38,7 @@
             "interfaces/*": ["interfaces/*"],
             "partials/*": ["partials/*"],
         }
+
     },
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]
