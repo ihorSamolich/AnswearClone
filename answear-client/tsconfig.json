@@ -23,9 +23,11 @@
     /* Alias */
     "baseUrl": "src",
     "paths": {
+      "app/*": ["app/*"],
       "components/*": ["components/*"],
       "constants/*": ["constants/*"],
       "css/*": ["css/*"],
+      "services/*": ["services/*"],
       "pages/*": ["pages/*"],
       "utils/*": ["utils/*"],
       "interfaces/*": ["interfaces/*"],

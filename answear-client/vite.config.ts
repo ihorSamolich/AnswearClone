@@ -8,12 +8,13 @@ export default defineConfig({
   resolve: {
     alias: {
       assets: "/src/assets",
-
+      app: "/src/app",
       components: "/src/components",
       constants: "/src/constants",
       css: "/src/css",
       pages: "/src/pages",
       utils: "/src/utils",
+      services: "/src/services",
       interfaces: "/src/interfaces",
     },
   },
@@ -21,10 +22,10 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
   },
-  server: {
-    port: 5173,
-    strictPort: true,
-    host: true,
-    origin: "http://0.0.0.0:5173",
-  },
+  // server: {
+  //   port: 5173,
+  //   strictPort: true,
+  //   host: true,
+  //   origin: "http://0.0.0.0:5173",
+  // },
 });

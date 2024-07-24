@@ -1,12 +1,17 @@
 import AdminLayout from "components/layouts/AdminLayout.tsx";
-import { Route, Routes } from "react-router-dom";
 import HomePage from "pages/HomePage.tsx";
+import CategoriesPage from "pages/admin/CategoriesPage.tsx";
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<AdminLayout />}>
-        <Route index element={<HomePage/>} />
+        <Route index element={<HomePage />} />
+
+        <Route path="categories">
+          <Route path="list" element={<CategoriesPage />} />
+        </Route>
       </Route>
     </Routes>
   );
