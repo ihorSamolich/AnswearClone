@@ -3,7 +3,7 @@ import { classNames } from "utils/classNames.ts";
 
 import React, { useState } from "react";
 
-const inputVariants = cva("bg-white border border-[#dbdce0] text-black focus:ring-black focus:border-black block w-full", {
+const inputVariants = cva("bg-white my-1.5 border border-[#dbdce0] text-black focus:ring-black focus:border-black block w-full", {
   variants: {
     variant: {
       default: "text-xs font-semibold",
