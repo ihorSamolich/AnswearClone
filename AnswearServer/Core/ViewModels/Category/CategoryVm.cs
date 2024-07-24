@@ -1,4 +1,6 @@
-﻿namespace Core.ViewModels.Category;
+﻿using Core.ViewModels.TargetGroup;
+
+namespace Core.ViewModels.Category;
 
 public class CategoryVm
 {
@@ -6,6 +8,7 @@ public class CategoryVm
     public string Name { get; set; } = null!;
     public string Slug { get; set; } = null!;
     public int? TargetGroupId { get; set; }
+    public TargetGroupVm TargetGroup { get; set; } = null!;
     public int? ParentId { get; set; }
     public ParentCategoryVm? Parent { get; set; } = null!;
     public List<ChildrenCategoryVm> Childrens { get; set; } = null!;

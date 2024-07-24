@@ -1,12 +1,5 @@
-import {
-  IconBrandShopee,
-  IconCherry,
-  IconDashboard,
-  IconHome,
-  IconPizza,
-  IconTruckDelivery,
-  IconUserScan,
-} from "@tabler/icons-react";
+import { IconBrandShopee, IconCherry, IconHome, IconPizza, IconTruckDelivery, IconUserScan } from "@tabler/icons-react";
+import logo from "assets/ans-icon-144x144.png";
 import SidebarChevronDown from "components/partials/sidebar/SidebarChevronDown.tsx";
 import SidebarExpandCollapseButton from "components/partials/sidebar/SidebarExpandCollapseButton.tsx";
 import SidebarLink from "components/partials/sidebar/SidebarLink.tsx";
@@ -95,9 +88,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
           {/* Logo */}
           <NavLink end to="/" className={`block text-slate-200 truncate transition duration-150 "}`}>
             <div className="flex items-center">
-              <div>
-                <IconDashboard className="w-8 h-8 text-white" />
-              </div>
+              <img src={logo} alt="logo" className="w-8 h-8 object-cover rounded-md" />
               <span className="text-xl font-bold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 duration-200">Dashboard</span>
             </div>
           </NavLink>
@@ -110,13 +101,13 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                 <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
                   •••
                 </span>
-                <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Pages</span>
+                <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Сторінки</span>
               </h3>
               <ul className="mt-3">
-                {/* Dashboard */}
-                <SidebarLink to="/" icon={IconHome} label="Home" activeCondition={(pathname) => pathname === "/"} />
+                {/* Головна */}
+                <SidebarLink to="/" icon={IconHome} label="Головна" activeCondition={(pathname) => pathname === "/"} />
 
-                {/* Categories */}
+                {/* Категорії */}
                 <SidebarLinkGroup activecondition={pathname.includes("categories")}>
                   {(handleClick, open) => (
                     <>
@@ -129,15 +120,14 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                           sidebarExpanded ? handleClick() : setSidebarExpanded(true);
                         }}
                       >
-                        Categories
+                        Категорії
                         <SidebarChevronDown open={open} />
                       </SidebarLinkGroupTitle>
                       <SidebarLinkGroupMenu
                         open={open}
                         links={[
-                          { to: "/categories/list", label: "List" },
-                          { to: "/categories/create", label: "Create" },
-                          // { to: "/ecommerce/invoices", label: "Invoices" },
+                          { to: "/categories/list", label: "Список" },
+                          { to: "/categories/create", label: "Створити" },
                         ]}
                       />
                     </>
