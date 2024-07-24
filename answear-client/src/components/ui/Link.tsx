@@ -3,7 +3,7 @@ import { classNames } from "utils/classNames.ts";
 
 import React from "react";
 
-const buttonVariants = cva("h-[44px] max-h-[44px] inline-flex items-center justify-center text-sm font-semibold", {
+const linkVariants = cva("h-[44px] max-h-[48px] inline-flex items-center justify-center text-sm font-semibold cursor-pointer", {
   variants: {
     variant: {
       default: "bg-black text-white transition hover:bg-black/80 duration-400 ease-in-out",
@@ -25,10 +25,10 @@ const buttonVariants = cva("h-[44px] max-h-[44px] inline-flex items-center justi
   },
 });
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
+export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, VariantProps<typeof linkVariants> {}
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, ...props }, ref) => {
-  return <button ref={ref} className={classNames(buttonVariants({ variant, size }), className)} {...props} />;
+const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(({ className, variant, size, ...props }, ref) => {
+  return <a ref={ref} className={classNames(linkVariants({ variant, size }), className)} {...props} />;
 });
 
-export default Button;
+export default Link;

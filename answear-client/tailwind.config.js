@@ -53,6 +53,7 @@ export default {
       animation: {
         bounce: "bounce 1s linear infinite",
       },
+
     },
   },
   plugins: [
