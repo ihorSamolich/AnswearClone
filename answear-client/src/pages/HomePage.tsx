@@ -1,5 +1,7 @@
 import Link from "components/ui/Link.tsx";
-import {IconHeart} from "@tabler/icons-react";
+import {IconEye, IconHeart} from "@tabler/icons-react";
+import Input from "components/ui/Input.tsx";
+import InputPassword from "components/ui/InputPassword.tsx";
 
 const HomePage = () => {
     return (
@@ -13,6 +15,13 @@ const HomePage = () => {
             <div className='inline-flex gap-2 bg-sky-300 w-full p-10'>
                 <Link variant='underline' size='span'>Underline</Link>
                 <Link variant='icon' size='span'><IconHeart/></Link>
+
+            </div>
+
+            <div className='flex flex-col gap-2 bg-sky-300 w-full p-10'>
+               <Input/>
+
+                <InputPassword icon={<IconEye/>}/>
 
             </div>
         </>

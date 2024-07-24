@@ -8,8 +8,8 @@ const buttonVariants = cva("h-[44px] max-h-[44px] inline-flex items-center justi
         variant: {
             default: "bg-black text-white transition hover:bg-black/80 duration-400 ease-in-out",
             primary: "bg-white text-black hover:bg-black hover:text-white transition duration-400 ease-in-out",
-            underline: "h-auto underline",
-            icon: "bg-white h-6 w-6 px-0 py-0",
+            underline: "text-black h-auto underline",
+            icon: "text-black bg-white h-6 w-6 px-0 py-0",
         },
         size: {
             default: "w-full max-w-[140px] px-2",
