@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input, InputPassword, Label, Link } from "components/ui";
-import { IconBrandGoogle, IconEye } from '@tabler/icons-react';
+import {  IconEye } from '@tabler/icons-react';
 import Button from "components/ui/Button.tsx";
 
 const SignInPage: React.FC = () => {
