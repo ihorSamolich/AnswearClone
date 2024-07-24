@@ -1,45 +1,38 @@
 {
-    "compilerOptions": {
-        "target": "ES2020",
-        "useDefineForClassFields": true,
-        "lib": ["ES2020", "DOM", "DOM.Iterable"],
-        "module": "ESNext",
-        "skipLibCheck": true,
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
 
-        /* Bundler mode */
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
 
-        /* Alias */
-        "baseUrl": "src",
-        "paths": {
-            "components/*": ["components/*"],
-            "constants/*": ["constants/*"],
-            "assets/*": ["assets/*"],
-            "hooks/*": ["hooks/*"],
-            "data/*": ["data/*"],
-            "pages/*": ["pages/*"],
-            "motion/*": ["motion/*"],
-            "app/*": ["app/*"],
-            "css/*": ["css/*"],
-            "store/*": ["store/*"],
-            "types/*": ["types/*"],
-            "utils/*": ["utils/*"],
-            "interfaces/*": ["interfaces/*"],
-            "partials/*": ["partials/*"]
-        },
-        "allowSyntheticDefaultImports": true
-    },
-    "include": ["src"],
-    "references": [{ "path": "./tsconfig.node.json" }]
+    /* Alias */
+    "baseUrl": "src",
+    "paths": {
+      "components/*": ["components/*"],
+      "constants/*": ["constants/*"],
+      "css/*": ["css/*"],
+      "pages/*": ["pages/*"],
+      "utils/*": ["utils/*"],
+      "interfaces/*": ["interfaces/*"],
+
+    }
+
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
