@@ -126,8 +126,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                       <SidebarLinkGroupMenu
                         open={open}
                         links={[
-                          { to: "/categories/list", label: "Список" },
-                          { to: "/categories/create", label: "Створити" },
+                          { to: "admin/categories/list", label: "Список" },
+                          { to: "admin/categories/create", label: "Створити" },
                         ]}
                       />
                     </>

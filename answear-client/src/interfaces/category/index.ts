@@ -9,13 +9,19 @@ export interface ICategory {
   childrens: IShortCategory[];
 }
 
+export interface ICreateCategory {
+  name: string;
+  targetGroupId?: string;
+  parentId?: string;
+}
+
 interface IShortCategory {
   id: number;
   name: string;
   slug: string;
 }
 
-interface ITargetGroup {
+export interface ITargetGroup {
   id: number;
   name: string;
 }

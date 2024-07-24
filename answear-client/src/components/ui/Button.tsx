@@ -16,6 +16,7 @@ const buttonVariants = cva("h-[44px] max-h-[44px] gap-2 inline-flex items-center
       auto: "w-auto px-2",
       full: "w-full",
       iconsm: "w-6 h-6",
+      iconmd: "w-8 h-8",
       iconlg: "w-12 h-12 border border-black",
       span: "px-0 py-0",
     },

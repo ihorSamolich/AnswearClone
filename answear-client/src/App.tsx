@@ -2,6 +2,8 @@ import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import LoginPage from "pages/SignInPage.tsx";
 import CategoriesPage from "pages/admin/CategoriesPage.tsx";
+import CategoryCreatePage from "pages/admin/CategoryCreatePage.tsx";
+import CategoryEditPage from "pages/admin/CategoryEditPage.tsx";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -10,8 +12,10 @@ const App = () => {
       <Route path="/" element={<AdminLayout />}>
         <Route index element={<HomePage />} />
 
-        <Route path="categories">
+        <Route path="admin/categories">
           <Route path="list" element={<CategoriesPage />} />
+          <Route path="create" element={<CategoryCreatePage />} />
+          <Route path="edit/:id" element={<CategoryEditPage />} />
         </Route>
 
         <Route path="auth">
