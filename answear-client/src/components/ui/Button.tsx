@@ -6,8 +6,8 @@ import React from "react";
 const buttonVariants = cva("h-[44px] max-h-[44px] inline-flex items-center justify-center text-sm font-semibold", {
   variants: {
     variant: {
-      default: "bg-black text-white transition hover:bg-black/80 duration-400 ease-in-out",
-      primary: "bg-white text-black hover:bg-black hover:text-white transition duration-400 ease-in-out",
+      default: "bg-black text-black transition hover:bg-black/80 duration-400 ease-in-out",
+      primary: "bg-white text-white hover:bg-black hover:text-white transition duration-400 ease-in-out",
       underline: "text-black h-auto underline",
       icon: "text-black bg-white px-0 py-0",
     },
