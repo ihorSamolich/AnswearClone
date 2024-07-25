@@ -4,6 +4,8 @@ import LoginPage from "pages/SignInPage.tsx";
 import CategoriesPage from "pages/admin/CategoriesPage.tsx";
 import CategoryCreatePage from "pages/admin/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/CategoryEditPage.tsx";
+import FilterCreatePage from "pages/admin/FilterCreatePage.tsx";
+import FiltersPage from "pages/admin/FiltersPage.tsx";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -16,6 +18,11 @@ const App = () => {
           <Route path="list" element={<CategoriesPage />} />
           <Route path="create" element={<CategoryCreatePage />} />
           <Route path="edit/:id" element={<CategoryEditPage />} />
+        </Route>
+
+        <Route path="admin/filters">
+          <Route path="list" element={<FiltersPage />} />
+          <Route path="create" element={<FilterCreatePage />} />
         </Route>
 
         <Route path="auth">

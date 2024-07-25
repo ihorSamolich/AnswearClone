@@ -48,7 +48,13 @@ const CategoryCreateForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
       <div>
         <Label htmlFor="name">Назва категорії*</Label>
-        <Input placeholder="наприклад: Босоніжки або Кепки" type="text" id="name" {...register("name")} />
+        <Input
+          className={`${errors.name} ? "focus:border-red-500" : ""`}
+          placeholder="наприклад: Босоніжки або Кепки"
+          type="text"
+          id="name"
+          {...register("name")}
+        />
         {errors.name && <Attention>{errors.name.message}</Attention>}
       </div>
       <div>

@@ -1,4 +1,4 @@
-import { IconBrandShopee, IconCherry, IconHome, IconPizza, IconTruckDelivery, IconUserScan } from "@tabler/icons-react";
+import { IconBrandShopee, IconCherry, IconFilter, IconHome, IconTruckDelivery, IconUserScan } from "@tabler/icons-react";
 import logo from "assets/ans-icon-144x144.png";
 import SidebarChevronDown from "components/partials/sidebar/SidebarChevronDown.tsx";
 import SidebarExpandCollapseButton from "components/partials/sidebar/SidebarExpandCollapseButton.tsx";
@@ -134,24 +134,24 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                   )}
                 </SidebarLinkGroup>
 
-                {/*/!* Pizzas *!/*/}
-                <SidebarLinkGroup activecondition={pathname.includes("pizzas")}>
+                {/*/!* Фільтри *!/*/}
+                <SidebarLinkGroup activecondition={pathname.includes("filters")}>
                   {(handleClick, open) => (
                     <>
                       <SidebarLinkGroupTitle
                         href="#"
-                        icon={IconPizza}
-                        isActive={pathname.includes("pizzas")}
+                        icon={IconFilter}
+                        isActive={pathname.includes("filters")}
                         handleClick={(e) => {
                           e.preventDefault();
                           sidebarExpanded ? handleClick() : setSidebarExpanded(true);
                         }}
                       >
-                        Pizzas
+                        Фільтри
                         <SidebarChevronDown open={open} />
                       </SidebarLinkGroupTitle>
-                      <SidebarLinkGroupMenu open={open} links={[{ to: "/pizzas/List", label: "List" }]} />
-                      <SidebarLinkGroupMenu open={open} links={[{ to: "/pizzas/create", label: "Create" }]} />
+                      <SidebarLinkGroupMenu open={open} links={[{ to: "admin/filters/List", label: "Список" }]} />
+                      <SidebarLinkGroupMenu open={open} links={[{ to: "admin/filters/create", label: "Створити" }]} />
                     </>
                   )}
                 </SidebarLinkGroup>
