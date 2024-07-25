@@ -22,7 +22,7 @@ const CategoriesPage: React.FC = () => {
         </Link>
       </div>
 
-      <CategoriesTable categories={categories} />
+      {categories && <CategoriesTable categories={categories} />}
     </div>
   );
 };
