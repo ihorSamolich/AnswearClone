@@ -44,7 +44,10 @@ public class CategoryService(
         {
             editedCategory.Name = category.Name;
             editedCategory.Slug = slugService.GenerateSlug(category.Name);
-            editedCategory.ParentId = category.ParentId;
+
+            if (category.ParentId > 0)
+                editedCategory.ParentId = category.ParentId;
+
             editedCategory.TargetGroupId = category.TargetGroupId;
 
             await repository.UpdateAsync(editedCategory);
