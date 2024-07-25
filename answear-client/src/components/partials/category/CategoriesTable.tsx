@@ -1,5 +1,8 @@
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { Button } from "components/ui";
 import { ICategory } from "interfaces/category";
+import { useNavigate } from "react-router-dom";
+import { useDeleteCategoryMutation } from "services/category.ts";
 
 import React from "react";
 
@@ -10,7 +13,10 @@ interface CategoriesTableProps {
 }
 
 const CategoriesTable: React.FC<CategoriesTableProps> = (props) => {
+  const navigate = useNavigate();
+
   const { categories } = props;
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -48,7 +54,12 @@ const CategoriesTable: React.FC<CategoriesTableProps> = (props) => {
               <td className="px-6 py-4"> {category.childrens.length ? "-" : "+"}</td>
 
               <td className="px-6 py-4 text-right space-x-5">
-                <Button> Редагувати</Button>
+                <Button onClick={() => navigate(`/admin/categories/edit/${category.id}`)} variant="icon" size="iconmd">
+                  <IconEdit className="text-blue-700" />
+                </Button>
+                <Button onClick={() => deleteCategory(category.id)} variant="icon" size="iconmd">
+                  <IconTrash className="text-red-500" />
+                </Button>
               </td>
             </tr>
           ))}

@@ -4,7 +4,6 @@ using Core.Interfaces;
 using Core.Interfaces.Services;
 using Core.ViewModels.Category;
 using Core.Entities;
-using Core.ViewModels.TargetGroup;
 
 namespace Application.Services.ControllerServices;
 
@@ -34,7 +33,6 @@ public class CategoryService(
     {
         var newCategory = mapper.Map<CategoryEntity>(category);
         newCategory.Slug = slugService.GenerateSlug(category.Name);
-
         await repository.AddAsync(newCategory);
     }
 
