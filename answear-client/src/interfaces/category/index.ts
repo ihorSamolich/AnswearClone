@@ -12,7 +12,14 @@ export interface ICategory {
 export interface ICreateCategory {
   name: string;
   targetGroupId?: string;
-  parentId?: string;
+  parentId?: number;
+}
+
+export interface IUpdateCategory {
+  id: string;
+  name: string;
+  targetGroupId?: string;
+  parentId?: number;
 }
 
 interface IShortCategory {

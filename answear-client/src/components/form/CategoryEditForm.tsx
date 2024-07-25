@@ -1,39 +1,39 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
-import { Button, Input, Label } from "components/ui";
-import Attention from "components/ui/Attention.tsx";
-import Option from "components/ui/Option.tsx";
-import Select from "components/ui/Select.tsx";
-import { CategoryCreateSchema, CategoryCreateSchemaType } from "interfaces/zod/category.ts";
+import { Attention, Button, Input, Label, Option, Select } from "components/ui";
+import { ICategory } from "interfaces/category";
+import { CategoryEditSchema, CategoryEditSchemaType } from "interfaces/zod/category.ts";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useCreateCategoryMutation, useGetCategoriesQuery } from "services/category.ts";
+import { useGetCategoriesQuery, useUpdateCategoryMutation } from "services/category.ts";
 import { useGetTargetGroupsQuery } from "services/targetGroup.ts";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const CategoryCreateForm = () => {
+interface CategoryEditFormProps {
+  category: ICategory;
+}
+
+const CategoryEditForm: React.FC<CategoryEditFormProps> = (props) => {
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<CategoryCreateSchemaType>({ resolver: zodResolver(CategoryCreateSchema) });
+  } = useForm<CategoryEditSchemaType>({ resolver: zodResolver(CategoryEditSchema) });
 
   const navigate = useNavigate();
 
   const { data: targetGroups, isLoading: targetGroupIsLoading } = useGetTargetGroupsQuery();
   const { data: categories, isLoading: categoriesIsLoading } = useGetCategoriesQuery();
-  const [createCategory, { isLoading: createCategoryIsLoading }] = useCreateCategoryMutation();
 
-  const [selectedParent, setSelectedParent] = useState<string | null>(null);
+  const [updateCategory, { isLoading: updateIsLoading }] = useUpdateCategoryMutation();
 
-  const onSubmit = async (data: CategoryCreateSchemaType) => {
-    try {
-      await createCategory({ ...data, parentId: Number(data.parentId) }).unwrap();
-      navigate("/admin/categories/list");
-    } catch (error) {}
-  };
+  const [selectedParent, setSelectedParent] = useState<string>(props.category.parentId?.toString() || "");
+
+  useEffect(() => {
+    setInitialValues(props.category);
+  }, [categories, targetGroups]);
 
   useEffect(() => {
     if (selectedParent) {
@@ -44,8 +44,30 @@ const CategoryCreateForm = () => {
     }
   }, [selectedParent, categories, setValue]);
 
+  const onSubmit = async (data: CategoryEditSchemaType) => {
+    try {
+      console.log(data);
+      await updateCategory({ ...data, parentId: Number(data.parentId) }).unwrap();
+      navigate("/admin/categories/list");
+    } catch (error) {}
+  };
+
+  const setInitialValues = (category: ICategory) => {
+    if (category) {
+      setValue("id", category.id.toString());
+      setValue("name", category.name);
+      setValue("targetGroupId", category.targetGroupId.toString());
+      setValue("parentId", String(category.parentId || ""));
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
+      <div>
+        <Label htmlFor="id">ID*</Label>
+        <Input disabled type="text" id="id" {...register("id")} />
+        {errors.id && <Attention>{errors.id.message}</Attention>}
+      </div>
       <div>
         <Label htmlFor="name">Назва категорії*</Label>
         <Input placeholder="наприклад: Босоніжки або Кепки" type="text" id="name" {...register("name")} />
@@ -75,7 +97,7 @@ const CategoryCreateForm = () => {
         <Select
           disabled={categoriesIsLoading}
           {...register("parentId")}
-          defaultValue=""
+          defaultValue={selectedParent}
           id="parent"
           onChange={(e) => {
             const value = e.target.value;
@@ -94,10 +116,10 @@ const CategoryCreateForm = () => {
         {errors.parentId && <Attention>{errors.parentId.message}</Attention>}
       </div>
       <div className="flex items-center justify-center">
-        <Button size="full">{createCategoryIsLoading ? <IconLoader2 className="animate-spin" /> : "Створити категорію"}</Button>
+        <Button size="full">{updateIsLoading ? <IconLoader2 className="animate-spin" /> : "Зберегти зміни"}</Button>
       </div>
     </form>
   );
 };
 
-export default CategoryCreateForm;
+export default CategoryEditForm;

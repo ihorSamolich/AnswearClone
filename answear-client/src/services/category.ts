@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { ICategory, ICreateCategory } from "interfaces/category";
+import { ICategory, ICreateCategory, IUpdateCategory } from "interfaces/category";
 import { createBaseQuery } from "utils/baseQuery.ts";
 
 export const categoryApi = createApi({
@@ -27,6 +27,15 @@ export const categoryApi = createApi({
       invalidatesTags: ["Categories"],
     }),
 
+    updateCategory: builder.mutation<void, IUpdateCategory>({
+      query: (category) => ({
+        url: "update",
+        method: "PUT",
+        body: category,
+      }),
+      invalidatesTags: ["Categories"],
+    }),
+
     deleteCategory: builder.mutation<void, number>({
       query: (id) => ({
         url: `delete/${id}`,
@@ -37,5 +46,10 @@ export const categoryApi = createApi({
   }),
 });
 
-export const { useGetCategoriesQuery, useGetCategoryByIdQuery, useCreateCategoryMutation, useDeleteCategoryMutation } =
-  categoryApi;
+export const {
+  useGetCategoriesQuery,
+  useUpdateCategoryMutation,
+  useGetCategoryByIdQuery,
+  useCreateCategoryMutation,
+  useDeleteCategoryMutation,
+} = categoryApi;
