@@ -1,4 +1,12 @@
-import { IconBrandShopee, IconCherry, IconHome, IconPizza, IconTruckDelivery, IconUserScan } from "@tabler/icons-react";
+import {
+  IconBrandShopee,
+  IconCherry,
+  IconHome,
+  IconPizza,
+  IconRosetteDiscount,
+  IconTruckDelivery,
+  IconUserScan
+} from "@tabler/icons-react";
 import logo from "assets/ans-icon-144x144.png";
 import SidebarChevronDown from "components/partials/sidebar/SidebarChevronDown.tsx";
 import SidebarExpandCollapseButton from "components/partials/sidebar/SidebarExpandCollapseButton.tsx";
@@ -131,6 +139,33 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                         ]}
                       />
                     </>
+                  )}
+                </SidebarLinkGroup>
+
+                {/* Знижки */}
+                <SidebarLinkGroup activecondition={pathname.includes("discounts")}>
+                  {(handleClick, open) => (
+                      <>
+                        <SidebarLinkGroupTitle
+                            href="#"
+                            icon={IconRosetteDiscount}
+                            isActive={pathname.includes("discounts")}
+                            handleClick={(e) => {
+                              e.preventDefault();
+                              sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                            }}
+                        >
+                          Знижки
+                          <SidebarChevronDown open={open} />
+                        </SidebarLinkGroupTitle>
+                        <SidebarLinkGroupMenu
+                            open={open}
+                            links={[
+                              { to: "admin/discounts/list", label: "Список" },
+                              { to: "admin/discounts/create", label: "Створити" },
+                            ]}
+                        />
+                      </>
                   )}
                 </SidebarLinkGroup>
 

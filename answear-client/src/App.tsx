@@ -5,6 +5,8 @@ import CategoriesPage from "pages/admin/CategoriesPage.tsx";
 import CategoryCreatePage from "pages/admin/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/CategoryEditPage.tsx";
 import { Route, Routes } from "react-router-dom";
+import DiscountsPage from "pages/admin/discount/DiscountsPage.tsx";
+import DiscountCreatePage from "pages/admin/discount/DiscountCreatePage.tsx";
 
 const App = () => {
   return (
@@ -15,6 +17,12 @@ const App = () => {
         <Route path="admin/categories">
           <Route path="list" element={<CategoriesPage />} />
           <Route path="create" element={<CategoryCreatePage />} />
+          <Route path="edit/:id" element={<CategoryEditPage />} />
+        </Route>
+
+        <Route path="admin/discounts">
+          <Route path="list" element={<DiscountsPage />} />
+          <Route path="create" element={<DiscountCreatePage />} />
           <Route path="edit/:id" element={<CategoryEditPage />} />
         </Route>
 
