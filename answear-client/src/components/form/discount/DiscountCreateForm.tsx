@@ -27,8 +27,8 @@ const DiscountCreateForm = () => {
     const onSubmit = async (data: DiscountCreateSchemaType) => {
         try {
             console.log(" on submit", data);
-            const formattedValues = data.values.map((v) => ({ value: v.value }));
-            await createDiscount({ ...data, values: formattedValues, mediaFile: data.mediaFile[0] }).unwrap();
+            // const formattedValues = data.values.map((v) => ({ value: v.value }));
+            await createDiscount({ ...data, mediaFile: data.mediaFile[0] }).unwrap();
             navigate("/admin/discounts/list");
         } catch (error) {
             console.error("Error creating discount: ", error);
