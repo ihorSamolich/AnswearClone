@@ -15,3 +15,10 @@ export interface ICreateDiscount {
     mediaFile: File;
     values: string[];
 }
+
+export interface IUpdateDiscount {
+    id: string;
+    name: string;
+    mediaFile: File;
+    values: string[];
+}
