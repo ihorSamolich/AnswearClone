@@ -20,7 +20,7 @@ export const DiscountCreateSchema = z.object({
             (sizes) => {
                 return sizes.length > 0;
             },
-            { message: "Sizes cannot be empty" },
+            { message: "Додайте хоча б одне значення" },
         )
         .refine((values) => {
             return values.every((v) => Number(v) > 0);
