@@ -29,17 +29,17 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(({ onChange, prev
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-64 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg hover:ring-blue-500 hover:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:hover:ring-blue-500 dark:hover:border-blue-500 dark:shadow-sm-light ">
+    <div className="flex flex-col items-center justify-center w-full h-52 border border-[#dbdce0] text-black">
       <label htmlFor="image" className="text-center flex gap-5 items-center cursor-pointer">
         {previewImage ? (
-          <img className="h-10 w-10 sm:h-28 sm:w-28 object-cover rounded-md" src={previewImage} alt="Preview" />
+          <img className="h-20 w-20 sm:h-28 sm:w-28 object-cover" src={previewImage} alt="Preview" />
         ) : (
-          <IconPhoto className="h-10 w-10 sm:h-28 sm:w-28" />
+          <IconPhoto className="h-20 w-20 sm:h-28 sm:w-28" />
         )}
         <div className="gap-2 flex flex-col text-sm leading-6 items-center text-gray-600">
           <IconCloudUpload />
           <label className="relative cursor-pointer font-semibold text-indigo-600 outline-none">
-            <span>Upload a file</span>
+            <span className="underline">Upload a file</span>
             <input type="file" id="image" onChange={handleFileChange} hidden ref={ref} {...props} />
           </label>
           <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>

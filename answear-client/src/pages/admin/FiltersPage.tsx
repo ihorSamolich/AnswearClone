@@ -1,8 +1,14 @@
 import { IconCirclePlus } from "@tabler/icons-react";
+import FiltersTable from "components/partials/filter/FiltersTable.tsx";
 import { Button, PageTitle } from "components/ui";
 import { Link } from "react-router-dom";
+import { useGetFiltersQuery } from "services/filter.ts";
 
 const FiltersPage = () => {
+  const { data: filters } = useGetFiltersQuery();
+
+  console.log(filters);
+
   return (
     <div className="flex flex-col gap-4">
       <PageTitle title="Список фільтрів" description="Всі фільтрів. Оберіть для редагування або видалення!" />
@@ -14,6 +20,8 @@ const FiltersPage = () => {
           </Button>
         </Link>
       </div>
+
+      <FiltersTable filters={filters} />
     </div>
   );
 };
