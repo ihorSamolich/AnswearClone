@@ -6,6 +6,7 @@ import CategoryCreatePage from "pages/admin/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/CategoryEditPage.tsx";
 import FilterCreatePage from "pages/admin/FilterCreatePage.tsx";
 import FiltersPage from "pages/admin/FiltersPage.tsx";
+import UsersPage from "pages/admin/UsersPage.tsx";
 import DiscountCreatePage from "pages/admin/discount/DiscountCreatePage.tsx";
 import DiscountEditPage from "pages/admin/discount/DiscountEditPage.tsx";
 import DiscountsPage from "pages/admin/discount/DiscountsPage.tsx";
@@ -31,6 +32,9 @@ const App = () => {
                 <Route path="admin/filters">
                     <Route path="list" element={<FiltersPage />} />
                     <Route path="create" element={<FilterCreatePage />} />
+                </Route>
+                <Route path="admin/users">
+                    <Route path="list" element={<UsersPage />} />
                 </Route>
 
                 <Route path="auth">
