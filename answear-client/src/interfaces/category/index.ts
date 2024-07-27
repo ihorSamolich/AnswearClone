@@ -22,7 +22,7 @@ export interface IUpdateCategory {
   parentId?: number;
 }
 
-interface IShortCategory {
+export interface IShortCategory {
   id: number;
   name: string;
   slug: string;

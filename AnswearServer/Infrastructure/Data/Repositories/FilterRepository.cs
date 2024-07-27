@@ -10,7 +10,10 @@ public class FilterRepository(
 {
     public async Task<IEnumerable<FilterNameEntity>> GetAllAsync()
     {
-        return await context.FilterNames.Include(c => c.FilterValues).ToListAsync();
+        return await context.FilterNames
+            .Include(c => c.Category)
+            .Include(c => c.FilterValues)
+            .ToListAsync();
     }
 
     public async Task<FilterNameEntity> GetByIdAsync(int id)
