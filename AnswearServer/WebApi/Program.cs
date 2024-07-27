@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WebApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,9 @@ builder.Services
         };
     });
 
+
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
@@ -99,6 +103,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCustomExceptionHandler();
+
+
 string imagesDirPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["ImagesDir"]);
 
 if (!Directory.Exists(imagesDirPath))
@@ -118,6 +125,7 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(imagesDirPath),
     RequestPath = "/images"
 });
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
