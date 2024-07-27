@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Core.Entities.Filters;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Entities;
 
@@ -26,6 +27,7 @@ public class ProductVariationEntity
     public decimal Price { get; set; }
 
     public int? DiscountValueId { get; set; }
+    [DeleteBehavior(DeleteBehavior.SetNull)]
     public DiscountValueEntity? DiscountValue { get; set; }
 
     public ICollection<ProductPhotoEntity> Photos { get; set; } = new List<ProductPhotoEntity>();
