@@ -54,7 +54,7 @@ public class FilterController
 
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] FilterCreateVm createVm)
+    public async Task<IActionResult> Create([FromBody] FilterCreateVm createVm)
     {
         await service.AddFilterAsync(createVm);
 

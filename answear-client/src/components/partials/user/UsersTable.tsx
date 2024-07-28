@@ -1,4 +1,4 @@
-import { IconEdit, IconLock, IconTrash } from "@tabler/icons-react";
+import { IconLock } from "@tabler/icons-react";
 import { Button } from "components/ui";
 import { IUser } from "interfaces/user";
 
@@ -58,7 +58,6 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
                             <td className="px-6 py-4">{users.email}</td>
                             <td className="px-6 py-4">{users.phoneNumber ? users.phoneNumber : "Не вказано"}</td>
                             <td className="px-6 py-4">{users.emailVerified ? "Підтверджено" : "Не підтверджено"}</td>
-
                             <td className="px-6 py-4 inline-flex text-right space-x-5">
                                 <Button variant="icon" size="iconmd">
                                     <IconLock className="text-red-500" />
