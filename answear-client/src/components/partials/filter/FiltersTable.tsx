@@ -1,6 +1,7 @@
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { Button } from "components/ui";
 import { IFilter } from "interfaces/filter";
+import { useNavigate } from "react-router-dom";
 import { useDeleteFilterMutation } from "services/filter.ts";
 
 import React from "react";
@@ -13,6 +14,7 @@ interface FiltersTableProps {
 
 const FiltersTable: React.FC<FiltersTableProps> = (props) => {
     const { filters } = props;
+    const navigate = useNavigate();
 
     const [deleteFilter] = useDeleteFilterMutation();
 
@@ -50,12 +52,11 @@ const FiltersTable: React.FC<FiltersTableProps> = (props) => {
                             <td className="px-6 py-4">{filter.category.name}</td>
 
                             <td className="px-6 py-4">
-                                {" "}
                                 {filter.filterValues.map((filterValue) => filterValue.name).join(" | ")}
                             </td>
 
                             <td className="px-6 py-4 inline-flex text-right space-x-5">
-                                <Button variant="icon" size="iconmd">
+                                <Button onClick={() => navigate(`/admin/filters/edit/${filter.id}`)} variant="icon" size="iconmd">
                                     <IconEdit className="text-blue-700" />
                                 </Button>
                                 <Button onClick={() => deleteFilter(filter.id)} variant="icon" size="iconmd">

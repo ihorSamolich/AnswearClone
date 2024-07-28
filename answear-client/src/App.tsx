@@ -1,15 +1,16 @@
 import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import LoginPage from "pages/SignInPage.tsx";
-import CategoriesPage from "pages/admin/CategoriesPage.tsx";
-import CategoryCreatePage from "pages/admin/CategoryCreatePage.tsx";
-import CategoryEditPage from "pages/admin/CategoryEditPage.tsx";
-import FilterCreatePage from "pages/admin/FilterCreatePage.tsx";
-import FiltersPage from "pages/admin/FiltersPage.tsx";
 import UsersPage from "pages/admin/UsersPage.tsx";
+import CategoriesPage from "pages/admin/category/CategoriesPage.tsx";
+import CategoryCreatePage from "pages/admin/category/CategoryCreatePage.tsx";
+import CategoryEditPage from "pages/admin/category/CategoryEditPage.tsx";
 import DiscountCreatePage from "pages/admin/discount/DiscountCreatePage.tsx";
 import DiscountEditPage from "pages/admin/discount/DiscountEditPage.tsx";
 import DiscountsPage from "pages/admin/discount/DiscountsPage.tsx";
+import FilterCreatePage from "pages/admin/filter/FilterCreatePage.tsx";
+import FilterEditPage from "pages/admin/filter/FilterEditPage.tsx";
+import FiltersPage from "pages/admin/filter/FiltersPage.tsx";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
                 <Route path="admin/filters">
                     <Route path="list" element={<FiltersPage />} />
                     <Route path="create" element={<FilterCreatePage />} />
+                    <Route path="edit/:id" element={<FilterEditPage />} />
                 </Route>
                 <Route path="admin/users">
                     <Route path="list" element={<UsersPage />} />

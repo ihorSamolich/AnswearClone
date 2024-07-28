@@ -20,8 +20,8 @@ export interface ICreateFilter {
 }
 
 export interface IUpdateFilter {
-    id: number;
+    id: string;
     name: string;
     categoryId: number;
-    filterValues: Omit<IFilterValue, "id">[];
+    values: string[];
 }

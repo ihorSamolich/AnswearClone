@@ -39,7 +39,7 @@ public class FilterController
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update([FromForm] FilterUpdateVm updateVm)
+    public async Task<IActionResult> Update([FromBody] FilterUpdateVm updateVm)
     {
         try
         {
