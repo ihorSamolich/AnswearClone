@@ -6,6 +6,7 @@ import {
     IconRosetteDiscount,
     IconTruckDelivery,
     IconUserScan,
+    IconUsers,
 } from "@tabler/icons-react";
 import logo from "assets/ans-icon-144x144.png";
 import SidebarChevronDown from "components/partials/sidebar/SidebarChevronDown.tsx";
@@ -202,6 +203,30 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                             <SidebarLinkGroupMenu
                                                 open={open}
                                                 links={[{ to: "admin/filters/create", label: "Створити" }]}
+                                            />
+                                        </>
+                                    )}
+                                </SidebarLinkGroup>
+
+                                {/* Юзери */}
+                                <SidebarLinkGroup activecondition={pathname.includes("users")}>
+                                    {(handleClick, open) => (
+                                        <>
+                                            <SidebarLinkGroupTitle
+                                                href="#"
+                                                icon={IconUsers}
+                                                isActive={pathname.includes("users")}
+                                                handleClick={(e) => {
+                                                    e.preventDefault();
+                                                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                                                }}
+                                            >
+                                                Користувачі
+                                                <SidebarChevronDown open={open} />
+                                            </SidebarLinkGroupTitle>
+                                            <SidebarLinkGroupMenu
+                                                open={open}
+                                                links={[{ to: "admin/users/list", label: "Список" }]}
                                             />
                                         </>
                                     )}
