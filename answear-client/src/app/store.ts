@@ -3,6 +3,7 @@ import { categoryApi } from "services/category.ts";
 import { discountApi } from "services/discount.ts";
 import { filterApi } from "services/filter.ts";
 import { targetGroupApi } from "services/targetGroup.ts";
+import { userApi } from "services/user.ts";
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         [targetGroupApi.reducerPath]: targetGroupApi.reducer,
         [discountApi.reducerPath]: discountApi.reducer,
         [filterApi.reducerPath]: filterApi.reducer,
+        [userApi.reducerPath]: userApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -17,6 +19,7 @@ export const store = configureStore({
             targetGroupApi.middleware,
             discountApi.middleware,
             filterApi.middleware,
+            userApi.middleware,
         ),
 });
 
