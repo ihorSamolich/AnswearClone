@@ -97,4 +97,19 @@ public class UserController(
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> BlockUser([FromForm] int id, int days = 10)
+    {
+        try
+        {
+            await service.BlockUserAsync(id, TimeSpan.FromDays(days));
+
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

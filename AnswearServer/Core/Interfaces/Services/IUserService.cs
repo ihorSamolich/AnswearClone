@@ -12,4 +12,5 @@ public interface IUserService
     Task DeleteUserAsync(int id);
     Task<string> SignInAsync(SignInVm model);
     Task<string> GoogleSignInAsync(GoogleSignInVm model);
+    Task BlockUserAsync(int id, TimeSpan lockoutDuration);
 }
