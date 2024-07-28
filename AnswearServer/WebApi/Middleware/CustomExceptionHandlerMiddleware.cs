@@ -13,7 +13,6 @@ public class CustomExceptionHandlerMiddleware(
     {
         try
         {
-            Console.WriteLine("++++++++++++++++++HandleExceptionAsync++++++++++++++++++++++++++");
             await next(context);
         }
         catch (Exception exception)

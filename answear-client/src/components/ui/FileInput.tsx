@@ -1,4 +1,5 @@
 import { IconCloudUpload, IconPhoto } from "@tabler/icons-react";
+import { isVideoFile } from "utils/fileUtils.ts";
 
 import { ChangeEvent, forwardRef, useRef } from "react";
 
@@ -61,7 +62,15 @@ const FileInput = forwardRef<HTMLInputElement, FileInputProps>(({ onChange, prev
             <div className="flex flex-col items-center justify-center w-full h-52 border border-[#dbdce0] text-black">
                 <label htmlFor="image" className="text-center flex gap-5 items-center cursor-pointer">
                     {previewImage ? (
-                        <img className="h-20 w-20 sm:h-28 sm:w-28 object-cover" src={previewImage} alt="Preview" />
+                        isVideoFile(previewImage) ? (
+                            <img
+                                className="h-20 w-20 sm:h-28 sm:w-28 object-cover"
+                                src={"/assets/videoThumbnail.png"}
+                                alt="Video Thumbnail"
+                            />
+                        ) : (
+                            <img className="h-20 w-20 sm:h-28 sm:w-28 object-cover" src={previewImage} alt="Image Preview" />
+                        )
                     ) : (
                         <IconPhoto className="h-20 w-20 sm:h-28 sm:w-28" />
                     )}
