@@ -61,6 +61,7 @@ const DiscountCreateForm = () => {
                     Додати значення
                 </Button>
                 {errors.values && <Attention>{errors.values.message}</Attention>}
+                {errors.values?.root && <Attention>{errors.values.root.message}</Attention>}
             </div>
 
             <div className="flex items-center justify-center">

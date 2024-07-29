@@ -39,7 +39,7 @@ public class FilterController
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update([FromForm] FilterUpdateVm updateVm)
+    public async Task<IActionResult> Update([FromBody] FilterUpdateVm updateVm)
     {
         try
         {
@@ -54,7 +54,7 @@ public class FilterController
 
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromForm] FilterCreateVm createVm)
+    public async Task<IActionResult> Create([FromBody] FilterCreateVm createVm)
     {
         await service.AddFilterAsync(createVm);
 

@@ -106,8 +106,14 @@ public class UserService(
         if (user is null || !await userManager.CheckPasswordAsync(user, model.Password))
             throw new UnauthorizedAccessException("Wrong authentication data");
 
+        if (user.LockoutEnd > DateTimeOffset.Now)
+        {
+            throw new UnauthorizedAccessException("Your account is currently blocked. Please try again later.");
+        }
+
         return await jwtTokenService.CreateTokenAsync(user);
     }
+
 
     public async Task<string> GoogleSignInAsync(GoogleSignInVm model)
     {
@@ -152,6 +158,25 @@ public class UserService(
             throw new Exception("Failed to create user");
 
         return user;
+    }
+
+    public async Task BlockUserAsync(int id, TimeSpan lockoutDuration)
+    {
+        UserEntity? user = await userManager.FindByIdAsync(id.ToString());
+
+        if (user is null)
+            throw new Exception("User not found");
+
+        if (user.LockoutEnabled && user.LockoutEnd > DateTimeOffset.UtcNow)
+            throw new Exception("User is already locked out");
+
+        user.LockoutEnabled = true;
+        user.LockoutEnd = DateTimeOffset.UtcNow.Add(lockoutDuration);
+
+        var result = await userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+            throw new Exception("Failed to block user");
     }
 
 }

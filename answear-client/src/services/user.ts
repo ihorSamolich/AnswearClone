@@ -12,7 +12,14 @@ export const userApi = createApi({
             query: () => "getAll",
             providesTags: ["Users"],
         }),
+        lockUser: builder.mutation<void, number>({
+            query: (id) => ({
+                url: `BlockUser/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ["Users"],
+        }),
     }),
 });
 
-export const { useGetUsersQuery } = userApi;
+export const { useGetUsersQuery, useLockUserMutation } = userApi;

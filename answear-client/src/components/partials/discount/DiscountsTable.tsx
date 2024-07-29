@@ -4,6 +4,7 @@ import { IDiscount } from "interfaces/discount";
 import { useNavigate } from "react-router-dom";
 import { useDeleteDiscountMutation } from "services/discount.ts";
 import { API_URL } from "utils/envData.ts";
+import { isImageFile, isVideoFile } from "utils/fileUtils.ts";
 
 import React from "react";
 
@@ -16,16 +17,6 @@ const DiscountsTable: React.FC<DiscountsTableProps> = (props) => {
 
     const { discounts } = props;
     const [deleteDiscount] = useDeleteDiscountMutation();
-
-    // Функція для перевірки чи файл є зображенням
-    const isImageFile = (fileName: string) => {
-        return /\.(jpg|jpeg|png|gif|webp)$/.test(fileName);
-    };
-
-    // Функція для перевірки чи файл є відео
-    const isVideoFile = (fileName: string) => {
-        return /\.(mp4)$/.test(fileName);
-    };
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -62,7 +53,7 @@ const DiscountsTable: React.FC<DiscountsTableProps> = (props) => {
                                         className="h-20 w-20 object-cover"
                                     />
                                 ) : isVideoFile(discount.mediaFile) ? (
-                                    <video controls className="h-20 w-20">
+                                    <video autoPlay playsInline muted loop controls className="h-20 w-20  bg-gray-500">
                                         <source src={API_URL + `/images/${discount.mediaFile}`} type="video/mp4" />
                                         Your browser does not support the video tag.
                                     </video>
