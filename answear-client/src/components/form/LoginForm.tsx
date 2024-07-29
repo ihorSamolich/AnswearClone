@@ -4,6 +4,7 @@ import { Attention, Button, Input, InputPassword, Label, Link } from "components
 import { IErrorResponse } from "interfaces/index.ts";
 import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useSignInMutation } from "services/user.ts";
 import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
@@ -23,9 +24,10 @@ const LoginForm = () => {
         try {
             const response = await signIn(data).unwrap();
             setLocalStorageItem("authToken", response.token);
+            toast("Wow so easy!");
         } catch (error) {
             const errorResponse = error as IErrorResponse;
-            console.log(errorResponse.data.message);
+            toast(errorResponse.data.message);
         }
     };
 
