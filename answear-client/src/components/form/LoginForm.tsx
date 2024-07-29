@@ -1,60 +1,86 @@
-import { IconEye } from "@tabler/icons-react";
-import { Button, Input, InputPassword, Label, Link } from "components/ui";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconEye, IconLoader2 } from "@tabler/icons-react";
+import { Attention, Button, Input, InputPassword, Label, Link } from "components/ui";
+import { IErrorResponse } from "interfaces/index.ts";
+import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
+import { useForm } from "react-hook-form";
+import { useSignInMutation } from "services/user.ts";
+import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
 import { useState } from "react";
 
 const LoginForm = () => {
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [signIn, { isLoading: signInIsLoading }] = useSignInMutation();
 
-  return (
-    <div className="w-full max-w-xl p-8 space-y-8">
-      <h2 className="text-2xl font-bold">Я маю Акаунт</h2>
-      {showForgotPassword ? (
-        <form className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
-          <h3 className="text-base font-bold">Не пам'ятаю пароль</h3>
-          <p className="text-xs text-[#6b6b6b]">
-            Введи e-mail, вказаний Тобою під час реєстрації, і ми відразу ж надішлемо Тобі інструкцію, як змінити пароль.
-          </p>
-          <div>
-            <Label>Введіть коректний адрес електронної пошти*</Label>
-            <Input />
-          </div>
-          <div className="flex items-center justify-center mt-4">
-            <Button size="full">Вислати</Button>
-          </div>
-        </form>
-      ) : (
-        <form className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
-          <div>
-            <div>
-              <Label>електронна пошта*</Label>
-              <Input />
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<UserLoginSchemaType>({ resolver: zodResolver(UserLoginSchema) });
+
+    const onSubmit = async (data: UserLoginSchemaType) => {
+        try {
+            const response = await signIn(data).unwrap();
+            setLocalStorageItem("authToken", response.token);
+        } catch (error) {
+            const errorResponse = error as IErrorResponse;
+            console.log(errorResponse.data.message);
+        }
+    };
+
+    return (
+        <div className="w-full max-w-xl p-8 space-y-8">
+            <h2 className="text-2xl font-bold">Я маю Акаунт</h2>
+            {showForgotPassword ? (
+                <form className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
+                    <h3 className="text-base font-bold">Не пам'ятаю пароль</h3>
+                    <p className="text-xs text-[#6b6b6b]">
+                        Введи e-mail, вказаний Тобою під час реєстрації, і ми відразу ж надішлемо Тобі інструкцію, як змінити
+                        пароль.
+                    </p>
+                    <div>
+                        <Label>Введіть коректний адрес електронної пошти*</Label>
+                        <Input type="email" />
+                    </div>
+                    <div className="flex items-center justify-center mt-4">
+                        <Button size="full">Вислати</Button>
+                    </div>
+                </form>
+            ) : (
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
+                    <div>
+                        <div>
+                            <Label htmlFor="email">Електронна пошта*</Label>
+                            <Input type="email" id="email" {...register("email")} />
+                            {errors.email && <Attention>{errors.email.message}</Attention>}
+                        </div>
+                        <div>
+                            <Label htmlFor="password">Пароль*</Label>
+                            <InputPassword id="password" {...register("password")} icon={<IconEye />} />
+                            {errors.password && <Attention>{errors.password.message}</Attention>}
+                        </div>
+                        <div className="flex justify-end text-xs">
+                            <Link variant="underline" size="span" onClick={() => setShowForgotPassword(true)}>
+                                Забули пароль?
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center">
+                        <Button size="full">{signInIsLoading ? <IconLoader2 className="animate-spin" /> : "Увійдіть"}</Button>
+                    </div>
+                </form>
+            )}
+            <div className="flex items-center justify-center mt-6 space-x-4">
+                <p className="text-sm font-bold">Або продовжити за допомогою</p>
             </div>
-            <div>
-              <Label>Пароль*</Label>
-              <InputPassword icon={<IconEye />} />
+            <div className="flex items-center justify-center space-x-4">
+                <Link variant="icon" size="iconlg">
+                    <img className="w-6 h-6" alt="google logo" src="/assets/googleFlag.png" />
+                </Link>
             </div>
-            <div className="flex justify-end text-xs">
-              <Link variant="underline" size="span" onClick={() => setShowForgotPassword(true)}>
-                Забули пароль?
-              </Link>
-            </div>
-          </div>
-          <div className="flex items-center justify-center">
-            <Button size="full">Увійдіть</Button>
-          </div>
-        </form>
-      )}
-      <div className="flex items-center justify-center mt-6 space-x-4">
-        <p className="text-sm font-bold">Або продовжити за допомогою</p>
-      </div>
-      <div className="flex items-center justify-center space-x-4">
-        <Link variant="icon" size="iconlg">
-          <img className="w-6 h-6" alt="google logo" src="/assets/googleFlag.png" />
-        </Link>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default LoginForm;
