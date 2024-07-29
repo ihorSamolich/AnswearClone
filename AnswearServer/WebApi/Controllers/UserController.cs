@@ -88,7 +88,7 @@ public class UserController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignIn([FromForm] SignInVm model)
+    public async Task<IActionResult> SignIn([FromBody] SignInVm model)
     {
         try
         {

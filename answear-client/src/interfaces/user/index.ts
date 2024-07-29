@@ -8,3 +8,12 @@ export interface IUser {
     emailVerified: boolean;
     lockoutEnd: string | null;
 }
+
+export interface ILogin {
+    email: string;
+    password: string;
+}
+
+export interface ISignInResponse {
+    token: string;
+}
