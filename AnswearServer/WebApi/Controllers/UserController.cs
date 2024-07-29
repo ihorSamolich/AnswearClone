@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Core.Interfaces.Services;
+using Core.ViewModels.Errors;
 using Core.ViewModels.User;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
@@ -15,43 +16,75 @@ public class UserController(
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var user = await service.GetUserByIdAsync(id);
-
-        if (user == null)
+        try
         {
-            return NotFound();
+            var user = await service.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound(new ErrorResponse { Message = "User not found", StatusCode = 404 });
+            }
+            return Ok(user);
         }
-        return Ok(user);
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var users = await service.GetAllUsersAsync();
-        return Ok(users);
+        try
+        {
+            var users = await service.GetAllUsersAsync();
+            return Ok(users);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
     }
 
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UserCreateVm createVm)
     {
-        await service.AddUserAsync(createVm);
-
-        return Ok();
+        try
+        {
+            await service.AddUserAsync(createVm);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
     }
 
     [HttpPut()]
     public async Task<IActionResult> Update([FromBody] UserUpdateVm createVm)
     {
-        await service.UpdateUserAsync(createVm);
-
-        return Ok();
+        try
+        {
+            await service.UpdateUserAsync(createVm);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        await service.DeleteUserAsync(id);
-        return Ok();
+        try
+        {
+            await service.DeleteUserAsync(id);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
     }
 
     [HttpPost]
@@ -60,19 +93,15 @@ public class UserController(
         try
         {
             var token = await service.SignInAsync(model);
-
-            return Ok(new
-            {
-                Token = token
-            });
+            return Ok(new { Token = token });
         }
         catch (UnauthorizedAccessException e)
         {
-            return Unauthorized(e.Message);
+            return Unauthorized(new ErrorResponse { Message = e.Message, StatusCode = 401 });
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
         }
     }
 
@@ -82,34 +111,29 @@ public class UserController(
         try
         {
             var token = await service.GoogleSignInAsync(model);
-
-            return Ok(new
-            {
-                Token = token
-            });
+            return Ok(new { Token = token });
         }
         catch (InvalidJwtException e)
         {
-            return Unauthorized(e.Message);
+            return Unauthorized(new ErrorResponse { Message = e.Message, StatusCode = 401 });
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
         }
     }
 
-    [HttpPost]
-    public async Task<IActionResult> BlockUser([FromForm] int id, int days = 10)
+    [HttpPost("{id}")]
+    public async Task<IActionResult> BlockUser(int id)
     {
         try
         {
-            await service.BlockUserAsync(id, TimeSpan.FromDays(days));
-
+            await service.BlockUserAsync(id, TimeSpan.FromDays(10));
             return Ok();
         }
         catch (Exception e)
         {
-            return StatusCode(500, e.Message);
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
         }
     }
 }

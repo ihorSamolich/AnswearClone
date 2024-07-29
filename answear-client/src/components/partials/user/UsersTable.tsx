@@ -1,6 +1,9 @@
-import { IconLock } from "@tabler/icons-react";
+import { IconCircleDashedCheck, IconLock } from "@tabler/icons-react";
 import { Button } from "components/ui";
 import { IUser } from "interfaces/user";
+import { useLockUserMutation } from "services/user.ts";
+import { formatDate } from "utils/formatDate.ts";
+import { isUserLockedOut } from "utils/isUserLockedOut.ts";
 
 import React from "react";
 
@@ -12,7 +15,8 @@ interface UsersTableProps {
 
 const UsersTable: React.FC<UsersTableProps> = (props) => {
     const { users } = props;
-
+    const [lockUser] = useLockUserMutation();
+    // const { pagesAvailable, isLoading } = props;
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm font-bold text-left text-black">
@@ -40,28 +44,39 @@ const UsersTable: React.FC<UsersTableProps> = (props) => {
                             Підтверджена пошта
                         </th>
                         <th scope="col" className="px-6 py-3">
+                            Заблоковано до
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                             <span className="sr-only">Кнопки</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    {/* Loading skeleton */}
-                    {/*{isLoading && <TableCategoriesSkeleton />}*/}
-
-                    {/* Loaded data */}
-                    {users?.map((users, index) => (
-                        <tr key={users.id} className="bg-white border-b hover:bg-gray-50 ">
+                    {users?.map((user, index) => (
+                        <tr
+                            key={user.id}
+                            className={`${isUserLockedOut(user.lockoutEnd) ? "bg-red-200 hover:bg-red-300" : "bg-white hover:bg-gray-50"}  border-b hover:bg-gray-50 `}
+                        >
                             <td className="px-6 py-4">{++index}</td>
-                            <td className="px-6 py-4">{users.firstName}</td>
-                            <td className="px-6 py-4">{users.lastName}</td>
-                            <td className="px-6 py-4">{users.userName}</td>
-                            <td className="px-6 py-4">{users.email}</td>
-                            <td className="px-6 py-4">{users.phoneNumber ? users.phoneNumber : "Не вказано"}</td>
-                            <td className="px-6 py-4">{users.emailVerified ? "Підтверджено" : "Не підтверджено"}</td>
+                            <td className="px-6 py-4">{user.firstName}</td>
+                            <td className="px-6 py-4">{user.lastName}</td>
+                            <td className="px-6 py-4">{user.userName}</td>
+                            <td className="px-6 py-4">{user.email}</td>
+                            <td className="px-6 py-4">{user.phoneNumber ? user.phoneNumber : "Не вказано"}</td>
+                            <td className="px-6 py-4">{user.emailVerified ? "Підтверджено" : "Не підтверджено"}</td>
+                            <td className="px-6 py-4">
+                                {isUserLockedOut(user.lockoutEnd) ? (
+                                    formatDate(user.lockoutEnd)
+                                ) : (
+                                    <IconCircleDashedCheck className="text-green-500" />
+                                )}
+                            </td>
                             <td className="px-6 py-4 inline-flex text-right space-x-5">
-                                <Button variant="icon" size="iconmd">
-                                    <IconLock className="text-red-500" />
-                                </Button>
+                                {!user.lockoutEnd && !isUserLockedOut(user.lockoutEnd) && (
+                                    <Button onClick={() => lockUser(user.id)} variant="icon" size="iconmd">
+                                        <IconLock className="text-red-500" />
+                                    </Button>
+                                )}
                             </td>
                         </tr>
                     ))}

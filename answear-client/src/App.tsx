@@ -1,7 +1,6 @@
 import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import LoginPage from "pages/SignInPage.tsx";
-import UsersPage from "pages/admin/UsersPage.tsx";
 import CategoriesPage from "pages/admin/category/CategoriesPage.tsx";
 import CategoryCreatePage from "pages/admin/category/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/category/CategoryEditPage.tsx";
@@ -11,6 +10,7 @@ import DiscountsPage from "pages/admin/discount/DiscountsPage.tsx";
 import FilterCreatePage from "pages/admin/filter/FilterCreatePage.tsx";
 import FilterEditPage from "pages/admin/filter/FilterEditPage.tsx";
 import FiltersPage from "pages/admin/filter/FiltersPage.tsx";
+import UsersPage from "pages/admin/user/UsersPage.tsx";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {

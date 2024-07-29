@@ -6,4 +6,5 @@ export interface IUser {
     email: string;
     phoneNumber: string;
     emailVerified: boolean;
+    lockoutEnd: string | null;
 }
