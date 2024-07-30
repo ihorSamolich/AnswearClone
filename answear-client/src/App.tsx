@@ -12,12 +12,14 @@ import FilterEditPage from "pages/admin/filter/FilterEditPage.tsx";
 import FiltersPage from "pages/admin/filter/FiltersPage.tsx";
 import UsersPage from "pages/admin/user/UsersPage.tsx";
 import { Route, Routes } from "react-router-dom";
+import WhyShouldRegisterCard from "components/cards/WhyShouldRegisterCard.tsx";
 
 const App = () => {
     return (
         <Routes>
             <Route path="/" element={<AdminLayout />}>
                 <Route index element={<HomePage />} />
+                <Route path="register-card" index element={<WhyShouldRegisterCard />} />
 
                 <Route path="admin/categories">
                     <Route path="list" element={<CategoriesPage />} />
@@ -42,6 +44,7 @@ const App = () => {
                 <Route path="auth">
                     <Route path="sign-in" index element={<LoginPage />} />
                 </Route>
+
             </Route>
         </Routes>
     );
