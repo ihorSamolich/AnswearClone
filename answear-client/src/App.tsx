@@ -1,3 +1,4 @@
+import NewPasswordForm from "components/form/NewPasswordForm.tsx";
 import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import LoginPage from "pages/SignInPage.tsx";
@@ -40,7 +41,7 @@ const App = () => {
                 </Route>
 
                 <Route path="auth">
-                    <Route path="sign-in" index element={<LoginPage />} />
+                    <Route path="sign-in" index element={<NewPasswordForm />} />
                 </Route>
             </Route>
         </Routes>
