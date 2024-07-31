@@ -201,7 +201,7 @@ public class UserService(
         {
             To = user.Email,
             Name = user.FirstName,
-            Body = $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>"
+            Body = callbackUrl
         };
 
         await emailService.SendAsync(message);

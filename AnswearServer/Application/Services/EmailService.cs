@@ -18,16 +18,14 @@ public class EmailService(
         message.To.Add(new MailboxAddress(messageData.Name, messageData.To));
         message.Subject = "Reset Password";
 
-        //string html = await File.ReadAllTextAsync("Templates/reset_password.html");
+        string html = await File.ReadAllTextAsync("Templates/reset_password.html");
 
-        //message.Body = new TextPart("html")
-        //{
-        //    Text = html
-        //};
+        html = html.Replace("{Email}", messageData.To);
+        html = html.Replace("{Link}", messageData.Body);
 
         message.Body = new TextPart("html")
         {
-            Text = messageData.Body
+            Text = html
         };
 
         using (var client = new SmtpClient())

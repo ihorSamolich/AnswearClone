@@ -13,3 +13,9 @@ export const NewPasswordSchema = z
     });
 
 export type NewPasswordSchemaType = z.infer<typeof NewPasswordSchema>;
+
+export const ForgotPasswordSchema = z.object({
+    email: z.string().email({ message: "Неправильний формат електронної пошти" }),
+});
+
+export type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;

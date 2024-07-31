@@ -1,5 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
+import ForgotPasswordForm from "components/form/ForgotPasswordForm.tsx";
 import { Attention, Button, Input, InputPassword, Label, Link } from "components/ui";
 import { IErrorResponse } from "interfaces/index.ts";
 import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
@@ -8,9 +9,9 @@ import { toast } from "react-toastify";
 import { useSignInMutation } from "services/user.ts";
 import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [signIn, { isLoading: signInIsLoading }] = useSignInMutation();
 
@@ -35,20 +36,7 @@ const LoginForm = () => {
         <div className="w-full max-w-xl p-8 space-y-8">
             <h2 className="text-2xl font-bold">Я маю Акаунт</h2>
             {showForgotPassword ? (
-                <form className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
-                    <h3 className="text-base font-bold">Не пам'ятаю пароль</h3>
-                    <p className="text-xs text-[#6b6b6b]">
-                        Введи e-mail, вказаний Тобою під час реєстрації, і ми відразу ж надішлемо Тобі інструкцію, як змінити
-                        пароль.
-                    </p>
-                    <div>
-                        <Label>Введіть коректний адрес електронної пошти*</Label>
-                        <Input type="email" />
-                    </div>
-                    <div className="flex items-center justify-center mt-4">
-                        <Button size="full">Вислати</Button>
-                    </div>
-                </form>
+                <ForgotPasswordForm />
             ) : (
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4 border-2 border-[#dbdce0] p-8">
                     <div>

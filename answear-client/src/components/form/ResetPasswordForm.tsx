@@ -4,6 +4,7 @@ import { Attention, Button, InputPassword, Label } from "components/ui";
 import { IErrorResponse } from "interfaces/index.ts";
 import { NewPasswordSchema, NewPasswordSchemaType } from "interfaces/zod/password";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useResetPasswordMutation } from "services/user.ts";
 
@@ -15,6 +16,8 @@ interface ResetPasswordFormProps {
 }
 
 const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token, email }) => {
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -32,7 +35,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token, email }) =
     const onSubmit = async (data: NewPasswordSchemaType) => {
         try {
             await resetPassword(data).unwrap();
-
+            navigate("/auth/sign-in");
             toast("Пароль успішно змінено!");
         } catch (error) {
             const errorResponse = error as IErrorResponse;
