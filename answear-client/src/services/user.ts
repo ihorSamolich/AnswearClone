@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { ILogin, ISignInResponse, IUser } from "interfaces/user";
+import { ILogin, IResetPassword, ISignInResponse, IUser } from "interfaces/user";
 import { createBaseQuery } from "utils/baseQuery.ts";
 
 export const userApi = createApi({
@@ -26,7 +26,14 @@ export const userApi = createApi({
             }),
             invalidatesTags: ["Users"],
         }),
+        resetPassword: builder.mutation<void, IResetPassword>({
+            query: (credentials) => ({
+                url: "ResetPassword",
+                method: "POST",
+                body: credentials,
+            }),
+        }),
     }),
 });
 
-export const { useGetUsersQuery, useLockUserMutation, useSignInMutation } = userApi;
+export const { useGetUsersQuery, useResetPasswordMutation, useLockUserMutation, useSignInMutation } = userApi;

@@ -17,3 +17,13 @@ export interface ILogin {
 export interface ISignInResponse {
     token: string;
 }
+
+export interface IResetPassword {
+    password: string;
+    token: string;
+    email: string;
+}
+
+export interface IForgotPassword {
+    email: string;
+}

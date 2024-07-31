@@ -151,4 +151,18 @@ public class UserController(
             return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordVm model)
+    {
+        try
+        {
+            await service.ResetPasswordAsync(model.Email, model.Token, model.Password);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
+    }
 }

@@ -209,18 +209,19 @@ public class UserService(
 
     public async Task ResetPasswordAsync(string email, string token, string newPassword)
     {
-        //var user = await userManager.FindByEmailAsync(email);
-        //if (user == null)
-        //{
-        //    return;
-        //}
+        var user = await userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            return;
+        }
 
-        //var result = await userManager.ResetPasswordAsync(user, token, newPassword);
-        //if (!result.Succeeded)
-        //{
-        //    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-        //    throw new Exception($"Password reset failed: {errors}");
-        //}
+        var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"Password reset failed: {errors}");
+        }
     }
 
 }
