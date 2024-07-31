@@ -14,6 +14,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApi.Middleware;
+using Core.SMTP;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,8 +66,11 @@ builder.Services
         };
     });
 
-
-
+//Kestrel Server
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = 1048576000;
+});
 
 builder.Services.AddControllers();
 
@@ -96,6 +101,9 @@ builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IProductRepository, ProductRepisitory>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("MailSettings"));
+
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

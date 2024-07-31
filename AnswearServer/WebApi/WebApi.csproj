@@ -18,4 +18,10 @@
 		<ProjectReference Include="..\Application\Application.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="Templates\reset_password.html">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

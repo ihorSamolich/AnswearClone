@@ -9,6 +9,7 @@ using Core.ViewModels.Category;
 using Core.Constants;
 using static Google.Apis.Auth.GoogleJsonWebSignature;
 using Microsoft.Extensions.Configuration;
+using Core.SMTP;
 
 namespace Application.Services.ControllerServices;
 
@@ -17,7 +18,8 @@ public class UserService(
     IMapper mapper,
     IJwtTokenService jwtTokenService,
     UserManager<UserEntity> userManager,
-    IConfiguration configuration
+    IConfiguration configuration,
+    IEmailService emailService
     ) : IUserService
 {
     public async Task<UserVm> GetUserByIdAsync(int id)
@@ -177,6 +179,49 @@ public class UserService(
 
         if (!result.Succeeded)
             throw new Exception("Failed to block user");
+    }
+
+    public async Task GeneratePasswordResetTokenAsync(string email)
+    {
+        var url = configuration["PasswordReset:CallbackUrl"]
+               ?? throw new NullReferenceException("PasswordReset:CallbackUrl");
+
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            return;
+        }
+
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+        var callbackUrl = $"{url}?token={token}&email={email}";
+
+        var message = new Message()
+        {
+            To = user.Email,
+            Name = user.FirstName,
+            Body = callbackUrl
+        };
+
+        await emailService.SendAsync(message);
+    }
+
+    public async Task ResetPasswordAsync(string email, string token, string newPassword)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            return;
+        }
+
+        var result = await userManager.ResetPasswordAsync(user, token, newPassword);
+
+        if (!result.Succeeded)
+        {
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"Password reset failed: {errors}");
+        }
     }
 
 }

@@ -1,6 +1,7 @@
-import NewPasswordForm from "components/form/NewPasswordForm.tsx";
 import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
+import ResetPasswordPage from "pages/ResetPasswordPage.tsx";
+import SignInPage from "pages/SignInPage.tsx";
 import CategoriesPage from "pages/admin/category/CategoriesPage.tsx";
 import CategoryCreatePage from "pages/admin/category/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/category/CategoryEditPage.tsx";
@@ -40,7 +41,8 @@ const App = () => {
                 </Route>
 
                 <Route path="auth">
-                    <Route path="sign-in" index element={<NewPasswordForm />} />
+                    <Route path="sign-in" element={<SignInPage />} />
+                    <Route path="reset-password" element={<ResetPasswordPage />} />
                 </Route>
             </Route>
         </Routes>

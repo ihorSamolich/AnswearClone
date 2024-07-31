@@ -1,26 +1,45 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, InputPassword, Label } from "components/ui";
-import { NewPasswordSchema, NewPasswordSchemaType } from "interfaces/zod/password.ts";
+import { IErrorResponse } from "interfaces/index.ts";
+import { NewPasswordSchema, NewPasswordSchemaType } from "interfaces/zod/password";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useResetPasswordMutation } from "services/user.ts";
 
-const NewPasswordForm = () => {
+import React from "react";
+
+interface ResetPasswordFormProps {
+    token: string;
+    email: string;
+}
+
+const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token, email }) => {
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<NewPasswordSchemaType>({
         resolver: zodResolver(NewPasswordSchema),
+        defaultValues: {
+            token: token,
+            email: email,
+        },
     });
+
+    const [resetPassword, { isLoading: isLoadingResetPassword }] = useResetPasswordMutation();
 
     const onSubmit = async (data: NewPasswordSchemaType) => {
         try {
-            // Тут можна додати функцію зміни пароля, наприклад, запит на сервер
+            await resetPassword(data).unwrap();
+            navigate("/auth/sign-in");
             toast("Пароль успішно змінено!");
         } catch (error) {
-            // Обробка помилок
-            toast("Сталася помилка при зміні пароля.");
+            const errorResponse = error as IErrorResponse;
+            toast(errorResponse.data.message);
         }
     };
 
@@ -29,6 +48,8 @@ const NewPasswordForm = () => {
             <div className="w-full max-w-xl p-8 space-y-8">
                 <h2 className="text-2xl font-bold text-left">Створити новий пароль</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4">
+                    <input type="hidden" {...register("token")} />
+                    <input type="hidden" {...register("email")} />
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="password">Новий пароль</Label>
@@ -42,8 +63,8 @@ const NewPasswordForm = () => {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <Button size="full" type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? <IconLoader2 className="animate-spin" /> : "Ок"}
+                        <Button size="full" type="submit" disabled={isLoadingResetPassword}>
+                            {isLoadingResetPassword ? <IconLoader2 className="animate-spin" /> : "Ок"}
                         </Button>
                     </div>
                 </form>
@@ -52,4 +73,4 @@ const NewPasswordForm = () => {
     );
 };
 
-export default NewPasswordForm;
+export default ResetPasswordForm;
