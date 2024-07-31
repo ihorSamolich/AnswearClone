@@ -1,13 +1,13 @@
-import NewPasswordForm from "components/form/NewPasswordForm.tsx";
+import ResetPasswordForm from "components/form/ResetPasswordForm.tsx";
 
 import React from "react";
 
-const NewPasswordPage: React.FC = () => {
+const ResetPasswordPage: React.FC = () => {
     return (
         <div className="flex items-center justify-center min-h-screen py-2">
-            <NewPasswordForm />
+            <ResetPasswordForm />
         </div>
     );
 };
 
-export default NewPasswordPage;
+export default ResetPasswordPage;

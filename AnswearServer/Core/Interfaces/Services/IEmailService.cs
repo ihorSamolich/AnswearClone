@@ -4,6 +4,6 @@ namespace Core.Interfaces.Services;
 
 public interface IEmailService
 {
-    void Send(Message messageData);
+    Task SendAsync(Message messageData);
 }
 

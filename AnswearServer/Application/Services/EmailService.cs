@@ -4,7 +4,6 @@ using MailKit.Net.Smtp;
 using Core.Interfaces.Services;
 using Core.SMTP;
 using MailKit.Security;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Application.Services;
 public class EmailService(
@@ -12,28 +11,32 @@ public class EmailService(
     ) : IEmailService
 {
     private readonly EmailConfiguration emailConfiguration = options.Value;
-    public void Send(Message messageData)
+    public async Task SendAsync(Message messageData)
     {
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("AnswearMail", emailConfiguration.From));
         message.To.Add(new MailboxAddress(messageData.Name, messageData.To));
         message.Subject = "Reset Password";
 
-        string html = File.ReadAllText("Templates/reset_password.html");
+        //string html = await File.ReadAllTextAsync("Templates/reset_password.html");
 
+        //message.Body = new TextPart("html")
+        //{
+        //    Text = html
+        //};
 
         message.Body = new TextPart("html")
         {
-            Text = html
+            Text = messageData.Body
         };
 
         using (var client = new SmtpClient())
         {
             try
             {
-                client.Connect(emailConfiguration.SmtpServer, emailConfiguration.Port, SecureSocketOptions.SslOnConnect);
-                client.Authenticate(emailConfiguration.UserName, emailConfiguration.Password);
-                client.Send(message);
+                await client.ConnectAsync(emailConfiguration.SmtpServer, emailConfiguration.Port, SecureSocketOptions.SslOnConnect);
+                await client.AuthenticateAsync(emailConfiguration.UserName, emailConfiguration.Password);
+                await client.SendAsync(message);
             }
             catch (Exception ex)
             {
@@ -41,7 +44,7 @@ public class EmailService(
             }
             finally
             {
-                client.Disconnect(true);
+                await client.DisconnectAsync(true);
                 client.Dispose();
             }
         }

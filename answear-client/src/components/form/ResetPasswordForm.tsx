@@ -5,7 +5,7 @@ import { NewPasswordSchema, NewPasswordSchemaType } from "interfaces/zod/passwor
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const NewPasswordForm = () => {
+const ResetPasswordForm = () => {
     const {
         register,
         handleSubmit,
@@ -16,6 +16,7 @@ const NewPasswordForm = () => {
 
     const onSubmit = async (data: NewPasswordSchemaType) => {
         try {
+            console.log(data);
             // Тут можна додати функцію зміни пароля, наприклад, запит на сервер
             toast("Пароль успішно змінено!");
         } catch (error) {
@@ -52,4 +53,4 @@ const NewPasswordForm = () => {
     );
 };
 
-export default NewPasswordForm;
+export default ResetPasswordForm;

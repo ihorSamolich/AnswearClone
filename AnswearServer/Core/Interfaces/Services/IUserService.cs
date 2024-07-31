@@ -13,4 +13,6 @@ public interface IUserService
     Task<string> SignInAsync(SignInVm model);
     Task<string> GoogleSignInAsync(GoogleSignInVm model);
     Task BlockUserAsync(int id, TimeSpan lockoutDuration);
+    Task GeneratePasswordResetTokenAsync(string email);
+    Task ResetPasswordAsync(string email, string token, string newPassword);
 }

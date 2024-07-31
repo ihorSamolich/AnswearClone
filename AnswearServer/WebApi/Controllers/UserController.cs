@@ -11,8 +11,7 @@ namespace WebApi.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class UserController(
-    IUserService service,
-    IEmailService emailService
+    IUserService service
 ) : ControllerBase
 {
     [HttpGet("{id}")]
@@ -140,12 +139,11 @@ public class UserController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> SendMail(Message messageData)
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordVm model)
     {
         try
         {
-            emailService.Send(messageData);
-
+            await service.GeneratePasswordResetTokenAsync(model.Email);
             return Ok();
         }
         catch (Exception e)

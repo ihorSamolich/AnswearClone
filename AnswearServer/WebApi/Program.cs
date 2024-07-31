@@ -14,10 +14,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApi.Middleware;
-using System.Net;
-using System.Net.Mail;
 using Core.SMTP;
-using MailKit;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,8 +66,11 @@ builder.Services
         };
     });
 
-
-
+//Kestrel Server
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestBodySize = 1048576000;
+});
 
 builder.Services.AddControllers();
 
@@ -100,7 +101,6 @@ builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IProductRepository, ProductRepisitory>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
-//builder.Services.AddScoped<EmailConfiguration>();
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("MailSettings"));
 
 builder.Services.AddTransient<IEmailService, EmailService>();
