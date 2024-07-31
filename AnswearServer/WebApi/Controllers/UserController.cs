@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using Core.Interfaces.Services;
+using Core.SMTP;
 using Core.ViewModels.Errors;
 using Core.ViewModels.User;
 using Google.Apis.Auth;
@@ -10,7 +11,8 @@ namespace WebApi.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class UserController(
-    IUserService service
+    IUserService service,
+    IEmailService emailService
 ) : ControllerBase
 {
     [HttpGet("{id}")]
@@ -129,6 +131,21 @@ public class UserController(
         try
         {
             await service.BlockUserAsync(id, TimeSpan.FromDays(10));
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new ErrorResponse { Message = e.Message, StatusCode = 500 });
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> SendMail(Message messageData)
+    {
+        try
+        {
+            emailService.Send(messageData);
+
             return Ok();
         }
         catch (Exception e)

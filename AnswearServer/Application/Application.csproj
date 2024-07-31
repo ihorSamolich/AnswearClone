@@ -12,6 +12,7 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.7" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
 	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
+	  <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
 	  <PackageReference Include="Slugify.Core" Version="4.0.1" />
 	</ItemGroup>
 

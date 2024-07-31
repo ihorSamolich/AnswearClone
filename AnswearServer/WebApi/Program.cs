@@ -14,6 +14,10 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApi.Middleware;
+using System.Net;
+using System.Net.Mail;
+using Core.SMTP;
+using MailKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +100,10 @@ builder.Services.AddScoped<IDiscountService, DiscountService>();
 builder.Services.AddScoped<IProductRepository, ProductRepisitory>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+//builder.Services.AddScoped<EmailConfiguration>();
+builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("MailSettings"));
+
+builder.Services.AddTransient<IEmailService, EmailService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
