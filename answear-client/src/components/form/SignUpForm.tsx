@@ -20,17 +20,45 @@ const SignUpForm: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
+        watch,
+        setValue,
+        clearErrors,
+        setError,
     } = useForm<UserRegisterSchemaType>({ resolver: zodResolver(UserRegisterSchema) });
 
+    const termsChecked = watch("terms", false);
+    const newsletterChecked = watch("newsletter", false);
+
     const onSubmit = async (data: UserRegisterSchemaType) => {
-        try {
-            // const response = await signIn(data).unwrap();
-            // setLocalStorageItem("authToken", response.token);
-            toast("Wow so easy!");
-        } catch (error) {
-            const errorResponse = error as IErrorResponse;
-            toast(errorResponse.data.message);
+        if (!data.terms) {
+            setError("terms", { type: "manual", message: "Будь ласка, ознайомтеся і погодьтеся з Правилами" });
         }
+
+        if (data.terms) {
+            try {
+                // const response = await signIn(data).unwrap();
+                // setLocalStorageItem("authToken", response.token);
+                toast("Wow so easy!");
+            } catch (error) {
+                const errorResponse = error as IErrorResponse;
+                toast(errorResponse.data.message);
+            }
+        }
+    };
+
+    const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = e.target.checked;
+        setValue("terms", checked);
+        if (checked) {
+            clearErrors("terms");
+        } else {
+            setError("terms", { type: "manual", message: "Будь ласка, ознайомтеся і погодьтеся з Правилами" });
+        }
+    };
+
+    const handleNewsletterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const checked = e.target.checked;
+        setValue("newsletter", checked);
     };
 
     return (
@@ -52,7 +80,7 @@ const SignUpForm: React.FC = () => {
                 </div>
                 <div className="mb-4">
                     <div className="flex items-center">
-                        <CheckBox id="terms" {...register("terms")} className="mt-1 mr-2" />
+                        <CheckBox id="terms" checked={termsChecked} onChange={handleTermsChange} className="mt-1 mr-2" />
                         <Label htmlFor="terms" className="flex-1">
                             Погоджуюсь з{" "}
                             <Link className="text-xs text-[#585858]" variant="underline" size="span" href="#">
@@ -63,10 +91,15 @@ const SignUpForm: React.FC = () => {
                     </div>
                     {errors.terms && <Attention>{errors.terms.message}</Attention>}
                 </div>
-                <div className="mb-4  ">
+                <div className="mb-4">
                     <div className="flex items-center">
-                        <CheckBox id="newsletter" className="mt-1 mr-2" />
-                        <div className="flex-1 ">
+                        <CheckBox
+                            id="newsletter"
+                            checked={newsletterChecked}
+                            onChange={handleNewsletterChange}
+                            className="mt-1 mr-2"
+                        />
+                        <div className="flex-1">
                             <Label htmlFor="newsletter" className="text-[#585858]">
                                 Хочу отримувати комерційні пропозиції магазину на вказаний вище email.
                             </Label>
