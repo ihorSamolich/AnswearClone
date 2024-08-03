@@ -7,13 +7,12 @@ import { IErrorResponse } from "interfaces/index.ts";
 import { UserRegisterSchema, UserRegisterSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useSignInMutation } from "services/user.ts";
-import { setLocalStorageItem } from "utils/localStorageUtils.ts";
+import { useSignUpMutation } from "services/user.ts";
 
 import React, { useState } from "react";
 
 const SignUpForm: React.FC = () => {
-    const [signIn, { isLoading: signInIsLoading }] = useSignInMutation();
+    const [signUp, { isLoading: signUpIsLoading }] = useSignUpMutation();
     const [showMore, setShowMore] = useState(false);
 
     const {
@@ -30,13 +29,15 @@ const SignUpForm: React.FC = () => {
     const newsletterChecked = watch("newsletter", false);
 
     const onSubmit = async (data: UserRegisterSchemaType) => {
+        console.log(data);
+
         if (!data.terms) {
             setError("terms", { type: "manual", message: "Будь ласка, ознайомтеся і погодьтеся з Правилами" });
         }
 
         if (data.terms) {
             try {
-                // const response = await signIn(data).unwrap();
+                await signUp(data).unwrap();
                 // setLocalStorageItem("authToken", response.token);
                 toast("Wow so easy!");
             } catch (error) {
@@ -125,7 +126,7 @@ const SignUpForm: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-center">
-                    <Button size="full">{signInIsLoading ? <IconLoader2 className="animate-spin" /> : "Створити Акаунт"}</Button>
+                    <Button size="full">{signUpIsLoading ? <IconLoader2 className="animate-spin" /> : "Створити Акаунт"}</Button>
                 </div>
             </form>
         </div>

@@ -15,6 +15,13 @@ export const userApi = createApi({
                 body: credentials,
             }),
         }),
+        signUp: builder.mutation<void, ILogin>({
+            query: (credentials) => ({
+                url: "SignUp",
+                method: "POST",
+                body: credentials,
+            }),
+        }),
         getUsers: builder.query<IUser[], void>({
             query: () => "getAll",
             providesTags: ["Users"],
@@ -43,5 +50,11 @@ export const userApi = createApi({
     }),
 });
 
-export const { useGetUsersQuery, useForgotPasswordMutation, useResetPasswordMutation, useLockUserMutation, useSignInMutation } =
-    userApi;
+export const {
+    useGetUsersQuery,
+    useSignUpMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
+    useLockUserMutation,
+    useSignInMutation,
+} = userApi;
