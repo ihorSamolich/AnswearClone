@@ -23,27 +23,28 @@ const SignUpForm: React.FC = () => {
         setValue,
         clearErrors,
         setError,
-    } = useForm<UserRegisterSchemaType>({ resolver: zodResolver(UserRegisterSchema) });
+    } = useForm<UserRegisterSchemaType>({
+        resolver: zodResolver(UserRegisterSchema),
+        defaultValues: { newsletter: false, terms: false },
+    });
 
-    const termsChecked = watch("terms", false);
-    const newsletterChecked = watch("newsletter", false);
+    const termsChecked = !!watch("terms", false);
+    const newsletterChecked = !!watch("newsletter", false);
 
     const onSubmit = async (data: UserRegisterSchemaType) => {
         console.log(data);
 
         if (!data.terms) {
             setError("terms", { type: "manual", message: "Будь ласка, ознайомтеся і погодьтеся з Правилами" });
+            return;
         }
 
-        if (data.terms) {
-            try {
-                await signUp(data).unwrap();
-                // setLocalStorageItem("authToken", response.token);
-                toast("Wow so easy!");
-            } catch (error) {
-                const errorResponse = error as IErrorResponse;
-                toast(errorResponse.data.message);
-            }
+        try {
+            await signUp(data).unwrap();
+            toast("Wow so easy!");
+        } catch (error) {
+            const errorResponse = error as IErrorResponse;
+            toast(errorResponse.data.message);
         }
     };
 

@@ -19,7 +19,7 @@ export const UserRegisterSchema = z.object({
     terms: z.boolean({ required_error: "Будь ласка, ознайомтеся і погодьтеся з Правилами" }).refine((value) => value, {
         message: "Будь ласка, ознайомтеся і погодьтеся з Правилами",
     }),
-    newsletter: z.boolean(),
+    newsletter: z.boolean().optional(),
 });
 
 export type UserRegisterSchemaType = z.infer<typeof UserRegisterSchema>;
