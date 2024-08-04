@@ -17,7 +17,8 @@ public class AppMapProfile : Profile
     public AppMapProfile()
     {
         CreateMap<UserEntity, UserVm>();
-        CreateMap<UserCreateVm, UserEntity>();
+        CreateMap<SignUpVm, UserEntity>()
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
 
         CreateMap<ProductPhotoEntity, ProductPhotoVm>();
 

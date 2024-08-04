@@ -2,6 +2,7 @@ import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import ResetPasswordPage from "pages/ResetPasswordPage.tsx";
 import SignInPage from "pages/SignInPage.tsx";
+import SignUpPage from "pages/SignUpPage.tsx";
 import CategoriesPage from "pages/admin/category/CategoriesPage.tsx";
 import CategoryCreatePage from "pages/admin/category/CategoryCreatePage.tsx";
 import CategoryEditPage from "pages/admin/category/CategoryEditPage.tsx";
@@ -42,6 +43,7 @@ const App = () => {
 
                 <Route path="auth">
                     <Route path="sign-in" element={<SignInPage />} />
+                    <Route path="register" element={<SignUpPage />} />
                     <Route path="reset-password" element={<ResetPasswordPage />} />
                 </Route>
             </Route>

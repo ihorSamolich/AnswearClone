@@ -47,7 +47,7 @@ public class UserController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] UserCreateVm createVm)
+    public async Task<IActionResult> SignUp([FromBody] SignUpVm createVm)
     {
         try
         {
