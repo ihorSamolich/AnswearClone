@@ -64,8 +64,8 @@ const SignUpForm: React.FC = () => {
     };
 
     return (
-        <div className="w-full max-w-xl p-8 space-y-8">
-            <h2 className="text-2xl font-bold">Я не маю Акаунту</h2>
+        <div className=" w-full max-w-xl p-8 space-y-8">
+            <h2 className="text-xl font-bold">Я не маю Акаунту</h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4 bg-[#f4f4f4] p-8">
                 <div>
@@ -121,7 +121,7 @@ const SignUpForm: React.FC = () => {
                     </Button>
                 </div>
                 <div className="mb-4 flex items-center text-[#585858] text-[10px]">
-                    Адміністратором персональних даних є Answear S.A. з офісом, зареєстрованим у м. Кракові, 31-564, вул. Aleja
+                    Адміністратором персональних даних є Answear S.A. з офісом, зареєстрованим у м. Кракові, 31-564, вул. Alejo
                     Pokoju 18, під контролем окружного суду у м. Кракові, XI Фінансового відділу Національного судового реєстру,
                     KRS № 0000816066.
                 </div>
@@ -133,5 +133,4 @@ const SignUpForm: React.FC = () => {
         </div>
     );
 };
-
 export default SignUpForm;

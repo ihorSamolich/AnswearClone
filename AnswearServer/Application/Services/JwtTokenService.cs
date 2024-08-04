@@ -41,7 +41,7 @@ public class JwtTokenService(
     private async Task<List<Claim>> GetClaimsAsync(UserEntity user)
     {
         string userEmail = user.Email
-            ?? throw new NullReferenceException($"User.Email");
+            ?? throw new NullReferenceException("User.Email");
 
         var userRoles = await userManager.GetRolesAsync(user);
 
@@ -49,12 +49,22 @@ public class JwtTokenService(
             .Select(r => new Claim(ClaimTypes.Role, r))
             .ToList();
 
-        var claims = new List<Claim> {
-            new ("id", user.Id.ToString()),
-            new ("email", userEmail),
-            new ("firstName", user.FirstName),
-            new ("lastName", user.LastName)
-         };
+        var claims = new List<Claim>
+    {
+        new Claim("id", user.Id.ToString()),
+        new Claim("email", userEmail)
+    };
+
+        if (!string.IsNullOrEmpty(user.FirstName))
+        {
+            claims.Add(new Claim("firstName", user.FirstName));
+        }
+
+        if (!string.IsNullOrEmpty(user.LastName))
+        {
+            claims.Add(new Claim("lastName", user.LastName));
+        }
+
         claims.AddRange(roleClaims);
 
         return claims;
