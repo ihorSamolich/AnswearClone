@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className="w-full max-w-xl p-8 space-y-8">
-            <h2 className="text-2xl font-bold">Я маю Акаунт</h2>
+            <h2 className="text-xl font-bold">Я маю Акаунт</h2>
             {showForgotPassword ? (
                 <ForgotPasswordForm />
             ) : (
