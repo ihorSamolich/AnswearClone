@@ -1,4 +1,12 @@
-import { IconBrandShopee, IconFilter, IconHome, IconRosetteDiscount, IconUserScan, IconUsers } from "@tabler/icons-react";
+import {
+    IconCategoryFilled,
+    IconFilter,
+    IconHome,
+    IconRosetteDiscount,
+    IconTemplate,
+    IconUserScan,
+    IconUsers,
+} from "@tabler/icons-react";
 import logo from "assets/ans-icon-144x144.png";
 import SidebarChevronDown from "components/partials/sidebar/SidebarChevronDown.tsx";
 import SidebarExpandCollapseButton from "components/partials/sidebar/SidebarExpandCollapseButton.tsx";
@@ -117,13 +125,37 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                     activeCondition={(pathname) => pathname === "/"}
                                 />
 
+                                {/* Товари */}
+                                <SidebarLinkGroup activecondition={pathname.includes("products")}>
+                                    {(handleClick, open) => (
+                                        <>
+                                            <SidebarLinkGroupTitle
+                                                href="#"
+                                                icon={IconTemplate}
+                                                isActive={pathname.includes("products")}
+                                                handleClick={(e) => {
+                                                    e.preventDefault();
+                                                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                                                }}
+                                            >
+                                                Товари
+                                                <SidebarChevronDown open={open} />
+                                            </SidebarLinkGroupTitle>
+                                            <SidebarLinkGroupMenu
+                                                open={open}
+                                                links={[{ to: "admin/products/list", label: "Список" }]}
+                                            />
+                                        </>
+                                    )}
+                                </SidebarLinkGroup>
+
                                 {/* Категорії */}
                                 <SidebarLinkGroup activecondition={pathname.includes("categories")}>
                                     {(handleClick, open) => (
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconBrandShopee}
+                                                icon={IconCategoryFilled}
                                                 isActive={pathname.includes("categories")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();
