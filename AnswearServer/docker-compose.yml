@@ -1,0 +1,26 @@
+services:
+
+  answear:
+    container_name: api-container
+    image: answear-app
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5559:8080"
+    volumes:
+      - ./volumes/api/images:/app/Images
+    depends_on:
+      - postgresql
+
+  postgresql:
+    container_name: postgresql-db-container
+    image: postgres
+    restart: on-failure
+    ports:
+        - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: devDb1234
+    volumes:
+        - ./volumes/db:/var/lib/postgresql/data
