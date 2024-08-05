@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, Input, Label, Option, Select } from "components/ui";
+import { toastOptions } from "constants/toastOptions.ts";
 import { FilterCreateSchema, FilterCreateSchemaType } from "interfaces/zod/filter.ts";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useGetCategoriesQuery } from "services/category.ts";
 import { useCreateFilterMutation } from "services/filter.ts";
 
@@ -27,8 +29,9 @@ const FilterCreateForm = () => {
             const stringValues = data.values.map((value) => value.name);
             await createFilter({ ...data, values: stringValues }).unwrap();
             navigate("/admin/filters/List");
+            toast.success("Фільтр успішно створено", toastOptions);
         } catch (error) {
-            console.error("Error creating filter: ", error);
+            toast.error(`Помилка під час створення фільтру`, toastOptions);
         }
     };
 

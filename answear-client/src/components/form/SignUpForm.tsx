@@ -3,6 +3,7 @@ import { IconEye, IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, Input, InputPassword, Label } from "components/ui";
 import CheckBox from "components/ui/CheckBox.tsx";
 import Link from "components/ui/Link.tsx";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
 import { UserRegisterSchema, UserRegisterSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
@@ -32,8 +33,6 @@ const SignUpForm: React.FC = () => {
     const newsletterChecked = !!watch("newsletter", false);
 
     const onSubmit = async (data: UserRegisterSchemaType) => {
-        console.log(data);
-
         if (!data.terms) {
             setError("terms", { type: "manual", message: "Будь ласка, ознайомтеся і погодьтеся з Правилами" });
             return;
@@ -41,10 +40,10 @@ const SignUpForm: React.FC = () => {
 
         try {
             await signUp(data).unwrap();
-            toast("Wow so easy!");
+            toast.success("Акаунт успішно створено!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
-            toast(errorResponse.data.message);
+            toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
     };
 

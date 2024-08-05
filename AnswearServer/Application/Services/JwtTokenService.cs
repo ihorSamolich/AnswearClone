@@ -50,10 +50,10 @@ public class JwtTokenService(
             .ToList();
 
         var claims = new List<Claim>
-    {
-        new Claim("id", user.Id.ToString()),
-        new Claim("email", userEmail)
-    };
+        {
+            new Claim("id", user.Id.ToString()),
+            new Claim("email", userEmail)
+        };
 
         if (!string.IsNullOrEmpty(user.FirstName))
         {

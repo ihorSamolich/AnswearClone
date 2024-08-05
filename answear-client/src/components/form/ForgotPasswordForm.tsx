@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, Input, Label } from "components/ui";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
 import { ForgotPasswordSchema, ForgotPasswordSchemaType } from "interfaces/zod/password.ts";
 import { useForm } from "react-hook-form";
@@ -24,10 +25,10 @@ const ForgotPasswordForm: React.FC = () => {
         try {
             await forgotPassword(data).unwrap();
             navigate("/auth/sign-in");
-            toast("Інструкція з відновлення пароля надіслана на ваш email!");
+            toast.success("Інструкція з відновлення пароля надіслана на ваш email!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
-            toast(errorResponse.data.message);
+            toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
     };
     return (
