@@ -143,7 +143,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                             </SidebarLinkGroupTitle>
                                             <SidebarLinkGroupMenu
                                                 open={open}
-                                                links={[{ to: "admin/products/list", label: "Список" }]}
+                                                links={[
+                                                    { to: "admin/products/list", label: "Список" },
+                                                    { to: "admin/products/create", label: "Створити" },
+                                                ]}
                                             />
                                         </>
                                     )}

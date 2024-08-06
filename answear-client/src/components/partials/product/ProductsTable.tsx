@@ -1,6 +1,7 @@
 import { IconArrowBadgeRightFilled, IconEdit, IconTrash } from "@tabler/icons-react";
 import { Button } from "components/ui";
 import { IProduct } from "interfaces/product";
+import { useDeleteProductMutation } from "services/product.ts";
 
 import React from "react";
 
@@ -12,6 +13,7 @@ interface ProductsTableProps {
 
 const ProductsTable: React.FC<ProductsTableProps> = (props) => {
     const { products } = props;
+    const [deleteProduct] = useDeleteProductMutation();
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -44,7 +46,9 @@ const ProductsTable: React.FC<ProductsTableProps> = (props) => {
                         <tr key={product.id} className="bg-white border-b hover:bg-gray-50 ">
                             <td className="px-6 py-4">{++index}</td>
                             <td className="px-6 py-4">{product.name}</td>
-                            <td className="px-6 line-clamp-3 max-w-[400px]">{product.description}</td>
+                            <td className="px-6 py-4 max-w-[400px]">
+                                <p className="line-clamp-3">{product.description}</p>
+                            </td>
 
                             <td className="px-6 py-4">
                                 {product.variations.map((variant) => (
@@ -59,7 +63,7 @@ const ProductsTable: React.FC<ProductsTableProps> = (props) => {
                                 <Button variant="icon" size="iconmd">
                                     <IconEdit className="text-blue-700" />
                                 </Button>
-                                <Button variant="icon" size="iconmd">
+                                <Button onClick={() => deleteProduct(product.id)} variant="icon" size="iconmd">
                                     <IconTrash className="text-red-500" />
                                 </Button>
                             </td>

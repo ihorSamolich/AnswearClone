@@ -1,4 +1,6 @@
-﻿namespace Core.ViewModels.Product;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Core.ViewModels.Product;
 
 public class ProductCreateVm
 {
@@ -13,6 +15,6 @@ public class ProductVariationCreateVm
     public string ShortDescription { get; set; } = null!;
     public decimal Price { get; set; }
     public int? DiscountValueId { get; set; }
-    public ICollection<string> Photos { get; set; } = new List<string>();
-    public ICollection<int> Filters { get; set; } = new List<int>();
+    public ICollection<IFormFile>? Photos { get; set; } = new List<IFormFile>();
+    public ICollection<int>? Filters { get; set; } = new List<int>();
 }

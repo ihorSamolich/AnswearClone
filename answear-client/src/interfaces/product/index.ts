@@ -25,3 +25,18 @@ export interface IProduct {
     slug: string | null;
     variations: IProductVariation[];
 }
+
+export interface IProductCreate {
+    name: string;
+    description: string;
+    categoryId: number;
+    variations?: IProductCreateVariation[];
+}
+
+export interface IProductCreateVariation {
+    shortDescription: string;
+    price: number;
+    discountValueId?: number;
+    photos?: File[];
+    filters?: number[];
+}
