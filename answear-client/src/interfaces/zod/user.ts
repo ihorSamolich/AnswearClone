@@ -23,3 +23,12 @@ export const UserRegisterSchema = z.object({
 });
 
 export type UserRegisterSchemaType = z.infer<typeof UserRegisterSchema>;
+
+export const NewsletterSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "Дане поле повинно бути заповнене" })
+        .email({ message: "Будь ласка, введіть електронну адресу правильно" }),
+});
+
+export type NewsletterSchemaType = z.infer<typeof NewsletterSchema>;
