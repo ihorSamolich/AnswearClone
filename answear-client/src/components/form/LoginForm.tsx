@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
 import ForgotPasswordForm from "components/form/ForgotPasswordForm.tsx";
 import { Attention, Button, Input, InputPassword, Label, Link } from "components/ui";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
 import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
@@ -25,10 +26,10 @@ const LoginForm: React.FC = () => {
         try {
             const response = await signIn(data).unwrap();
             setLocalStorageItem("authToken", response.token);
-            toast("Wow so easy!");
+            toast.success("Успішна авторизація!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
-            toast(errorResponse.data.message);
+            toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
     };
 

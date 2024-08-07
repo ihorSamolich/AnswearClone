@@ -39,7 +39,7 @@ public class ProductController(
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ProductCreateVm createVm)
+    public async Task<IActionResult> Create([FromForm] ProductCreateVm createVm)
     {
         await service.AddProductAsync(createVm);
 

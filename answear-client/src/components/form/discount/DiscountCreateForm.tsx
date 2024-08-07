@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, FileInput, Input, Label } from "components/ui";
+import { toastOptions } from "constants/toastOptions.ts";
 import { DiscountCreateSchema, DiscountCreateSchemaType } from "interfaces/zod/discount.ts";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useCreateDiscountMutation } from "services/discount.ts";
 
 import { useState } from "react";
@@ -27,8 +29,9 @@ const DiscountCreateForm = () => {
             const stringValues = data.values.map((value) => value.percent.toString());
             await createDiscount({ ...data, mediaFile: data.mediaFile[0], values: stringValues }).unwrap();
             navigate("/admin/discounts/list");
+            toast.success("Знижка успішно створена!", toastOptions);
         } catch (error) {
-            console.error("Error creating discount: ", error);
+            toast.error("Помилка під час створення знижки!", toastOptions);
         }
     };
 

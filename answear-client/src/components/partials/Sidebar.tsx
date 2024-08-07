@@ -1,10 +1,9 @@
 import {
-    IconBrandShopee,
-    IconCherry,
+    IconCategoryFilled,
     IconFilter,
     IconHome,
     IconRosetteDiscount,
-    IconTruckDelivery,
+    IconTemplate,
     IconUserScan,
     IconUsers,
 } from "@tabler/icons-react";
@@ -126,13 +125,40 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                     activeCondition={(pathname) => pathname === "/"}
                                 />
 
+                                {/* Товари */}
+                                <SidebarLinkGroup activecondition={pathname.includes("products")}>
+                                    {(handleClick, open) => (
+                                        <>
+                                            <SidebarLinkGroupTitle
+                                                href="#"
+                                                icon={IconTemplate}
+                                                isActive={pathname.includes("products")}
+                                                handleClick={(e) => {
+                                                    e.preventDefault();
+                                                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
+                                                }}
+                                            >
+                                                Товари
+                                                <SidebarChevronDown open={open} />
+                                            </SidebarLinkGroupTitle>
+                                            <SidebarLinkGroupMenu
+                                                open={open}
+                                                links={[
+                                                    { to: "admin/products/list", label: "Список" },
+                                                    { to: "admin/products/create", label: "Створити" },
+                                                ]}
+                                            />
+                                        </>
+                                    )}
+                                </SidebarLinkGroup>
+
                                 {/* Категорії */}
                                 <SidebarLinkGroup activecondition={pathname.includes("categories")}>
                                     {(handleClick, open) => (
                                         <>
                                             <SidebarLinkGroupTitle
                                                 href="#"
-                                                icon={IconBrandShopee}
+                                                icon={IconCategoryFilled}
                                                 isActive={pathname.includes("categories")}
                                                 handleClick={(e) => {
                                                     e.preventDefault();
@@ -231,55 +257,6 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                         </>
                                     )}
                                 </SidebarLinkGroup>
-
-                                {/*/!* Tasks *!/*/}
-                                <SidebarLinkGroup activecondition={pathname.includes("ingredients")}>
-                                    {(handleClick, open) => (
-                                        <>
-                                            <SidebarLinkGroupTitle
-                                                href="#"
-                                                icon={IconCherry}
-                                                isActive={pathname.includes("ingredients")}
-                                                handleClick={(e) => {
-                                                    e.preventDefault();
-                                                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
-                                                }}
-                                            >
-                                                Ingredients
-                                                <SidebarChevronDown open={open} />
-                                            </SidebarLinkGroupTitle>
-                                            <SidebarLinkGroupMenu
-                                                open={open}
-                                                links={[{ to: "/ingredients/list", label: "List" }]}
-                                            />
-                                            <SidebarLinkGroupMenu
-                                                open={open}
-                                                links={[{ to: "/ingredients/create", label: "Create" }]}
-                                            />
-                                        </>
-                                    )}
-                                </SidebarLinkGroup>
-
-                                {/*/!* Orders *!/*/}
-                                <SidebarLinkGroup activecondition={pathname.includes("orders")}>
-                                    {(handleClick, open) => (
-                                        <>
-                                            <SidebarLinkGroupTitle
-                                                href="#"
-                                                icon={IconTruckDelivery}
-                                                isActive={pathname.includes("orders")}
-                                                handleClick={(e) => {
-                                                    e.preventDefault();
-                                                    sidebarExpanded ? handleClick() : setSidebarExpanded(true);
-                                                }}
-                                            >
-                                                Orders
-                                                <SidebarChevronDown open={open} />
-                                            </SidebarLinkGroupTitle>
-                                            <SidebarLinkGroupMenu open={open} links={[{ to: "/orders/list", label: "List" }]} />
-                                        </>
-                                    )}
-                                </SidebarLinkGroup>
                             </ul>
                         </div>
 
@@ -292,7 +269,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                 >
                                     •••
                                 </span>
-                                <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">More</span>
+                                <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Більше</span>
                             </h3>
                             <ul className="mt-3">
                                 {/* Authentication */}
@@ -308,13 +285,13 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
                                                     sidebarExpanded ? handleClick() : setSidebarExpanded(true);
                                                 }}
                                             >
-                                                Authentication
+                                                Авторизація
                                                 <SidebarChevronDown open={open} />
                                             </SidebarLinkGroupTitle>
-                                            <SidebarLinkGroupMenu open={open} links={[{ to: "/auth/sign-in", label: "Login" }]} />
+                                            <SidebarLinkGroupMenu open={open} links={[{ to: "/auth/sign-in", label: "Вхід" }]} />
                                             <SidebarLinkGroupMenu
                                                 open={open}
-                                                links={[{ to: "/auth/register", label: "Register" }]}
+                                                links={[{ to: "/auth/register", label: "Реєстрація" }]}
                                             />
                                         </>
                                     )}

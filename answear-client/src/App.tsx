@@ -12,6 +12,8 @@ import DiscountsPage from "pages/admin/discount/DiscountsPage.tsx";
 import FilterCreatePage from "pages/admin/filter/FilterCreatePage.tsx";
 import FilterEditPage from "pages/admin/filter/FilterEditPage.tsx";
 import FiltersPage from "pages/admin/filter/FiltersPage.tsx";
+import ProductCreatePage from "pages/admin/product/ProductCreatePage.tsx";
+import ProductPage from "pages/admin/product/ProductPage.tsx";
 import UsersPage from "pages/admin/user/UsersPage.tsx";
 import { Route, Routes } from "react-router-dom";
 
@@ -25,6 +27,11 @@ const App = () => {
                     <Route path="list" element={<CategoriesPage />} />
                     <Route path="create" element={<CategoryCreatePage />} />
                     <Route path="edit/:id" element={<CategoryEditPage />} />
+                </Route>
+
+                <Route path="admin/products">
+                    <Route path="list" element={<ProductPage />} />
+                    <Route path="create" element={<ProductCreatePage />} />
                 </Route>
 
                 <Route path="admin/discounts">

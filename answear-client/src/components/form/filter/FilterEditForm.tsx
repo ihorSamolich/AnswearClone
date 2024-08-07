@@ -2,10 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { Button, Input, Label, Option, Select } from "components/ui";
 import Attention from "components/ui/Attention.tsx";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IFilter } from "interfaces/filter";
 import { FilterEditSchema, FilterEditSchemaType } from "interfaces/zod/filter.ts";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useGetCategoriesQuery } from "services/category.ts";
 import { useUpdateFilterMutation } from "services/filter.ts";
 
@@ -41,13 +43,11 @@ const FilterEditForm = ({ filter }: FilterEditFormProps) => {
     const onSubmit = async (data: FilterEditSchemaType) => {
         try {
             const stringValues = data.values.map((value) => value.name);
-
-            console.log({ ...data, values: stringValues });
-
             await updateFilter({ ...data, values: stringValues }).unwrap();
             navigate("/admin/filters/list");
+            toast.success("Фільтр успішно редаговано!", toastOptions);
         } catch (error) {
-            console.error("Помилка оновлення фільтру : ", error);
+            toast.error(`Помилка під час редагування фільтру`, toastOptions);
         }
     };
 

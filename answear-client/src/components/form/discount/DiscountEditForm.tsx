@@ -2,10 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader2 } from "@tabler/icons-react";
 import { Button, FileInput, Input, Label } from "components/ui";
 import Attention from "components/ui/Attention.tsx";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IDiscount } from "interfaces/discount";
 import { DiscountEditSchema, DiscountEditSchemaType } from "interfaces/zod/discount.ts";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useUpdateDiscountMutation } from "services/discount.ts";
 import { API_URL } from "utils/envData.ts";
 
@@ -45,8 +47,10 @@ const DiscountEditForm = ({ discount }: DiscountEditFormProps) => {
             const stringValues = data.values.map((value) => value.percent.toString());
             await updateDiscount({ ...data, mediaFile: data.mediaFile[0], values: stringValues }).unwrap();
             navigate("/admin/discounts/list");
+
+            toast.success("Знижка успішно оновлена!", toastOptions);
         } catch (error) {
-            console.error("Помилка оновлення знижки: ", error);
+            toast.error("Помилка під час оновлення знижки!", toastOptions);
         }
     };
 

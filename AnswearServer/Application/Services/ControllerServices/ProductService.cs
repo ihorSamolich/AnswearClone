@@ -46,7 +46,7 @@ public class ProductService(
             productVariation.Slug = slugService.GenerateSlugWithTime($"{productEntity.Name} {variation.ShortDescription}");
             productEntity.Variations.Add(productVariation);
 
-            foreach (var filter in variation.Filters)
+            foreach (var filter in product.Filters)
             {
                 productVariation.Filters.Add(new FilterEntity
                 {

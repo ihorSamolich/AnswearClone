@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
 import { Attention, Button, InputPassword, Label } from "components/ui";
+import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
 import { NewPasswordSchema, NewPasswordSchemaType } from "interfaces/zod/password";
 import { useForm } from "react-hook-form";
@@ -36,10 +37,10 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token, email }) =
         try {
             await resetPassword(data).unwrap();
             navigate("/auth/sign-in");
-            toast("Пароль успішно змінено!");
+            toast.success("Пароль успішно змінено!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
-            toast(errorResponse.data.message);
+            toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
     };
 

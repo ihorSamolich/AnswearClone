@@ -1,5 +1,4 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { ICategory } from "interfaces/category";
 import { ICreateDiscount, IDiscount, IUpdateDiscount } from "interfaces/discount";
 import { createBaseQuery } from "utils/baseQuery";
 
@@ -19,8 +18,6 @@ export const discountApi = createApi({
         }),
         createDiscount: builder.mutation<void, ICreateDiscount>({
             query: (discount) => {
-                console.log("in service", discount);
-
                 const formData = new FormData();
                 formData.append("Name", discount.name);
 
