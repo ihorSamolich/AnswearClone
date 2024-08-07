@@ -38,7 +38,7 @@ const ProductCreateForm = () => {
         try {
             console.log(data);
 
-            // @ts-ignore
+            // @ts-expect-error ts-conflict
             await createProduct(data).unwrap();
             toast.success("Товар успішно створено", toastOptions);
         } catch (error) {
@@ -123,7 +123,6 @@ const ProductCreateForm = () => {
                 {errors.filters && <p className="mt-2 text-sm text-red-600">{errors.filters.message}</p>}
             </div>
 
-            {/*             */}
             <div>
                 <Label>Варіанти товару*</Label>
                 {fields.map((item, index) => (
@@ -179,10 +178,7 @@ const ProductCreateForm = () => {
                 >
                     Додати значення
                 </Button>
-                {/*{errors.values && <Attention>{errors.values.message}</Attention>}*/}
-                {/*{errors.values?.root && <Attention>{errors.values.root.message}</Attention>}*/}
             </div>
-            {/*             */}
 
             <div className="flex items-center justify-center">
                 <Button size="full">{createProductIsLoading ? <IconLoader2 className="animate-spin" /> : "Додати товар"}</Button>
