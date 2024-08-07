@@ -53,6 +53,7 @@ public class JwtTokenService(
         {
             new Claim("id", user.Id.ToString()),
             new Claim("email", userEmail)
+
         };
 
         if (!string.IsNullOrEmpty(user.FirstName))

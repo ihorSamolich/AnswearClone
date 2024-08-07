@@ -1,6 +1,9 @@
 import { IconMenu2, IconSearch } from "@tabler/icons-react";
+import { useAppSelector } from "app/hooks.ts";
+import { getUser } from "app/userSlice.ts";
 import UserCard from "components/cards/UserCard.tsx";
 import ThemeToggleButton from "components/ui/ThemeToggleButton.tsx";
+import { transformUserToUserCard } from "utils/transformUserToUserCard.ts";
 
 import React, { useState } from "react";
 
@@ -9,20 +12,21 @@ interface HeaderProps {
     setSidebarOpen: (open: boolean) => void;
 }
 
-const user = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doev@example.com",
-};
-
-const userWithoutName = {
-    email: "anonymous@example.com",
+// const user = {
+//     firstName: "John",
+//     lastName: "Doe",
+//     email: "john.doev@example.com",
+// };
+//
+const userUnknown = {
+    email: "unknown@unknown.com",
 };
 
 const Header: React.FC<HeaderProps> = (props) => {
     const { sidebarOpen, setSidebarOpen } = props;
     const [searchModalOpen, setSearchModalOpen] = useState(false);
-
+    const user = useAppSelector(getUser);
+    const userCard = user ? transformUserToUserCard(user) : userUnknown;
     return (
         <header className="sticky top-0 bg-white dark:bg-[#182235] border-b border-slate-200 dark:border-slate-700 z-10">
             <div className="px-4 sm:px-6 lg:px-8">
@@ -64,7 +68,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                         </div>
                         <ThemeToggleButton />
                         <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
-                        <UserCard user={userWithoutName} />
+                        <UserCard user={userCard} />
                     </div>
                 </div>
             </div>

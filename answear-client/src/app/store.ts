@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "app/userSlice.ts";
 import { categoryApi } from "services/category.ts";
 import { discountApi } from "services/discount.ts";
 import { filterApi } from "services/filter.ts";
@@ -8,6 +9,7 @@ import { userApi } from "services/user.ts";
 
 export const store = configureStore({
     reducer: {
+        user: userReducer,
         [categoryApi.reducerPath]: categoryApi.reducer,
         [targetGroupApi.reducerPath]: targetGroupApi.reducer,
         [discountApi.reducerPath]: discountApi.reducer,

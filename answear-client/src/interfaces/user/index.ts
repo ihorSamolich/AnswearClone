@@ -9,6 +9,11 @@ export interface IUser {
     lockoutEnd: string | null;
 }
 
+export interface UserState {
+    user: IUser | null;
+    token: string | null;
+}
+
 export interface ILogin {
     email: string;
     password: string;
