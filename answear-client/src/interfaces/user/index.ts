@@ -27,3 +27,9 @@ export interface IResetPassword {
 export interface IForgotPassword {
     email: string;
 }
+
+export interface IUserCard {
+    firstName?: string;
+    lastName?: string;
+    email: string;
+}
