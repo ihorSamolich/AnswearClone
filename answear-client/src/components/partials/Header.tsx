@@ -12,7 +12,7 @@ interface HeaderProps {
 const user = {
     firstName: "John",
     lastName: "Doe",
-    email: "john.doe@example.com",
+    email: "john.doev@example.com",
 };
 
 const userWithoutName = {
