@@ -31,12 +31,12 @@ export interface IProductCreate {
     description: string;
     categoryId: number;
     variations?: IProductCreateVariation[];
+    filters?: number[];
 }
 
 export interface IProductCreateVariation {
     shortDescription: string;
     price: number;
-    discountValueId?: number;
+    discountValueId?: string;
     photos?: File[];
-    filters?: number[];
 }

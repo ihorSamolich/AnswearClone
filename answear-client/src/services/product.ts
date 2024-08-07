@@ -25,22 +25,20 @@ export const productApi = createApi({
                 formData.append("description", product.description);
                 formData.append("categoryId", product.categoryId.toString());
 
+                if (product.filters) {
+                    Array.from(product.filters).forEach((filter) => formData.append("filters", filter.toString()));
+                }
+
                 product.variations?.forEach((variation, index) => {
                     formData.append(`variations[${index}].shortDescription`, variation.shortDescription);
                     formData.append(`variations[${index}].price`, variation.price.toString());
 
-                    if (variation.discountValueId !== undefined) {
+                    if (variation.discountValueId) {
                         formData.append(`variations[${index}].discountValueId`, variation.discountValueId.toString());
                     }
 
-                    if (variation.filters?.length) {
-                        formData.append(`variations[${index}].filters`, JSON.stringify(variation.filters));
-                    }
-
                     if (variation.photos?.length) {
-                        variation.photos.forEach((photo, photoIndex) => {
-                            formData.append(`variations[${index}].photos[${photoIndex}]`, photo);
-                        });
+                        Array.from(variation.photos).forEach((photo) => formData.append(`variations[${index}].photos`, photo));
                     }
                 });
 
