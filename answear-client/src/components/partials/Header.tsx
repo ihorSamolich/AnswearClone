@@ -12,12 +12,6 @@ interface HeaderProps {
     setSidebarOpen: (open: boolean) => void;
 }
 
-// const user = {
-//     firstName: "John",
-//     lastName: "Doe",
-//     email: "john.doev@example.com",
-// };
-//
 const userUnknown = {
     email: "unknown@unknown.com",
 };
