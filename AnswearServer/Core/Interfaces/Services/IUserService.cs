@@ -7,7 +7,7 @@ public interface IUserService
 {
     Task<UserVm> GetUserByIdAsync(int id);
     Task<IEnumerable<UserVm>> GetAllUsersAsync();
-    Task AddUserAsync(SignUpVm user);
+    Task<string> AddUserAsync(SignUpVm user);
     Task UpdateUserAsync(UserUpdateVm user);
     Task DeleteUserAsync(int id);
     Task<string> SignInAsync(SignInVm model);

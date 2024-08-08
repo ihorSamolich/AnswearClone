@@ -9,11 +9,11 @@ interface HeaderProps {
     setSidebarOpen: (open: boolean) => void;
 }
 
-const user = {
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doev@example.com",
-};
+// const user = {
+//     firstName: "John",
+//     lastName: "Doe",
+//     email: "john.doev@example.com",
+// };
 
 const userWithoutName = {
     email: "anonymous@example.com",

@@ -49,7 +49,7 @@ public class UserService(
             throw new Exception("Failed to delete user");
     }
 
-    public async Task AddUserAsync(SignUpVm user)
+    public async Task<string> AddUserAsync(SignUpVm user)
     {
         UserEntity newUser = mapper.Map<UserEntity>(user);
 
@@ -58,10 +58,11 @@ public class UserService(
             var identityResult = await userManager.CreateAsync(newUser, user.Password);
             if (!identityResult.Succeeded)
                 throw new Exception("Failed to create user");
+
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw new Exception("Failed to create user");
         }
 
 
@@ -70,6 +71,8 @@ public class UserService(
 
         if (!roleResult.Succeeded)
             throw new Exception("Failed to create user");
+
+        return await jwtTokenService.CreateTokenAsync(newUser);
     }
 
     public async Task UpdateUserAsync(UserUpdateVm userVm)
