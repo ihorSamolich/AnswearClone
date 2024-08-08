@@ -1,20 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
+import { useAppDispatch } from "app/hooks.ts";
+import { setCredentials } from "app/userSlice.ts";
 import { Attention, Button, Input, InputPassword, Label } from "components/ui";
 import CheckBox from "components/ui/CheckBox.tsx";
 import Link from "components/ui/Link.tsx";
 import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
+import { IUser } from "interfaces/user";
 import { UserRegisterSchema, UserRegisterSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useSignUpMutation } from "services/user.ts";
+import { jwtParser } from "utils/jwtParser.ts";
+import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
 import React, { useState } from "react";
 
 const SignUpForm: React.FC = () => {
     const [signUp, { isLoading: signUpIsLoading }] = useSignUpMutation();
     const [showMore, setShowMore] = useState(false);
+    const dispatch = useAppDispatch();
 
     const {
         register,
@@ -39,15 +45,28 @@ const SignUpForm: React.FC = () => {
         }
 
         try {
-            const token = await signUp(data).unwrap();
-
-            console.log(token);
-
+            const response = await signUp(data).unwrap();
+            if (response.token === null) {
+                toast.error("Помилка: Не вдалося створити акаунт!", toastOptions);
+                return;
+            }
+            setUser(response.token);
             toast.success("Акаунт успішно створено!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
             toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
+    };
+
+    const setUser = (token: string) => {
+        setLocalStorageItem("authToken", token);
+
+        dispatch(
+            setCredentials({
+                user: jwtParser(token) as IUser,
+                token: token,
+            }),
+        );
     };
 
     const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
