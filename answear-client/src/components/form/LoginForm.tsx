@@ -30,17 +30,11 @@ const LoginForm: React.FC = () => {
     const onSubmit = async (data: UserLoginSchemaType) => {
         try {
             const response = await signIn(data).unwrap();
-
-            //console.log(response.token);
             if (response.token === null) {
                 toast.error("Помилка: Не вдалося авторизуватися!", toastOptions);
                 return;
             }
             setUser(response.token);
-
-            // const user = jwtParser(response.token) as IUser;
-            // console.log(user);
-
             toast.success("Успішна авторизація!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
