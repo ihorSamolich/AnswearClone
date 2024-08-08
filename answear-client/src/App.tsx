@@ -1,4 +1,3 @@
-import NewsletterSubscriptionCard from "components/cards/NewsletterSubscriptionCard.tsx";
 import AdminLayout from "components/layouts/AdminLayout.tsx";
 import HomePage from "pages/HomePage.tsx";
 import ResetPasswordPage from "pages/ResetPasswordPage.tsx";
@@ -51,7 +50,7 @@ const App = () => {
 
                 <Route path="auth">
                     <Route path="sign-in" element={<SignInPage />} />
-                    <Route path="register" element={<NewsletterSubscriptionCard />} />
+                    <Route path="register" element={<SignUpPage />} />
                     <Route path="reset-password" element={<ResetPasswordPage />} />
                 </Route>
             </Route>

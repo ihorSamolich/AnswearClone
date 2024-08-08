@@ -5,6 +5,7 @@ using Core.ViewModels.Errors;
 using Core.ViewModels.User;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace WebApi.Controllers;
 
@@ -51,8 +52,8 @@ public class UserController(
     {
         try
         {
-            await service.AddUserAsync(createVm);
-            return Ok();
+            var token = await service.AddUserAsync(createVm);
+            return Ok(new { Token = token });
         }
         catch (Exception e)
         {

@@ -39,7 +39,10 @@ const SignUpForm: React.FC = () => {
         }
 
         try {
-            await signUp(data).unwrap();
+            const token = await signUp(data).unwrap();
+
+            console.log(token);
+
             toast.success("Акаунт успішно створено!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;

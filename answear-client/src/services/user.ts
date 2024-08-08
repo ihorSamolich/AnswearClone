@@ -15,7 +15,7 @@ export const userApi = createApi({
                 body: credentials,
             }),
         }),
-        signUp: builder.mutation<void, ILogin>({
+        signUp: builder.mutation<ISignInResponse, ILogin>({
             query: (credentials) => ({
                 url: "SignUp",
                 method: "POST",
