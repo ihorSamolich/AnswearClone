@@ -1,13 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
+import { useAppDispatch } from "app/hooks.ts";
+import { setCredentials } from "app/userSlice.ts";
 import ForgotPasswordForm from "components/form/ForgotPasswordForm.tsx";
 import { Attention, Button, Input, InputPassword, Label, Link } from "components/ui";
 import { toastOptions } from "constants/toastOptions.ts";
 import { IErrorResponse } from "interfaces/index.ts";
+import { IUser } from "interfaces/user";
 import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useSignInMutation } from "services/user.ts";
+import { jwtParser } from "utils/jwtParser.ts";
 import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
 import React, { useState } from "react";
@@ -15,6 +19,7 @@ import React, { useState } from "react";
 const LoginForm: React.FC = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [signIn, { isLoading: signInIsLoading }] = useSignInMutation();
+    const dispatch = useAppDispatch();
 
     const {
         register,
@@ -25,12 +30,32 @@ const LoginForm: React.FC = () => {
     const onSubmit = async (data: UserLoginSchemaType) => {
         try {
             const response = await signIn(data).unwrap();
-            setLocalStorageItem("authToken", response.token);
+
+            //console.log(response.token);
+            if (response.token === null) {
+                toast.error("Помилка: Не вдалося авторизуватися!", toastOptions);
+                return;
+            }
+            setUser(response.token);
+
+            // const user = jwtParser(response.token) as IUser;
+            // console.log(user);
+
             toast.success("Успішна авторизація!", toastOptions);
         } catch (error) {
             const errorResponse = error as IErrorResponse;
             toast.error(`Помилка: ${errorResponse.data.message}`, toastOptions);
         }
+    };
+    const setUser = (token: string) => {
+        setLocalStorageItem("authToken", token);
+
+        dispatch(
+            setCredentials({
+                user: jwtParser(token) as IUser,
+                token: token,
+            }),
+        );
     };
 
     return (
