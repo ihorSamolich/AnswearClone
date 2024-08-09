@@ -160,7 +160,7 @@ public class UserService(
             UserName = payload.Email,
         };
 
-        var identityResult = await userManager.CreateAsync(user, null);
+        var identityResult = await userManager.CreateAsync(user);
 
         if (!identityResult.Succeeded)
             throw new Exception("Failed to create user");

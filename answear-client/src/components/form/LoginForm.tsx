@@ -1,5 +1,5 @@
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { IconEye, IconLoader2 } from "@tabler/icons-react";
 import { useAppDispatch } from "app/hooks.ts";
 import { setCredentials } from "app/userSlice.ts";
@@ -11,7 +11,7 @@ import { IUser } from "interfaces/user";
 import { UserLoginSchema, UserLoginSchemaType } from "interfaces/zod/user.ts";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import {useGoogleSignInMutation, useSignInMutation} from "services/user.ts";
+import { useGoogleSignInMutation, useSignInMutation } from "services/user.ts";
 import { jwtParser } from "utils/jwtParser.ts";
 import { setLocalStorageItem } from "utils/localStorageUtils.ts";
 
@@ -66,7 +66,7 @@ const LoginForm: React.FC = () => {
         }
     };
     const authError = () => {
-        console.log("Error login. Check your Gmail account!");
+        toast.error(`Помилка авторизаціі. Перевірте ваші дані!`, toastOptions);
     };
 
     return (
@@ -94,7 +94,9 @@ const LoginForm: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex items-center justify-center">
-                        <Button size="full">{signInIsLoading || googleSignInIsLoading ? <IconLoader2 className="animate-spin" /> : "Увійдіть"}</Button>
+                        <Button size="full">
+                            {signInIsLoading || googleSignInIsLoading ? <IconLoader2 className="animate-spin" /> : "Увійдіть"}
+                        </Button>
                     </div>
                 </form>
             )}
@@ -105,13 +107,7 @@ const LoginForm: React.FC = () => {
                 {/*<Link variant="icon" size="iconlg">*/}
                 {/*    <img className="w-6 h-6" alt="google logo" src="/assets/googleFlag.png" />*/}
                 {/*</Link>*/}
-                <GoogleLogin
-                    useOneTap
-                    locale="uk"
-                    size="large"
-                    onSuccess={authSuccess}
-                    onError={authError}
-                />
+                <GoogleLogin useOneTap locale="uk" size="large" onSuccess={authSuccess} onError={authError} />
             </div>
         </div>
     );
