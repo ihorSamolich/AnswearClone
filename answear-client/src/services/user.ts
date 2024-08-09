@@ -15,6 +15,18 @@ export const userApi = createApi({
                 body: credentials,
             }),
         }),
+        googleSignIn: builder.mutation<ISignInResponse, { credential: string }>({
+            query: (data) => {
+                const formData = new FormData();
+                formData.append("credential", data.credential);
+
+                return {
+                    url: "GoogleSignIn",
+                    method: "POST",
+                    body: formData,
+                };
+            },
+        }),
         signUp: builder.mutation<ISignInResponse, ILogin>({
             query: (credentials) => ({
                 url: "SignUp",
@@ -57,4 +69,5 @@ export const {
     useResetPasswordMutation,
     useLockUserMutation,
     useSignInMutation,
+    useGoogleSignInMutation
 } = userApi;
